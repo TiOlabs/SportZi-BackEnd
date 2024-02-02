@@ -1,19 +1,14 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const cors = require("cors");
 
+const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
 
-// GET method
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+app.use(express.json());
+app.use(cors());
 
-// POST method
-app.post('/bookings', (req, res) => {
-    // Handle the POST request here
-    res.send('User created successfully');
-});
+app.use(arcadeBookingRoutes);
 
-// Start the server
 app.listen(8000, () => {
-    console.log('Server is running on port 8000');
+  console.log("Server running on port 8000");
 });
