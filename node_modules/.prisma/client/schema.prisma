@@ -11,7 +11,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model ArcadeBookings{
+model ArcadeBooking{
   id              Int      @id @default(autoincrement())
   // user_id         Int
   // arcade_id       Int
@@ -22,6 +22,20 @@ model ArcadeBookings{
   // booking_type    String
   // created_at      DateTime @default(now())
   // updated_at      DateTime @updatedAt
+  // user            User     @relation(fields: [user_id], references: [id])
+  // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
+}
+model User{
+  id              Int      @id @default(autoincrement())
+  user_id         Int
+  arcade_id       Int
+  booking_date    String
+  booking_time    String 
+
+  booking_status  String
+  booking_type    String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
   // user            User     @relation(fields: [user_id], references: [id])
   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
 }
