@@ -17,6 +17,8 @@ model ArcadeBooking{
   // arcade_id       Int
   booking_date    String
   booking_time    String 
+  zone            String
+  participant_count    Int
 
   // booking_status  String
   // booking_type    String

@@ -1,6 +1,6 @@
 const arcadeBookingService = require("../services/arcadeBooking.service");
 
-const getArcadeBookings = async (req, res) => {
+const getArcadeBooking = async (req, res) => {
   try {
     const arcadeBookings = await arcadeBookingService.getArcadeBookings();
     res.status(200).json(arcadeBookings);
@@ -20,8 +20,33 @@ const addArcadeBooking = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateArcadeBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const number = parseInt(id);
+    const arcadeBooking = req.body;
+    const updatedArcadeBooking = await arcadeBookingService.updateArcadeBooking(
+      number,arcadeBooking
+    );
+    res.status(200).json(updatedArcadeBooking);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const deleteArcadeBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const number = parseInt(id);
+    await arcadeBookingService.deleteArcadeBooking(number);
+    res.status(200).json({ message: "Arcade Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
-    getArcadeBookings,
-    addArcadeBooking,
-}
+  getArcadeBooking,
+  addArcadeBooking,
+  updateArcadeBooking,
+  deleteArcadeBooking,
+};

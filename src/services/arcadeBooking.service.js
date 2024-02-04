@@ -13,7 +13,26 @@ const addArcadeBooking = async (arcadeBooking) => {
   });
 };
 
+const updateArcadeBooking = async (id,arcadeBooking) => {
+  return await prisma.arcadeBooking.update({
+    where: { id: id },
+    data: {
+      ...arcadeBooking,
+    },
+  });
+};
+
+const deleteArcadeBooking = async (id) => {
+  return await prisma.arcadeBooking.delete({
+    where: { id: id },
+  });
+}
+
+
+
 module.exports = {
   getArcadeBookings,
   addArcadeBooking,
+  updateArcadeBooking,
+  deleteArcadeBooking,
 };
