@@ -3,11 +3,13 @@ const app = express();
 const cors = require("cors");
 
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
+const discountCardRoutes = require("./src/routes/form.discountcard.route");
 
 app.use(express.json());
 app.use(cors());
 
 app.use(arcadeBookingRoutes);
+app.use(discountCardRoutes);
 
 app.listen(8000, () => {
   console.log("Server running on port 8000");
