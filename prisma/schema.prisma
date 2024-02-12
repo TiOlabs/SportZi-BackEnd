@@ -41,3 +41,10 @@ model User{
   // user            User     @relation(fields: [user_id], references: [id])
   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
 }
+model Discount{
+  discount_id Int @id @default(autoincrement())
+  discount_percentage Int
+  description String
+  discount_image String
+
+}
