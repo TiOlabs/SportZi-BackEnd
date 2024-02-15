@@ -60,3 +60,9 @@ model CoachAssignDetails{
   // state String
   coach_image String
 }
+
+model ArcadeFeedbacks{
+  feedbacks_id Int @id @default(autoincrement())
+  description String
+  
+}
