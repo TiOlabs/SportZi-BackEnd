@@ -13,6 +13,10 @@ app.use(arcadeBookingRoutes);
 app.use(discountCardRoutes);
 app.use(coachCardRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Backend Server is Running");
+});
+
 app.listen(8000, () => {
   console.log("Server running on port 8000");
 });
