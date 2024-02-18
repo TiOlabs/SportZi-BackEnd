@@ -5,6 +5,3 @@
 /build
 /.vscode
 /.idea
-
-# .env
-.env
