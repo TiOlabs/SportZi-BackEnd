@@ -14,7 +14,7 @@
   "scripts": {
     "build": "prisma generate && prisma db push",
     "prisma:generate": "prisma generate",
-    "dev": "PORT=3000 nodemon server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js"
   }
 }
