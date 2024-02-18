@@ -12,7 +12,9 @@
     "nodemon": "^3.0.3"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "npx prisma generate && nodemon server.js"
+    "build": "prisma migrate reset -f",
+    "prisma:generate": "prisma generate",
+    "dev": "PORT=3000 nodemon server.js",
+    "start": "node server.js"
   }
 }

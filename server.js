@@ -17,6 +17,12 @@ app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+const PORT = process.env.PORT || 3000;
+
+// app.listen(3000, () => {
+//   console.log("Server running on port 3000");
+// });
+
+const server = app.listen(PORT, () =>
+  console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)
+);
