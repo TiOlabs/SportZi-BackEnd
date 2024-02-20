@@ -17,6 +17,17 @@ app.use(playerRoutes);
 app.use(coachRoutes);
 app.use(arcadeManagerRoutes);
 
+
+
+
+
+
+
+
+
+
+
 app.listen(8000, () => {
   console.log("Server running on port 8000");
 });
+

@@ -8,4 +8,8 @@ router.put("/api/updateplayer/:id", playerController.updatePlayer);
 router.delete("/api/deleteplayer/:id", playerController.deletePlayer);
 
 
+
+
+
+
 module.exports = router;
