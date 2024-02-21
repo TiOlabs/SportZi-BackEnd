@@ -32,9 +32,17 @@ const deletePlayer = async (id) => {
   });
 };
 
+
+
+
+
+
+
+
 module.exports = {
   getPlayers,
   addPlayer,
   updatePlayer,
   deletePlayer,
+
 };
