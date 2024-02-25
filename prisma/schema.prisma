@@ -2,24 +2,24 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
-model ArcadeBooking{
-  id              Int      @id @default(autoincrement())
+model ArcadeBooking {
+  id                Int    @id @default(autoincrement())
   // user_id         Int
   // arcade_id       Int
-  booking_date    String
-  booking_time    String 
-  zone            String
-  participant_count    Int
+  booking_date      String
+  booking_time      String
+  zone              String
+  participant_count Int
 
   // booking_status  String
   // booking_type    String
@@ -28,82 +28,90 @@ model ArcadeBooking{
   // user            User     @relation(fields: [user_id], references: [id])
   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
 }
-model User{
-  id              Int      @id @default(autoincrement())
-  user_id         Int
-  arcade_id       Int
-  booking_date    String
-  booking_time    String 
 
-  booking_status  String
-  booking_type    String
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
-  // user            User     @relation(fields: [user_id], references: [id])
-  // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
-}
-model Discount{
-  discount_id Int @id @default(autoincrement())
+
+
+// model User {
+//   id           Int    @id @default(autoincrement())
+//   user_id      Int
+//   arcade_id    Int
+//   booking_date String
+//   booking_time String
+
+//   booking_status String
+//   booking_type   String
+//   created_at     DateTime @default(now())
+//   updated_at     DateTime @updatedAt
+//   // user            User     @relation(fields: [user_id], references: [id])
+//   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
+// }
+
+model Discount {
+  discount_id         Int    @id @default(autoincrement())
   discount_percentage Int
-  description String
-  discount_image String
-
+  description         String
+  discount_image      String
 }
 
-model CoachAssignDetails{
-  assign_id Int @id @default(autoincrement())
+model CoachAssignDetails {
+  assign_id   Int    @id @default(autoincrement())
   // coach_id String
   // arcade_id String
-  rate String
-  duration String
+  rate        String
+  duration    String
   description String
   // assign_date String
   // state String
   coach_image String
 }
 
-model ArcadeFeedbacks{
-  feedbacks_id Int @id @default(autoincrement())
-  description String
-  
+model ArcadeFeedbacks {
+  feedbacks_id Int    @id @default(autoincrement())
+  description  String
 }
+
+
+
+
+model User {
+  user_id       String         @id @unique
+  role          String
+  firstname     String
+  lastname      String
+  email         String         @unique
+  password      String
+  phone         String
+  DOB           String?
+  gender        String
+  accountNumber Int?
+  Player        Player?
+  Coach         Coach?
+  Manager       ArcadeManager?
+}
+
 model Player {
-  player_id        Int      @id @default(autoincrement())
-  firstname String
-  lastname  String
-  email     String   @unique
-  password  String  
-  phone     String
-  dob       String
-  gender    String
-  address   String?
-  account_number Int?
+  player_id String @id @unique
+  user      User   @relation(fields: [player_id], references: [user_id])
 }
 
 model Coach {
-  coach_id    Int       @id @default(autoincrement())
-  firstname String
-  lastname  String
-  email     String    @unique
-  password  String
-  phone     String
-  dob       String
-  gender    String
-  sport     String
-  address   String?
-  account_number Int?
-
+  coach_id String @id @unique
+  sport    String
+  user     User   @relation(fields: [coach_id], references: [user_id])
 }
 
-
 model ArcadeManager {
-  arcadeManager_id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  phone     String
-  opentime  String
-  closetime String
-  address   String?
-  account_number Int?
+  manager_id String   @id @unique
+  user       User     @relation(fields: [manager_id], references: [user_id])
+  arcade     Arcade[]
+}
+
+model Arcade {
+  arcade_id    String        @id
+  arcade_name  String
+  location     String
+  address      String?
+  arcade_email String
+  mgr_id       String
+  manager      ArcadeManager @relation(fields: [mgr_id], references: [manager_id])
 }
