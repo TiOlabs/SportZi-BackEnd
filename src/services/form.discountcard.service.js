@@ -9,7 +9,7 @@ const addDiscountCard = async (discount) => {
   return await prisma.discount.create({
     data: {
       ...discount,
-    },
+    }, 
   });
 };
 
