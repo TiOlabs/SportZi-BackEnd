@@ -18,7 +18,6 @@ app.use(cors());
 
 app.use(arcadeBookingRoutes);
 app.use(discountCardRoutes);
-
 app.use(playerRoutes);
 app.use(coachRoutes);
 app.use(arcadeManagerRoutes);
