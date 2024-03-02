@@ -3,7 +3,9 @@ const arcadeRatingsService = require("../services/arcadeRatings.service");
 const getArcadeRatings = async (req, res) => {
     try {
         const arcadeRatings = await arcadeRatingsService.getArcadeRatings();
-        res.status(200).json(arcadeRatings);
+        arcadeRatings.sort((a, b) => b.rating - a.rating);
+        const top10Items = arcadeRatings.slice(0, 10);
+        res.status(200).json(top10Items);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
