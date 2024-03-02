@@ -27,6 +27,9 @@ model ArcadeBooking {
   // updated_at      DateTime @updatedAt
   // user            User     @relation(fields: [user_id], references: [id])
   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
+  cancel_by_admin Boolean
+  cancel_by_player  Boolean
+  cancel_by_arcade Boolean
 }
 
 
