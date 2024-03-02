@@ -120,3 +120,4 @@ model ArcadeRatings{
   rating Int
   discription String
 }
+
