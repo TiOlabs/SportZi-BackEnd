@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const PORT  = 8000;
+const PORT = 8000;
 
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
 const discountCardRoutes = require("./src/routes/form.discountcard.route");
@@ -10,7 +10,7 @@ const coachRoutes = require("./src/routes/coach.route");
 const arcadeManagerRoutes = require("./src/routes/arcadeManager.route");
 const coachCardRoutes = require("./src/routes/form.coachCard.route");
 const arcadeRatingsRoutes = require("./src/routes/arcadeRatings.route");
-
+//const paymentHandleRoutes = require("./src/routes/paymentHandle.route");
 
 app.use(express.json());
 app.use(cors());
@@ -22,22 +22,13 @@ app.use(coachRoutes);
 app.use(arcadeManagerRoutes);
 app.use(arcadeRatingsRoutes);
 
-
-
-
-
-
-
-
+//app.use(paymentHandleRoutes);
 
 app.use(coachCardRoutes);
-
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
-
-
 
 // app.listen(3000, () => {
 //   console.log("Server running on port 3000");
@@ -46,4 +37,3 @@ app.get("/", (req, res) => {
 const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)
 );
-
