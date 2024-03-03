@@ -27,6 +27,9 @@ model ArcadeBooking {
   // updated_at      DateTime @updatedAt
   // user            User     @relation(fields: [user_id], references: [id])
   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
+  cancel_by_admin Boolean
+  cancel_by_player  Boolean
+  cancel_by_arcade Boolean
 }
 
 
@@ -53,29 +56,10 @@ model Discount {
   discount_image      String
 }
 
-model CoachAssignDetails {
-  assign_id   Int    @id @default(autoincrement())
-  // coach_id String
-  // arcade_id String
-  rate        String
-  duration    String
-  description String
-  // assign_date String
-  // state String
-  coach_image String
-}
-
-model ArcadeFeedbacks {
-  feedbacks_id Int    @id @default(autoincrement())
-  description  String
-}
-
-
-
 
 model User {
   user_id       String         @id @unique
-  role          String
+  role          Role
   firstname     String
   lastname      String
   email         String         @unique
@@ -84,9 +68,12 @@ model User {
   DOB           String?
   gender        String
   accountNumber Int?
+  is_active     Boolean        @default(true)
+  user_image    String
   Player        Player?
   Coach         Coach?
   Manager       ArcadeManager?
+  coachAssignDetails CoachAssignDetails[]
 }
 
 model Player {
@@ -97,6 +84,7 @@ model Player {
 model Coach {
   coach_id String @id @unique
   sport    String
+  assign_to_arcade Boolean @default(false)
   user     User   @relation(fields: [coach_id], references: [user_id])
 }
 
@@ -112,9 +100,88 @@ model Arcade {
   location     String
   address      String?
   arcade_email String
-  mgr_id       String
-  manager      ArcadeManager @relation(fields: [mgr_id], references: [manager_id])
+  manager_id       String
+  manager      ArcadeManager @relation(fields: [manager_id], references: [manager_id])
+  coachAssignDetails CoachAssignDetails[]
 }
+
+model CoachAssignDetails {
+  assign_id   String    @id @unique
+  rate        Int
+  duration    Int
+  description String
+  assigned_date String
+  status      Boolean @default(false)
+  approved_by_manager Boolean @default(false)
+  coach_id String 
+  arcade_id String
+  created_at DateTime @default(now())
+   // updated_at DateTime @updatedAt
+  user       User   @relation(fields: [coach_id], references: [user_id])
+  arcade     Arcade @relation(fields: [arcade_id], references: [arcade_id])
+
+}
+
+model Feedbacks {
+  feedbacks_id String    @id @unique
+  rate         Float
+}
+
+model Coach_booking_details {
+  booking_id String @id @unique
+  status Boolean @default(false)
+  created_at DateTime @default(now())
+   // updated_at DateTime @updatedAt
+  rate Int
+  duration Int
+  participant_count Int
+  starting_date DateTime
+  cancel_by_admin Boolean
+  cancel_by_player  Boolean
+  cancel_by_arcade Boolean
+  user_id    String
+  coach_id   String
+  // user       User   @relation(fields: [user_id], references: [user_id])
+  // coach      Coach  @relation(fields: [coach_id], references: [coach_id])
+}
+
+model Package {
+  package_id String @id @unique
+  package_name String
+  description String
+  package_image String
+  rate Int
+  created_at DateTime @default(now())
+   // updated_at DateTime @updatedAt
+}
+
+model Package_Assign_Details {
+  package_assign_id String @id @unique
+  status Boolean @default(false)
+  created_at DateTime @default(now())
+   // updated_at DateTime @updatedAt
+  user_id String
+  package_id String
+  // user       User    @relation(fields: [user_id], references: [user_id])
+  // package    Package @relation(fields: [package_id], references: [package_id])
+}
+
+enum Role {
+  PLAYER
+  COACH
+  MANAGER
+  ADMIN
+}
+
+
+
+
+
+
+
+
+
+
 model ArcadeRatings{
   rating_id Int @id @default(autoincrement())
   rating Int
