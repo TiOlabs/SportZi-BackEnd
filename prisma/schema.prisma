@@ -49,12 +49,12 @@ model ArcadeBooking {
 //   // arcade          Arcade   @relation(fields: [arcade_id], references: [id])
 // }
 
-model Discount {
-  discount_id         Int    @id @default(autoincrement())
-  discount_percentage Int
-  description         String
-  discount_image      String
-}
+// model Discount {
+//   discount_id         Int    @id @default(autoincrement())
+//   discount_percentage Int
+//   description         String
+//   discount_image      String
+// }
 
 
 model User {
@@ -68,7 +68,7 @@ model User {
   DOB           String?
   gender        String
   accountNumber Int?
-  is_active     Boolean        @default(true)
+  is_active     String        @default("active")
   user_image    String
   Player        Player?
   Coach         Coach?
@@ -84,7 +84,7 @@ model Player {
 model Coach {
   coach_id String @id @unique
   sport    String
-  assign_to_arcade Boolean @default(false)
+  status String @default("pending")
   user     User   @relation(fields: [coach_id], references: [user_id])
 }
 
@@ -105,23 +105,6 @@ model Arcade {
   coachAssignDetails CoachAssignDetails[]
 }
 
-model CoachAssignDetails {
-  assign_id   String    @id @unique
-  rate        Int
-  duration    Int
-  description String
-  assigned_date String
-  status      Boolean @default(false)
-  approved_by_manager Boolean @default(false)
-  coach_id String 
-  arcade_id String
-  created_at DateTime @default(now())
-   // updated_at DateTime @updatedAt
-  user       User   @relation(fields: [coach_id], references: [user_id])
-  arcade     Arcade @relation(fields: [arcade_id], references: [arcade_id])
-
-}
-
 model Feedbacks {
   feedbacks_id String    @id @unique
   rate         Float
@@ -129,16 +112,13 @@ model Feedbacks {
 
 model Coach_booking_details {
   booking_id String @id @unique
-  status Boolean @default(false)
+  status String @default("pending")
   created_at DateTime @default(now())
-   // updated_at DateTime @updatedAt
+  canceled_at DateTime @updatedAt
   rate Int
   duration Int
   participant_count Int
   starting_date DateTime
-  cancel_by_admin Boolean
-  cancel_by_player  Boolean
-  cancel_by_arcade Boolean
   user_id    String
   coach_id   String
   // user       User   @relation(fields: [user_id], references: [user_id])
@@ -152,14 +132,70 @@ model Package {
   package_image String
   rate Int
   created_at DateTime @default(now())
+  status String @default("open")
    // updated_at DateTime @updatedAt
 }
+model zone {
+  zone_id String @id @unique
+  zone_name String
+  status String @default("open")
+  capacity Int
+  rate Int
+  way_of_booking String
+  zone_image String
+  // arcade Arcade @relation(fields: [arcade_id], references: [arcade_id])
+}
 
-model Package_Assign_Details {
-  package_assign_id String @id @unique
-  status Boolean @default(false)
+model ZoneBookingDetails {
+  zone_booking_id String @id @unique
+  status String @default("success")
+  created_at DateTime @default(now())
+  canceled_at DateTime @updatedAt
+  rate Int
+  date String //.....................................................................
+  time Int
+  participant_count Int
+  user_id    String
+  zone_id   String
+  // user       User   @relation(fields: [user_id], references: [user_id])
+  // zone      zone  @relation(fields: [zone_id], references: [zone_id])
+}
+
+model Sport{
+  sport_id String @id @unique
+  sport_name String
+  // arcade Arcade @relation(fields: [arcade_id], references: [arcade_id])
+}
+
+// model Discount{
+
+// }
+model CoachAssignDetails {
+  assign_id   String    @id @unique
+  rate        Int
+  duration    Int
+  description String
+  assigned_date String
+  approved_by_manager String @default("pending")
+  coach_id String 
+  arcade_id String
   created_at DateTime @default(now())
    // updated_at DateTime @updatedAt
+  user       User   @relation(fields: [coach_id], references: [user_id])
+  arcade     Arcade @relation(fields: [arcade_id], references: [arcade_id])
+
+}
+
+model Package_Enroll_Details {
+  package_assign_id String @id @unique 
+  status String @default("open")
+  created_at DateTime @default(now())
+   // updated_at DateTime @updatedAt
+  rate Int
+  duration Int
+  cancel_by_admin String @default("false")
+  cancel_by_player  String @default("false")
+  cancel_by_manager String @default("false")
   user_id String
   package_id String
   // user       User    @relation(fields: [user_id], references: [user_id])
