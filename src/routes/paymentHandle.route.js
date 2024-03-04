@@ -1,7 +1,9 @@
-// const express = require("express");
-// const router = express.Router();
-// const paymentdetails = require("../controllers/payment.controller");
+const express = require("express");
 
-// router.get("/api/getpaymentditails", paymentdetails.paymentdetails);
+const router = express.Router();
 
-// module.exports = router;
+const paymentController = require("../controllers/payment.controller");
+
+router.get("/api/getpaymentditails", paymentController.getpaymentditails);
+
+module.exports = router;

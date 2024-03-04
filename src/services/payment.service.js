@@ -1,8 +1,11 @@
-// const { PrismaClient } = require("@prisma/client");
-// const prisma = new PrismaClient();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
-// const getpaymentdetails = async () => {
-//   return await prisma.paymentTest.findUnique();
-// };
-
-// module.exports = { getpaymentdetails };
+const getpaymentditails = async () => {
+  return await prisma.paymentTest.findUnique({
+    where: {
+      payment_id: 10,
+    },
+  });
+};
+module.exports = { getpaymentditails };
