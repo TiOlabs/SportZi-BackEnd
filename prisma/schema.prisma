@@ -106,15 +106,18 @@ model ArcadeManager {
   arcade     Arcade[]
 }
 
+
 model Arcade {
   arcade_id    String        @id
   arcade_name  String
   location     String
   address      String?
   arcade_email String
-  mgr_id       String
+  mgr_id       String 
   manager      ArcadeManager @relation(fields: [mgr_id], references: [manager_id])
 }
+
+
 model ArcadeRatings{
   rating_id Int @id @default(autoincrement())
   rating Int

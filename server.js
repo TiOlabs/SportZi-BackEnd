@@ -11,6 +11,8 @@ const arcadeManagerRoutes = require("./src/routes/arcadeManager.route");
 const coachCardRoutes = require("./src/routes/form.coachCard.route");
 const arcadeRatingsRoutes = require("./src/routes/arcadeRatings.route");
 
+const loginRoutes = require("./src/routes/login.route");
+
 
 app.use(express.json());
 app.use(cors());
@@ -21,6 +23,8 @@ app.use(playerRoutes);
 app.use(coachRoutes);
 app.use(arcadeManagerRoutes);
 app.use(arcadeRatingsRoutes);
+
+app.use(loginRoutes);
 
 
 
