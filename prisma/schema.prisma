@@ -35,7 +35,7 @@ model User {
 }
 
 model Player {
-  player_id                                 String @id @unique
+  player_id                                 String  @unique 
   coach_booking_details                     CoachBookingDetails[]
   playerPackageEnrollDetails                PackageEnrollDetailsForPlayer[]
   zoneBookingDetails                        ZoneBookingDetails[]
@@ -43,7 +43,7 @@ model Player {
 }
 
 model Coach {
-  coach_id                                  String @id @unique
+  coach_id                                  String @unique
   status                                    String @default("pending")
   sport_id                                  String
   rate                                      Int
@@ -58,26 +58,27 @@ model Coach {
 }
 
 model ArcadeManager {
-  manager_id                                String @id @unique
+  manager_id                                String @unique
   arcade                                    Arcade[]
   user                                      User @relation(fields: [manager_id], references: [user_id])
 }
 
 model Admin{
-  admin_id                                  String @id @unique
+  admin_id                                  String @unique
   user                                      User @relation(fields: [admin_id], references: [user_id])
 }
 
 model ZoneDiscount {
-  discount_id                               String @id @unique
+  discount_id                               String  @unique @default(uuid()) 
   discount_percentage                       Int
   description                               String
   discount_image                            String
   zone_id                                   String @unique
   zone                                      Zone @relation(fields: [zone_id], references: [zone_id])
 }
+
 model PackageDiscount {
-  discount_id                               String @id @unique
+  discount_id                               String  @unique
   discount_percentage                       Int
   description                               String
   discount_image                            String
@@ -86,7 +87,7 @@ model PackageDiscount {
 }
 
 model Feedbacks{
-feedbacks_id                                String    @id @unique
+feedbacks_id                                String @id @unique @default(uuid()) 
 coach_feedbacks                             CoachFeedbacks?
 arcade_feedbacks                            ArcadeFeedbacks?
 user_id                                     String
@@ -109,8 +110,9 @@ model ArcadeFeedbacks {
   feedback                                 Feedbacks @relation(fields: [arcade_feedback_id], references: [feedbacks_id])
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id])
 }
+
 model Arcade {
-  arcade_id                                String @id
+  arcade_id                                String @id @unique @default(uuid())  
   arcade_name                              String
   location                                 String
   address                                  String?
@@ -125,12 +127,11 @@ model Arcade {
   package                                  Package[]
   zone                                     Zone[]
   arcadeSports                             ArcadeSports[]
-  arcadePhone                              ArcadePhone[]
-  
+  arcadePhone                              ArcadePhone[] 
 }
 
 model CoachBookingDetails {
-  booking_id                               String @id @unique
+  booking_id                               String @id @unique @default(uuid()) 
   status                                   String @default("pending")
   created_at                               DateTime @default(now())
   canceled_at                              DateTime @updatedAt
@@ -151,7 +152,7 @@ model CoachBookingDetails {
 }
 
 model Package {
-  package_id                               String @id @unique
+  package_id                               String @id @unique @default(uuid()) 
   package_name                             String
   description                              String
   package_image                            String
@@ -167,8 +168,9 @@ model Package {
   playerPackageEnrollDetails               PackageEnrollDetailsForPlayer[]
   packageDayAndTime                        PackageDayAndTime[]
 }
+
 model Zone {
-  zone_id                                  String @id @unique
+  zone_id                                  String @id @unique @default(uuid()) 
   zone_name                                String
   status                                   String @default("open")
   capacity                                 Int
@@ -185,7 +187,7 @@ model Zone {
 }
 
 model ZoneBookingDetails {
-  zone_booking_id                          String @id @unique
+  zone_booking_id                          String @id @unique @default(uuid()) 
   status                                   String @default("success")
   created_at                               DateTime @default(now())
   canceled_at                              DateTime @updatedAt
@@ -200,7 +202,7 @@ model ZoneBookingDetails {
 }
 
 model Sport{
-  sport_id                                 String @id @unique
+  sport_id                                 String @id @unique @default(uuid()) 
   sport_name                               String
   coach                                    Coach[]
   arcadeSports                             ArcadeSports[]
@@ -321,8 +323,8 @@ enum Role {
 
 
 
-//.................................For test.................................................................................................
-//.................................For test.................................................................................................
+//.................................For testings.................................................................................................
+//.................................For testings.................................................................................................
 
 
 
@@ -377,5 +379,15 @@ country String
 hash String
 }
 
-
+model CoachAssignDetails {
+  assign_id   Int    @id @default(autoincrement())
+  // coach_id String
+  // arcade_id String
+  rate        String
+  duration    String
+  description String
+  // assign_date String
+  // state String
+  coach_image String
+}
   
