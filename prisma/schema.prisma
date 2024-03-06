@@ -361,3 +361,21 @@ model ArcadeRatings{
   discription String
 }
 
+model paymentTest {
+payment_id Int @id @default(autoincrement())
+oder_id String
+items String
+amount Int
+currency String
+first_name String
+last_name String
+email String
+phone String
+address String
+city String
+country String
+hash String
+}
+
+
+  
