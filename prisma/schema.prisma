@@ -354,7 +354,6 @@ model ArcadeBooking {
 // }
 
 
-
 model ArcadeRatings{
   rating_id Int @id @default(autoincrement())
   rating Int
