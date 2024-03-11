@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const arcadeRatingsController = require("../controllers/arcadeRatings.controller");
+const arcadeRatingsController = require("../controllers/arcadeFeedbacks.controller");
 
 router.get("/api/getarcaderatings", arcadeRatingsController.getArcadeRatings);
 router.post("/api/addarcaderatings", arcadeRatingsController.addArcadeRatings);

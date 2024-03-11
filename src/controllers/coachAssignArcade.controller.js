@@ -1,4 +1,4 @@
-const coachCardService = require('../services/form.coachCard.service');
+const coachCardService = require('../services/coachAssignArcade.service');
 
 const getCoachCard = async (req, res) => {
     try {

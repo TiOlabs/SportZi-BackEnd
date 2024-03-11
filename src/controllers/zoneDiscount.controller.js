@@ -1,4 +1,4 @@
-const discountcardService = require("../services/form.discountcard.service");
+const discountcardService = require("../services/zoneDiscount.service");
 
 const getDiscountCard = async (req, res) => {
     try {

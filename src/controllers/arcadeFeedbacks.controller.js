@@ -1,4 +1,4 @@
-const arcadeRatingsService = require("../services/arcadeRatings.service");
+const arcadeRatingsService = require("../services/arcadeFeedbacks.service");
 
 const getArcadeRatings = async (req, res) => {
     try {

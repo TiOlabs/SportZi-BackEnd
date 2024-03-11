@@ -2,25 +2,25 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getArcadeRatings = async () => {
-    return await prisma.arcadeRatings.findMany();
+    return await prisma.arcadeFeedbacks.findMany();
     }
-const addArcadeRatings = async (arcadeRatings) => {
-    return await prisma.arcadeRatings.create({
+const addArcadeRatings = async (arcadeFeedbacks) => {
+    return await prisma.arcadeFeedbacks.create({
         data: {
-            ...arcadeRatings,
+            ...arcadeFeedbacks,
         },
     });
     }
-const updateArcadeRatings = async (id, arcadeRatings) => {
-    return await prisma.arcadeRatings.update({
+const updateArcadeRatings = async (id, arcadeFeedbacks) => {
+    return await prisma.arcadeFeedbackss.update({
         where: { id: id },
         data: {
-            ...arcadeRatings,
+            ...arcadeFeedbacks,
         },
     });
     }
 const deleteArcadeRatings = async (id) => {
-    return await prisma.arcadeRatings.delete({
+    return await prisma.arcadeFeedbacks.delete({
         where: { id: id },
     });
     }

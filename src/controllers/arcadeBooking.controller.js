@@ -20,6 +20,7 @@ const addArcadeBooking = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const updateArcadeBooking = async (req, res) => {
   try {
     const { id } = req.params;

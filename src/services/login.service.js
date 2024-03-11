@@ -6,13 +6,26 @@ const jwt = require('jsonwebtoken');
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// const JWT_SECRET = require('../configs/config')
-const JWT_SECRET = process.env.JWT_SECRET;
+// // const JWT_SECRET = require('../configs/config')
+// const JWT_SECRET = process.env.JWT_SECRET;
+// // const adduser = async (user) => {
+// //   return await prisma.user.create({
+// //     data: {
+// //       ...user,
+// //     }, 
+// //   });
+// // }
+// // module.exports ={
+// //   adduser
+// } 
+  
 
 module.exports = {
   async login(email, password) {
     const user = await prisma.user.findUnique({
-      where: { email },
+      where:{
+        user_id:1
+      }
     });
 
     if (!user) {

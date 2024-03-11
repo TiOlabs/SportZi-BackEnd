@@ -1,29 +1,36 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+
 const getDiscountCards = async () => {
-  return await prisma.discount.findMany();
+  return await prisma.zoneDiscount.findMany({
+    include: {
+      zone: true ,// Include Zone data
+      
+
+    }
+  });
 };
 
 const addDiscountCard = async (discount) => {
-  return await prisma.discount.create({
+  return await prisma.ZoneDiscount.create({
     data: {
-      ...discount,
+      ...ZoneDiscount,
     }, 
   });
 };
 
 const updateDiscountCard = async (id, discount) => {
-  return await prisma.discount.update({
+  return await prisma.ZoneDiscount.update({
     where: { id: id },
     data: {
-      ...discount,
+      ...ZoneDiscount,
     },
   });
 };
 
 const deleteDiscountCard = async (id) => {
-  return await prisma.discount.delete({
+  return await prisma.ZoneDiscount.delete({
     where: { id: id },
   });
 };
