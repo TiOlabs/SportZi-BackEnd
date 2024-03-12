@@ -32,53 +32,55 @@ const bcrypt = require("bcrypt");
 //   });
 // };
 
-
-
-
-
-
-
 //new services
 
-
 const addPlayer = async (player) => {
+
+
+  
+  // Check if the email is already registered
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email: player.email,
+    },
+  });
+  if (existingUser) {
+    return res.status(400).json({ error: "Email is already registered" });
+  }
+
   const hashedPassword = await bcrypt.hash(player.password, 10); // Hash the password
 
   async function generateUserID() {
     const userCount = await prisma.player.count(); // Get the count of existing users
     const paddedID = String(userCount + 1).padStart(5, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
-    return `P${paddedID}`; 
+    return `P${paddedID}`;
   }
 
   const newPlayerID = await generateUserID();
 
-  const newUser =  await prisma.user.create({
+  const newUser = await prisma.user.create({
     data: {
       ...player,
-      user_id:newPlayerID,
-      role:"player",
+      user_id: newPlayerID,
+      role: "player",
       password: hashedPassword,
     },
   });
 
   const newplayer = await prisma.player.create({
-    data:{
+    data: {
       user: {
         connect: {
-          user_id:newPlayerID,
+          user_id: newPlayerID,
         },
       },
-
-    }
-  })  
-}; 
-
-
+    },
+  });
+};
 
 module.exports = {
   // getPlayers,
   addPlayer,
   // updatePlayer,
   // deletePlayer,
-
 };

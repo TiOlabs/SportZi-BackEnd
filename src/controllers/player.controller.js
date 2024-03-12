@@ -1,7 +1,7 @@
 const playerService = require("../services/player.service");
 
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+// const { PrismaClient } = require('@prisma/client');
+// const prisma = new PrismaClient();
 
 
 // const getPlayer = async (req, res) => {
@@ -64,16 +64,7 @@ const addPlayer = async (req, res) => {
     //   return res.status(400).json({ error: "Player data is missing or malformed" });
     // } 
 
-    // Check if the email is already registered
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email:player.email
-      },
-    });
-    if (existingUser) {
-      return res.status(400).json({ error: "Email is already registered" });
-    }
-
+  
     const newPlayer = await playerService.addPlayer(player);
 
     res.status(201).json(newPlayer);
