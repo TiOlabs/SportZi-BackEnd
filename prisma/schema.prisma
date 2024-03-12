@@ -380,7 +380,7 @@ address String
 city String
 country String
 hash String
-state Boolean
+status String @default("pending")
 }
 
 model CoachAssignDetails {
