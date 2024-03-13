@@ -115,3 +115,10 @@ model Arcade {
   mgr_id       String
   manager      ArcadeManager @relation(fields: [mgr_id], references: [manager_id])
 }
+
+model CoachCard{
+  card_id Int @id @default(autoincrement())
+  name String
+  description String
+  rate String
+}
