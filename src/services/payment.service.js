@@ -8,4 +8,16 @@ const getpaymentditails = async () => {
     },
   });
 };
-module.exports = { getpaymentditails };
+
+const updatePaymentStatus = async () => {
+  return await prisma.paymentTest.update({
+    where: {
+      payment_id: 10,
+    },
+    data: {
+      status: "Success",
+    },
+  });
+};
+
+module.exports = { getpaymentditails, updatePaymentStatus };

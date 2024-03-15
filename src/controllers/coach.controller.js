@@ -1,7 +1,5 @@
 const coachService = require("../services/coach.service");
 
-
-
 const getCoach = async (req, res) => {
     try {
       const coaches = await coachService.getCoaches();
@@ -10,6 +8,7 @@ const getCoach = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
+
 
 //   const addCoach = async (req, res) => {
 //     try {
@@ -37,9 +36,12 @@ const getCoach = async (req, res) => {
 //     }
 //   };
 
+
+
   const deleteCoach= async (req, res) => {
     try {
       const { id } = req.params;
+
       // const number = parseInt(id);
       const deletedCoach = await coachService.deleteCoach(id);
       res.status(200).json({ message: "Coach deleted", DeletedCoach:deletedCoach});
@@ -80,5 +82,6 @@ module.exports = {
   getCoach,
   addCoach,
   // updateCoach,
+
   deleteCoach
 };
