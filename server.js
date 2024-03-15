@@ -12,6 +12,10 @@ const coachCardRoutes = require("./src/routes/form.coachCard.route");
 const arcadeRatingsRoutes = require("./src/routes/arcadeRatings.route");
 const loginRoutes = require("./src/routes/login.route");
 const payment = require("./src/routes/paymentHandle.route");
+const admin = require("./src/routes/admin.route");
+
+
+const authenticateToken = require("./src/middlewares/authenticateToken");
 
 
 app.use(express.json());
@@ -25,6 +29,7 @@ app.use(arcadeManagerRoutes);
 app.use(arcadeRatingsRoutes);
 app.use(loginRoutes);
 app.use(payment);
+app.use(admin)
 
 
 app.use(coachCardRoutes);
@@ -32,6 +37,13 @@ app.use(coachCardRoutes);
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
+
+
+
+// app.get('/api/protected', authenticateToken, (req, res) => {
+//   res.json({ message: 'Protected route accessed successfully', user: req.user});
+// });
+
 
 // app.listen(3000, () => {
 //   console.log("Server running on port 3000");

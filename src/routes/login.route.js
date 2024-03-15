@@ -21,6 +21,9 @@ router.post('/api/login', AuthController.login);
 
 
 
+
+
+
 // // login athentication (full code )
 // router.post('/api/login', async (req, res) => {
 //     const { email, password } = req.body;
@@ -65,7 +68,7 @@ const authorizeManager = require("../middlewares/authorizeManager");
 
 
   // Protected route
-  router.get('/api/protected', authenticateToken,authorizeCoach, (req, res) => {
+  router.get('/api/protected', authenticateToken,authorizePlayer, (req, res) => {
     res.json({ message: 'Protected route accessed successfully',user: req.user});
   });
   

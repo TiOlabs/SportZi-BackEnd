@@ -25,11 +25,11 @@ model User {
   gender                                    String
   accountNumber                             Int?
   is_active                                 String @default("active")
-  user_image                                String
+  user_image                                String?
   Player                                    Player?
   Coach                                     Coach?
-  Manager                                   ArcadeManager?
-  admin                                     Admin?
+  Admin                                     Admin?
+  Manager                                   ArcadeManager? 
   feedbacks                                 Feedbacks[] 
   phone                                     UserPhone[] 
 }
@@ -46,14 +46,14 @@ model Coach {
   coach_id                                  String @unique
   status                                    String @default("pending")
   sport_id                                  String
-  rate                                      Int
+  rate                                      Int?
   coach_booking_details                     CoachBookingDetails[]
   coachFeedbacks                            CoachFeedbacks[]
   coachAssignDetailsForArcade               CoachAssignDetailsForArcade[]
   coachApplyDetailsForPackage               CoachAEnrollDetailsForPackage[]
   availability                              Availiability[]
   achivement                                Achivement[]
-  user                                      User @relation(fields: [coach_id], references: [user_id])
+  user                                      User @relation(fields: [coach_id], references: [user_id] )
   sport                                     Sport @relation(fields: [sport_id], references: [sport_id])
 }
 
@@ -267,7 +267,7 @@ model ArcadeSports{
 }
 
 model UserPhone{
-  phone_number                             String @unique
+  phone_number                             String
   user_id                                  String @unique
   user                                     User @relation(fields: [user_id],references: [user_id])
   @@unique([phone_number,user_id])
