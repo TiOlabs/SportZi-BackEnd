@@ -4,7 +4,7 @@
     const { role } = req.user;
   
     // Check if user is a player
-    if (role !== 'player') {
+    if (role !== 'PLAYER') {
       return res.status(403).json({ message: 'Forbidden: Only players can access this route'});
     }
   
