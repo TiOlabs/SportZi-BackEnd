@@ -23,7 +23,7 @@ model User {
   password                                  String
   DOB                                       String
   gender                                    String
-  accountNumber                             String
+  accountNumber                             String?
   is_active                                 String @default("active")
   user_image                                String?
   Player                                    Player?
