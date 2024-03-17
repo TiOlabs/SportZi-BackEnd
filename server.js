@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const PORT = 8000;
 
+const cookieParser = require('cookie-parser');
+
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
 const zoneDiscountRoutes = require("./src/routes/zoneDiscountt.route");
 const playerRoutes = require("./src/routes/player.route");
@@ -13,12 +15,22 @@ const arcadeRatingsRoutes = require("./src/routes/arcadeFeedbacks.route");
 const loginRoutes = require("./src/routes/login.route");
 const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
-const authenticateToken = require("./src/middlewares/authenticateToken");
 const arcadeRoutes = require('./src/routes/arcade.route')
+
+
+
+const authenticateToken = require("./src/middlewares/authenticateToken");
+const authorizePlayer = require("./src/middlewares/authorizePlayer");
+// const authorizeCoach = require("../middlewares/authorizeCoach");
+// const authorizeManager = require("../middlewares/authorizeManager");
+
+
+
 
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use(arcadeBookingRoutes);
 app.use(zoneDiscountRoutes);
@@ -29,7 +41,7 @@ app.use(arcadeRatingsRoutes);
 app.use(loginRoutes);
 app.use(payment);
 app.use(admin)
-app.use(coachCardRoutes);
+// app.use(coachCardRoutes);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
 
@@ -43,6 +55,12 @@ app.get("/", (req, res) => {
 // app.get('/api/protected', authenticateToken, (req, res) => {
 //   res.json({ message: 'Protected route accessed successfully', user: req.user});
 // });
+
+
+app.get('/api/coaches', authenticateToken,authorizePlayer, (req, res) => {
+
+  res.status(200).json();
+});
 
 
 // app.listen(3000, () => {

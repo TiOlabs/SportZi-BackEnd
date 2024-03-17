@@ -117,6 +117,13 @@ const deletePlayer = async (playerId) => {
       throw new Error("Player not found");
     }
 
+    //delete phoneNo
+    await prisma.userPhone.delete({
+      where:{
+        user_id:player.user.user_id 
+      }
+    });
+
     // Delete the player
     await prisma.player.delete({
       where: {

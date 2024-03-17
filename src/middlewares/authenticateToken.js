@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
+  // console.log(authHeader)
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: Token missing' });
@@ -19,9 +20,9 @@ function authenticateToken(req, res, next) {
     
     // Attach user information to the request object
     req.user = decodedToken;
-    console.log(req.user);
+    // console.log(req.user);
     next();
-  });
-}
+  }); 
+} 
 
 module.exports = authenticateToken;
