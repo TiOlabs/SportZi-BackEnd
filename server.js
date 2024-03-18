@@ -13,6 +13,7 @@ const arcadeManagerRoutes = require("./src/routes/arcadeManager.route");
 const coachAssignArcadeRoutes = require("./src/routes/coachAssignArcade.route");
 const arcadeRatingsRoutes = require("./src/routes/arcadeFeedbacks.route");
 const loginRoutes = require("./src/routes/login.route");
+const logoutRoutes = require("./src/routes/logout.route");
 const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
 const arcadeRoutes = require('./src/routes/arcade.route')
@@ -39,6 +40,7 @@ app.use(coachRoutes);
 app.use(arcadeManagerRoutes);
 app.use(arcadeRatingsRoutes);
 app.use(loginRoutes);
+app.use(logoutRoutes);
 app.use(payment);
 app.use(admin)
 // app.use(coachCardRoutes);
