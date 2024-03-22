@@ -2,28 +2,34 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getArcadeBookings = async () => {
-  return await prisma.arcadeBooking.findMany();
+  return await prisma.zoneBookingDetails.findMany({
+    include: {
+      user: true,
+      zone: true,
+    },
+   
+  });
 };
 
-const addArcadeBooking = async (arcadeBooking) => {
-  return await prisma.arcadeBooking.create({
+const addArcadeBooking = async (zoneBookingDetails) => {
+  return await prisma.zoneBookingDetails.create({
     data: {
-      ...arcadeBooking,
+      ...zoneBookingDetails,
     },
   });
 };
 
-const updateArcadeBooking = async (id,arcadeBooking) => {
-  return await prisma.arcadeBooking.update({
+const updateArcadeBooking = async (id,zoneBookingDetails) => {
+  return await prisma.zoneBookingDetails.update({
     where: { id: id },
     data: {
-      ...arcadeBooking,
+      ...zoneBookingDetails,
     },
   });
 };
 
 const deleteArcadeBooking = async (id) => {
-  return await prisma.arcadeBooking.delete({
+  return await prisma.zoneBookingDetails.delete({
     where: { id: id },
   });
 }
