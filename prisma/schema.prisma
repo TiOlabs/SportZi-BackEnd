@@ -121,6 +121,8 @@ model Arcade {
   manager_id                               String
   open_time                                String
   close_time                               String
+  description                              String @default("This is a description")
+  arcade_image                             String @default("this is a image")
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
   coachBookingDetails                      CoachBookingDetails[]

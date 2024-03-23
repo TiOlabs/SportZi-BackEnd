@@ -12,7 +12,9 @@ const coachAssignArcadeRoutes = require("./src/routes/coachAssignArcade.route");
 const arcadeRatingsRoutes = require("./src/routes/arcadeFeedbacks.route");
 const loginRoutes = require("./src/routes/login.route");
 const payment = require("./src/routes/paymentHandle.route");
-const arcadeRoutes = require('./src/routes/arcade.route')
+const arcadeRoutes = require('./src/routes/arcade.route');
+const arcadeCardRoutes = require ("./src/routes/arcadeCard.route");
+
 
 app.use(express.json());
 app.use(cors());
@@ -27,6 +29,8 @@ app.use(loginRoutes);
 app.use(payment);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
+app.use(arcadeCardRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
