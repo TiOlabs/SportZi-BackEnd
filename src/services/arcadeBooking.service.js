@@ -11,6 +11,17 @@ const getArcadeBookings = async () => {
   });
 };
 
+const getArcadeBookingById = async (id  ) => {
+  return await prisma.zoneBookingDetails.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      user: true,
+      zone: true,
+    },
+  });
+};
 const addArcadeBooking = async (zoneBookingDetails) => {
   return await prisma.zoneBookingDetails.create({
     data: {
@@ -38,6 +49,7 @@ const deleteArcadeBooking = async (id) => {
 
 module.exports = {
   getArcadeBookings,
+  getArcadeBookingById,
   addArcadeBooking,
   updateArcadeBooking,
   deleteArcadeBooking,
