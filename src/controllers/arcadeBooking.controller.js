@@ -38,10 +38,9 @@ const addArcadeBooking = async (req, res) => {
 const updateArcadeBooking = async (req, res) => {
   try {
     const { id } = req.params;
-    const number = parseInt(id);
     const arcadeBooking = req.body;
     const updatedArcadeBooking = await arcadeBookingService.updateArcadeBooking(
-      number,arcadeBooking
+      id,arcadeBooking
     );
     res.status(200).json(updatedArcadeBooking);
   } catch (error) {

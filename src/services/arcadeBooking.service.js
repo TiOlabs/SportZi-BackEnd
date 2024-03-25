@@ -32,7 +32,7 @@ const addArcadeBooking = async (zoneBookingDetails) => {
 
 const updateArcadeBooking = async (id,zoneBookingDetails) => {
   return await prisma.zoneBookingDetails.update({
-    where: { id: id },
+    where: { zone_booking_id: id },
     data: {
       ...zoneBookingDetails,
     },
