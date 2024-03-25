@@ -1,14 +1,13 @@
 const coachService = require("../services/coach.service");
 
 const getCoach = async (req, res) => {
-    try {
-      const coaches = await coachService.getCoaches();
-      res.status(200).json(coaches);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-
+  try {
+    const coaches = await coachService.getCoaches();
+    res.status(200).json(coaches);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 //   const addCoach = async (req, res) => {
 //     try {
@@ -36,44 +35,29 @@ const getCoach = async (req, res) => {
 //     }
 //   };
 
+const deleteCoach = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const number = parseInt(id);
+    const deletedCoach = await coachService.deleteCoach(id);
+    res
+      .status(200)
+      .json({ message: "Coach deleted", DeletedCoach: deletedCoach });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-
-  const deleteCoach= async (req, res) => {
-    try {
-      const { id } = req.params;
-
-      // const number = parseInt(id);
-      const deletedCoach = await coachService.deleteCoach(id);
-      res.status(200).json({ message: "Coach deleted", DeletedCoach:deletedCoach});
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-
-
-
-
-
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-
-
-
 
 //new controllers
 
 const addCoach = async (req, res) => {
   try {
     const coach = req.body;
-
-
-    
-  
-    const newCoach = await coachService.addCoach(req,res,coach);
-
-    
-  } 
-  catch (error) {
+    const newCoach = await coachService.addCoach(req, res, coach);
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
@@ -83,5 +67,5 @@ module.exports = {
   addCoach,
   // updateCoach,
 
-  deleteCoach
+  deleteCoach,
 };
