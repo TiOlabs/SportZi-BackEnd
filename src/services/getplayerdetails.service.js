@@ -3,6 +3,10 @@ const prisma = new PrismaClient();
 
 const getPlayerdetails = async (user_id) => {
   return await prisma.user.findUnique({
+    include: {
+      phone: true,
+    },
+
     where: {
       user_id: user_id,
     },

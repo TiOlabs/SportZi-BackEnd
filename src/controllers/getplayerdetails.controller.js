@@ -12,8 +12,8 @@ const getPlayerdetails = async (req, res) => {
     res.status(500).json({ massege: error.massege });
   }
 
-  console.log(req.user);
-  console.log("sdfsdf");
+  // console.log(req.user);
+  // console.log("sdfsdf");
 };
 
 module.exports = {
