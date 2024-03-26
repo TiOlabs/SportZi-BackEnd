@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const PORT = 8000;
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
 const zoneDiscountRoutes = require("./src/routes/zoneDiscountt.route");
@@ -16,23 +16,19 @@ const loginRoutes = require("./src/routes/login.route");
 const logoutRoutes = require("./src/routes/logout.route");
 const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
-const arcadeRoutes = require('./src/routes/arcade.route')
-
-
+const arcadeRoutes = require("./src/routes/arcade.route");
+const regUserRouter = require("./src/routes/getPayerDetails.route");
 
 const authenticateToken = require("./src/middlewares/authenticateToken");
 const authorizePlayer = require("./src/middlewares/authorizePlayer");
+const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeCoach = require("../middlewares/authorizeCoach");
 // const authorizeManager = require("../middlewares/authorizeManager");
-
-
-
-
 
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-
+// app.use("/api/auth/*", authenticateToken);
 app.use(arcadeBookingRoutes);
 app.use(zoneDiscountRoutes);
 app.use(playerRoutes);
@@ -42,28 +38,26 @@ app.use(arcadeRatingsRoutes);
 app.use(loginRoutes);
 app.use(logoutRoutes);
 app.use(payment);
-app.use(admin)
+app.use(admin);
+app.use(regUserRouter);
 // app.use(coachCardRoutes);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
-
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
 
-
-
 // app.get('/api/protected', authenticateToken, (req, res) => {
 //   res.json({ message: 'Protected route accessed successfully', user: req.user});
 // });
 
-
-app.get('/api/coaches', authenticateToken,authorizePlayer, (req, res) => {
-
+app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
   res.status(200).json();
 });
-
+// app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
+//   res.status(200).json();
+// });
 
 // app.listen(3000, () => {
 //   console.log("Server running on port 3000");
