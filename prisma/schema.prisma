@@ -26,6 +26,9 @@ model User {
   accountNumber                             String?
   is_active                                 String @default("active")
   user_image                                String?
+  address                                   String? 
+  city                                      String? 
+  contry                                    String?
   Player                                    Player?
   Coach                                     Coach?
   Admin                                     Admin?

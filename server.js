@@ -18,6 +18,7 @@ const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
 const arcadeRoutes = require('./src/routes/arcade.route');
 const zoneRoutes = require('./src/routes/zone.route');
+const userRoutes = require('./src/routes/user.route');
 
 
 
@@ -48,6 +49,7 @@ app.use(admin)
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
 app.use(zoneRoutes);
+app.use(userRoutes);
 
 
 app.get("/", (req, res) => {
