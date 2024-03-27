@@ -32,16 +32,18 @@ const getArcadeBookingById = async (id  ) => {
   });
 };
 
-const getArcadeBookingByDate = async (date) => {
-  return await prisma.zoneBookingDetails.findMany({
+const getArcadeBookingByDate = async (date,zoneId) => {
+return await prisma.zoneBookingDetails.findMany({
     where: {
         date: date,
+        zone_id: zoneId,
     },
     include: {
       user: true,
       zone: true,
     },
   });
+
 };
 const addArcadeBooking = async (zoneBookingDetails) => {
   return await prisma.zoneBookingDetails.create({
