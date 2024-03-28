@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 const getCoachCards = async () => {
   return await prisma.coachAssignDetailsForArcade.findMany({
     include: {
-      coach: {},
+      coach: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
 };
