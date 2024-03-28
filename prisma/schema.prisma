@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -26,19 +26,22 @@ model User {
   accountNumber                             String?
   is_active                                 String @default("active")
   user_image                                String?
+  address                                   String? 
+  city                                      String? 
+  contry                                    String?
   Player                                    Player?
   Coach                                     Coach?
   Admin                                     Admin?
   Manager                                   ArcadeManager? 
   feedbacks                                 Feedbacks[] 
   phone                                     UserPhone[] 
+  zoneBookingDetails                        ZoneBookingDetails[]
 }
 
 model Player {
   player_id                                 String  @unique 
   coach_booking_details                     CoachBookingDetails[]
   playerPackageEnrollDetails                PackageEnrollDetailsForPlayer[]
-  zoneBookingDetails                        ZoneBookingDetails[]
   user                                      User   @relation(fields: [player_id], references: [user_id])
 }
 
@@ -192,14 +195,13 @@ model ZoneBookingDetails {
   status                                   String @default("success")
   created_at                               DateTime @default(now())
   canceled_at                              DateTime @updatedAt
-  rate                                     Int
   date                                     String
-  time                                     Int
+  time                                     String
   participant_count                        Int
-  player_id                                String
+  user_id                                  String
   zone_id                                  String
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
-  player                                   Player @relation(fields: [player_id],references: [player_id])
+  user                                     User@relation(fields: [user_id],references: [user_id])
 }
 
 model Sport{

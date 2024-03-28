@@ -20,7 +20,7 @@ function authenticateToken(req, res, next) {
     
     // Attach user information to the request object
     req.user = decodedToken;
-    // console.log(req.user);
+    console.log(req.user);
     next();
   }); 
 } 
