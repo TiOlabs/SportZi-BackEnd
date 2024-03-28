@@ -2,22 +2,13 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getArcadeBookings = async () => {
-  const usersCount = await prisma.zoneBookingDetails.count();
-  const bookingDate = await prisma.zoneBookingDetails.findMany({
-    select: {
-      booking_date: true,
-    },
-  });
-  const ArcadeBookings = await prisma.player.findMany({
+  return await prisma.zoneBookingDetails.findMany({
+   
     include: {
       user: true,
       zone: true,
     },
   });
-  return {
-    userCount: usersCount,
-    players: ArcadeBookings,
-  };
 };
 
 const getArcadeBookingById = async (id  ) => {
@@ -37,6 +28,7 @@ return await prisma.zoneBookingDetails.findMany({
     where: {
         date: date,
         zone_id: zoneId,
+        status:"success"
     },
     include: {
       user: true,
