@@ -7,7 +7,8 @@ const getCoaches = async () => {
   return await prisma.coach.findMany({
     include: {
       user: true ,
-      sport:true
+      sport:true,
+      coachFeedbacks:true
     }
   });
 };
