@@ -16,9 +16,10 @@ const loginRoutes = require("./src/routes/login.route");
 const logoutRoutes = require("./src/routes/logout.route");
 const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
-const arcadeRoutes = require("./src/routes/arcade.route");
 const regUserRouter = require("./src/routes/getPayerDetails.route");
-
+const arcadeRoutes = require('./src/routes/arcade.route');
+const zoneRoutes = require('./src/routes/zone.route');
+const userRoutes = require('./src/routes/user.route');
 const authenticateToken = require("./src/middlewares/authenticateToken");
 const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
@@ -43,6 +44,8 @@ app.use(regUserRouter);
 // app.use(coachCardRoutes);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
+app.use(zoneRoutes);
+app.use(userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
