@@ -25,7 +25,6 @@ const getArcadeBookingById = async (req, res) => {
   const getArcadeBookingByDate = async (req, res) => {
     try {
       const { date,zoneId } = req.params;
-      console.log(date,zoneId);
       const arcadeBooking = await arcadeBookingService.getArcadeBookingByDate(date,zoneId);
       if (arcadeBooking) {
         res.status(200).json(arcadeBooking);
