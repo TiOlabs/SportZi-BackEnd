@@ -189,7 +189,6 @@ const addPlayer = async (req, res, player) => {
         },
       },
     });
-    console.log(newplayer);
     const newPhone = await prisma.userPhone.create({
       data: {
         phone_number: player.phone_number,
@@ -200,7 +199,6 @@ const addPlayer = async (req, res, player) => {
         },
       },
     });
-
     return res.status(201).json(newUser);
   } catch (e) {
     console.log(e);

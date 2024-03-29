@@ -7,6 +7,8 @@ const getCoaches = async () => {
     include: {
       user: true,
       sport: true,
+      coachFeedbacks: true,
+
     },
   });
 };
@@ -160,7 +162,11 @@ const addCoach = async (req, res, coach) => {
     },
   });
 
-  res.status(201).json(newUser);
+
+    res.status(201).json(newUser);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 module.exports = {
