@@ -69,6 +69,7 @@ const deleteCoach = async (coachId) => {
 //new services
 
 const addCoach = async (req, res, coach) => {
+  try {
   async function generateUserID() {
     const userCount = await prisma.coach.count(); // Get the count of existing users
     const paddedID = String(userCount + 1).padStart(5, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
