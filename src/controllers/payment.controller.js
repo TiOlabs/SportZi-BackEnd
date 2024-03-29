@@ -2,6 +2,7 @@ const paymentcontroller = require("../services/payment.service");
 
 const sendMail = require("../sentMail/Sentmail");
 const paymentSlips = require("../sentMail/PaymentSucces");
+
 const getpaymentditails = async (req, res) => {
   try {
     const paymentditails = await paymentcontroller.getpaymentditails();
@@ -17,7 +18,7 @@ const postpaymentStatus = async (req, res) => {
     const paymentStatus = await paymentcontroller.updatePaymentStatus();
     const paymentditails = await paymentcontroller.getpaymentditails();
     sendMail.sentEmail(
-      "mskudayanga@gmail.com",
+      "thisarasenarathna0824@gmail.com",
       paymentSlips.paymntSlip(
         paymentditails.amount,
         paymentditails.amount,
