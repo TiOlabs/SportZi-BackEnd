@@ -2,7 +2,17 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getArcade = async ()=>{
-    return await prisma.arcade.findMany();
+    return await prisma.arcade.findMany({
+      include: {
+        manager: {
+          include:{
+            user:true,
+          }
+        }
+      },
+    }
+
+    );
 };
 
 const addArcade = async (arcade)=>{

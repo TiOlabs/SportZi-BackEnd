@@ -21,7 +21,7 @@ model User {
   lastname                                  String
   email                                     String @unique
   password                                  String
-  DOB                                       String
+  DOB                                       String?
   gender                                    String
   accountNumber                             String?
   is_active                                 String @default("active")
@@ -116,8 +116,8 @@ model Arcade {
   arcade_id                                String @id @unique @default(uuid())  
   arcade_name                              String
   location                                 String
-  address                                  String
-  arcade_email                             String
+  address                                  String?
+  arcade_email                             String @unique
   manager_id                               String
   open_time                                String
   close_time                               String
