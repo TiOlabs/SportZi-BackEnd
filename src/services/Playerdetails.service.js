@@ -10,9 +10,20 @@ const getPlayerdetails = async (user_id) => {
     where: {
       user_id: user_id,
     },
-    //how to get user table relation data to the this get methord
+  });
+};
+
+const updatePlayerdetails = async (user_id, email) => {
+  return await prisma.user.update({
+    where: {
+      user_id: user_id,
+    },
+    data: {
+      email: email,
+    },
   });
 };
 module.exports = {
   getPlayerdetails,
+  updatePlayerdetails,
 };

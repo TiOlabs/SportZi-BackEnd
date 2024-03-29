@@ -11,4 +11,10 @@ regUserRouter.get(
   authenticateToken,
   PlayerDetailsController.getPlayerdetails
 );
+
+regUserRouter.put(
+  "/api/auth/updateplayerdetails",
+  authenticateToken,
+  PlayerDetailsController.updatePlayerdetails
+);
 module.exports = regUserRouter;
