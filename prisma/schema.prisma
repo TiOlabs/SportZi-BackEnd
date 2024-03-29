@@ -269,7 +269,7 @@ model ArcadeSports{
 }
 
 model UserPhone{
-  phone_number                             String
+  phone_number                             String @unique
   user_id                                  String @unique
   user                                     User @relation(fields: [user_id],references: [user_id])
   @@unique([phone_number,user_id])
