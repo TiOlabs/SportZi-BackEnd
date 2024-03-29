@@ -151,7 +151,7 @@ const addPlayer = async (req, res, player) => {
     },
   });
   if (existingUser) {
-    return res.status(400).json({ error: "Email is already registered" });
+    return res.status(400).json({ message: "Email is already registered" });
   }
 
   const hashedPassword = await bcrypt.hash(player.password, 10); // Hash the password
@@ -192,7 +192,6 @@ const addPlayer = async (req, res, player) => {
     const newPhone = await prisma.userPhone.create({
       data: {
         phone_number: player.phone_number,
-
         user: {
           connect: {
             user_id: newPlayerID,

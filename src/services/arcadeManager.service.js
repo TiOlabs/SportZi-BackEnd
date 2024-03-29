@@ -88,8 +88,19 @@ const addArcadeManager = async (req, res, arcadeManager) => {
       email: arcadeManager.email,
     },
   });
+
+  const existingArcade = await prisma.arcade.findUnique({
+    where: {
+      arcade_email: arcadeManager.arcade_email,
+    },
+  });
+
+
   if (existingUser) {
-    return res.status(400).json({ error: "Email is already registered" });
+    return res.status(400).json({ message: "Email is already registered" });
+  }
+  if(existingArcade){
+    return res.status(400).json({ message: "Arcade Email is already registered" });
   }
 
   const hashedPassword = await bcrypt.hash(arcadeManager.password, 10); // Hash the password
@@ -117,7 +128,6 @@ const addArcadeManager = async (req, res, arcadeManager) => {
       firstname: arcadeManager.firstname,
       lastname: arcadeManager.lastname,
       email: arcadeManager.email,
-      // DOB: arcadeManager.DOB,
       gender: arcadeManager.gender,
       role:Role.MANAGER,
       password: hashedPassword,
