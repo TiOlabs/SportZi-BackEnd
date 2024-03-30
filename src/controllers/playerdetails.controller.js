@@ -1,4 +1,4 @@
-const PlayerDetailsController = require("../services/getplayerdetails.service");
+const PlayerDetailsController = require("../services/Playerdetails.service");
 
 const getPlayerdetails = async (req, res) => {
   const { userId } = req.user;
@@ -16,12 +16,13 @@ const getPlayerdetails = async (req, res) => {
 
 const updatePlayerdetails = async (req, res) => {
   try {
+    console.log("plaaaaaaaaaaaaaaaaaaaa");
     const { userId } = req.user;
-    const { email } = req.params;
+    const { firstname } = req.body;
 
     const playerDetails = await PlayerDetailsController.updatePlayerdetails(
       userId,
-      email
+      firstname
     );
     res.status(200).json(playerDetails);
     console.log("plaaaaaaaaaaaaaaaaaaaa", playerDetails);
