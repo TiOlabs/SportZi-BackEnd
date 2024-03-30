@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 const getArcade = async ()=>{
     return await prisma.arcade.findMany({
       include: {
+        arcadefeedbacks: true,
         manager: {
           include:{
             user:true,
