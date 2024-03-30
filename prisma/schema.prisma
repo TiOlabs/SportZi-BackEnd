@@ -29,6 +29,7 @@ model User {
   address                                   String? 
   city                                      String? 
   contry                                    String?
+  Discription                               String @default("Add your Discription")
   Player                                    Player?
   Coach                                     Coach?
   Admin                                     Admin?
@@ -36,7 +37,7 @@ model User {
   feedbacks                                 Feedbacks[] 
   phone                                     UserPhone[] 
   zoneBookingDetails                        ZoneBookingDetails[]
-    achivement                                Achivement[]
+  achivement                                Achivement[]
 }
 
 model Player {
