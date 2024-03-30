@@ -10,9 +10,8 @@ const getArcadeBooking = async (req, res) => {
 };
 const getArcadeBookingById = async (req, res) => {
     try {
-      const { id } = req.params;
-      const number = parseInt(id);
-      const arcadeBooking = await arcadeBookingService.getArcadeBookingById(number);
+      const {id} = req.params;
+      const arcadeBooking = await arcadeBookingService.getArcadeBookingById(id);
       if (arcadeBooking) {
         res.status(200).json(arcadeBooking);
       } else {
