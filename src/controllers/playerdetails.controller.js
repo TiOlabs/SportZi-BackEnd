@@ -16,16 +16,21 @@ const getPlayerdetails = async (req, res) => {
 
 const updatePlayerdetails = async (req, res) => {
   try {
-    console.log("plaaaaaaaaaaaaaaaaaaaa");
+    console.log("controller begin");
     const { userId } = req.user;
-    const { firstname } = req.body;
+    const { firstname, lastname, discription, achivement, user_image } =
+      req.body;
 
     const playerDetails = await PlayerDetailsController.updatePlayerdetails(
       userId,
-      firstname
+      firstname,
+      lastname,
+      discription,
+      achivement,
+      user_image
     );
     res.status(200).json(playerDetails);
-    console.log("plaaaaaaaaaaaaaaaaaaaa", playerDetails);
+    console.log("controller succes", playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
     console.log("plaaaaaaaaaaaaaaaaaaaa", error);
