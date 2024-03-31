@@ -18,16 +18,17 @@ const updatePlayerdetails = async (req, res) => {
   try {
     console.log("controller begin");
     const { userId } = req.user;
-    const { firstname, lastname, discription, achivement, user_image } =
+    let { firstname, lastname, discription, achivements, user_image } =
       req.body;
-
+    // achivements = ["dvdf", " fsd", " sgfvs"];
+    console.log("dds", achivements);
     const playerDetails = await PlayerDetailsController.updatePlayerdetails(
       userId,
       firstname,
       lastname,
       discription,
-      achivement,
-      user_image
+      user_image,
+      achivements
     );
     res.status(200).json(playerDetails);
     console.log("controller succes", playerDetails);
