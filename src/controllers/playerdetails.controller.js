@@ -22,6 +22,18 @@ const updatePlayerdetails = async (req, res) => {
       req.body;
     // achivements = ["dvdf", " fsd", " sgfvs"];
     console.log("dds", achivements);
+    try {
+      if (achivements) {
+        try {
+          const deleteAchivments =
+            await PlayerDetailsController.deleteAchivments(userId);
+        } catch (error) {
+          res.status(500).json({ massege: error.massege });
+        }
+      }
+    } catch (error) {
+      throw new error("error");
+    }
     const playerDetails = await PlayerDetailsController.updatePlayerdetails(
       userId,
       firstname,
