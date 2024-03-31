@@ -6,7 +6,6 @@ module.exports = {
   async login(req, res) {
     try {
       const { email, password } = req.body;
-      console.log(email, password);
       const token = await AuthService.login(email, password);
 
       // res.cookie("token1", token, {

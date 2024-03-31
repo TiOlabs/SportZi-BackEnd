@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -25,7 +25,7 @@ model User {
   gender                                    String
   accountNumber                             String?
   is_active                                 String @default("active")
-  user_image                                String?
+  user_image                                String? @default("user-players/139189337-man-running-up-silhouette-on-white_xsmopd")
   address                                   String? 
   city                                      String? 
   contry                                    String?
@@ -38,6 +38,7 @@ model User {
   phone                                     UserPhone[] 
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
+  userPhotoAlbum                            UserPhotoAlbum[]
 }
 
 model Player {
@@ -220,8 +221,8 @@ model Availiability{
 }
 
 model CoachAssignDetailsForArcade {
-  coach_id                                 String @unique
-  arcade_id                                String @unique
+  coach_id                                 String 
+  arcade_id                                String 
   duration                                 Int
   description                              String
   assigned_date                            DateTime @default(now())
@@ -234,8 +235,8 @@ model CoachAssignDetailsForArcade {
 }
 
 model CoachAEnrollDetailsForPackage{
-  coach_id                                 String @unique
-  package_id                               String @unique
+  coach_id                                 String 
+  package_id                               String 
   duration                                 Int
   description                              String
   applied_date                             DateTime @default(now())
@@ -249,8 +250,8 @@ model CoachAEnrollDetailsForPackage{
 }
 
 model PackageEnrollDetailsForPlayer {
-  player_id                                String @unique
-  package_id                               String @unique
+  player_id                                String 
+  package_id                               String 
   status                                   String @default("success")
   enrolled_date                            DateTime @default(now())
   canceled_at                              DateTime @updatedAt
@@ -262,56 +263,63 @@ model PackageEnrollDetailsForPlayer {
 }
 
 model ArcadeSports{
-  sport_id                                 String @unique
-  arcade_id                                String @unique
+  sport_id                                 String 
+  arcade_id                                String 
   sport                                    Sport @relation(fields: [sport_id],references: [sport_id])
   arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
   @@unique([sport_id,arcade_id])
 }
 
 model UserPhone{
-  phone_number                             String @unique
-  user_id                                  String @unique
+  phone_number                             String 
+  user_id                                  String 
   user                                     User @relation(fields: [user_id],references: [user_id])
   @@unique([phone_number,user_id])
 }
 
 model Achivement{
-  user_id                                String @unique
-  achivement_details                     String @unique
+  user_id                                String 
+  achivement_details                     String 
   user                                   User @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,achivement_details])
 }
  
 model FeedbackComments{
-  feedback_id                              String @unique
-  comment                                  String @unique
+  feedback_id                              String 
+  comment                                  String 
   feedback                                 Feedbacks @relation(fields: [feedback_id],references: [feedbacks_id])
   @@unique([feedback_id,comment])
 }
 
 model CoachBookingDayAndTime{
-  coach_booking_id                         String @unique
-  day                                      String @unique
-  time                                     String @unique
+  coach_booking_id                         String 
+  day                                      String 
+  time                                     String 
   coachBookingDetails                      CoachBookingDetails @relation(fields: [coach_booking_id ],references: [booking_id])
   @@unique([coach_booking_id,day,time])
 }
 
 model ArcadePhone{
-  phone_number                             String @unique
-  arcade_id                                String @unique
+  phone_number                             String 
+  arcade_id                                String 
   arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
   @@unique([phone_number,arcade_id])
 
 }
 
 model PackageDayAndTime{
-  package_id                               String @unique
-  day                                      String @unique
-  time                                     String @unique
+  package_id                               String 
+  day                                      String
+  time                                     String 
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
+}
+
+model UserPhotoAlbum{
+  user_id                                  String 
+  image_url                                String 
+  user                                     User @relation(fields:[user_id],references: [user_id])
+  @@unique([user_id,image_url])
 }
 enum Role {
   PLAYER

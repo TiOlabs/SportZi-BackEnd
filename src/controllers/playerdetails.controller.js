@@ -1,11 +1,9 @@
-const PlayerDetailsController = require("../services/Playerdetails.service");
+const PlayerDetailsService = require("../services/Playerdetails.service");
 
 const getPlayerdetails = async (req, res) => {
   const { userId } = req.user;
   try {
-    const playerDetails = await PlayerDetailsController.getPlayerdetails(
-      userId
-    );
+    const playerDetails = await PlayerDetailsService.getPlayerdetails(userId);
     res.status(200).json(playerDetails);
   } catch (error) {
     res.status(500).json({ massege: error.massege });
@@ -16,12 +14,10 @@ const getPlayerdetails = async (req, res) => {
 
 const updatePlayerdetails = async (req, res) => {
   try {
-    console.log("controller begin");
     const { userId } = req.user;
     const { firstname, lastname, discription, achivement, user_image } =
       req.body;
-
-    const playerDetails = await PlayerDetailsController.updatePlayerdetails(
+    const playerDetails = await PlayerDetailsService.updatePlayerdetails(
       userId,
       firstname,
       lastname,
@@ -30,14 +26,55 @@ const updatePlayerdetails = async (req, res) => {
       user_image
     );
     res.status(200).json(playerDetails);
-    console.log("controller succes", playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
-    console.log("plaaaaaaaaaaaaaaaaaaaa", error);
+  }
+};
+
+const uploadPlayerPhoto = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    const { image_url } = req.body;
+    console.log("user_image", image_url);
+    console.log("user_id", user_id);
+    const playerDetails = await PlayerDetailsService.uploadPlayerPhoto(
+      user_id,
+      image_url
+    );
+    res.status(200).json(playerDetails);
+  } catch (error) {
+    res.status(500).json({ messageee: error.message });
+  }
+};
+
+const getPlayerPhotos = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const playerDetails = await PlayerDetailsService.getPlayerPhotos(userId);
+    res.status(200).json(playerDetails);
+  } catch (error) {
+    res.status(500).json({ messageee: error.message });
+  }
+};
+
+const addPlayerphotos = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    const { image_url } = req.body;
+    const playerDetails = await PlayerDetailsService.addPlayerphotos(
+      user_id,
+      image_url
+    );
+    res.status(200).json(playerDetails);
+  } catch (error) {
+    res.status(500).json({ messageee: error.message });
   }
 };
 
 module.exports = {
   getPlayerdetails,
   updatePlayerdetails,
+  uploadPlayerPhoto,
+  getPlayerPhotos,
+  addPlayerphotos,
 };

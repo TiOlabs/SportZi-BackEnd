@@ -20,4 +20,24 @@ regUserRouter.post(
   authorizePlayer,
   PlayerDetailsController.updatePlayerdetails
 );
+
+regUserRouter.post(
+  "/api/auth/PlayerPhotos",
+  authenticateToken,
+  authorizePlayer,
+  PlayerDetailsController.uploadPlayerPhoto
+);
+
+regUserRouter.get(
+  "/api/auth/getplayerPhotos/:id",
+  PlayerDetailsController.getPlayerPhotos
+);
+
+regUserRouter.post(
+  "/api/auth/addplayerPhotos",
+  authenticateToken,
+  authorizePlayer,
+  PlayerDetailsController.addPlayerphotos
+);
+
 module.exports = regUserRouter;
