@@ -270,15 +270,15 @@ model ArcadeSports{
 }
 
 model UserPhone{
-  phone_number                             String @unique
-  user_id                                  String @unique
+  phone_number                             String 
+  user_id                                  String 
   user                                     User @relation(fields: [user_id],references: [user_id])
   @@unique([phone_number,user_id])
 }
 
 model Achivement{
-  user_id                                String @unique
-  achivement_details                     String @unique
+  user_id                                String 
+  achivement_details                     String 
   user                                   User @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,achivement_details])
 }
