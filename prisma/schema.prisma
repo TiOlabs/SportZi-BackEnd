@@ -29,6 +29,7 @@ model User {
   address                                   String? 
   city                                      String? 
   contry                                    String?
+  Discription                               String @default("Add your Discription")
   Player                                    Player?
   Coach                                     Coach?
   Admin                                     Admin?
@@ -36,6 +37,7 @@ model User {
   feedbacks                                 Feedbacks[] 
   phone                                     UserPhone[] 
   zoneBookingDetails                        ZoneBookingDetails[]
+  achivement                                Achivement[]
 }
 
 model Player {
@@ -56,7 +58,6 @@ model Coach {
   coachAssignDetailsForArcade               CoachAssignDetailsForArcade[]
   coachApplyDetailsForPackage               CoachAEnrollDetailsForPackage[]
   availability                              Availiability[]
-  achivement                                Achivement[]
   user                                      User @relation(fields: [coach_id], references: [user_id] )
   sport                                     Sport @relation(fields: [sport_id], references: [sport_id])
 }
@@ -276,10 +277,10 @@ model UserPhone{
 }
 
 model Achivement{
-  achivement_details                       String @unique
-  coach_id                                 String @unique
-  coach                                    Coach @relation(fields: [coach_id],references: [coach_id])
-  @@unique([achivement_details,coach_id])
+  user_id                                String 
+  achivement_details                     String 
+  user                                   User @relation(fields: [user_id],references: [user_id])
+  @@unique([user_id,achivement_details])
 }
  
 model FeedbackComments{
