@@ -14,16 +14,15 @@ const getArcadeBookingById = async (id) => {
   try {
     return await prisma.zoneBookingDetails.findMany({
       where: {
-       user_id:id,
+        user_id: id,
       },
       include: {
-        user:true,
-        zone:{
-          include:{
-            arcade:true,
-          }
-
-        }
+        user: true,
+        zone: {
+          include: {
+            arcade: true,
+          },
+        },
       },
     });
   } catch (error) {

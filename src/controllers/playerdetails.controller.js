@@ -1,7 +1,7 @@
 const PlayerDetailsService = require("../services/Playerdetails.service");
 
 const getPlayerdetails = async (req, res) => {
-  const { userId } = req.user;
+  const { userId } = req.body;
   try {
     const playerDetails = await PlayerDetailsService.getPlayerdetails(userId);
     res.status(200).json(playerDetails);
@@ -35,8 +35,6 @@ const uploadPlayerPhoto = async (req, res) => {
   try {
     const { user_id } = req.body;
     const { image_url } = req.body;
-    console.log("user_image", image_url);
-    console.log("user_id", user_id);
     const playerDetails = await PlayerDetailsService.uploadPlayerPhoto(
       user_id,
       image_url
