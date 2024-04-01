@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("AZURE_DB_URL")
+  url          = env("LOCAL_DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -261,16 +261,16 @@ model PackageEnrollDetailsForPlayer {
 }
 
 model ArcadeSports{
-  sport_id                                 String @unique
-  arcade_id                                String @unique
+  sport_id                                 String
+  arcade_id                                String 
   sport                                    Sport @relation(fields: [sport_id],references: [sport_id])
   arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
   @@unique([sport_id,arcade_id])
 }
 
 model UserPhone{
-  phone_number                             String @unique
-  user_id                                  String @unique
+  phone_number                             String 
+  user_id                                  String 
   user                                     User @relation(fields: [user_id],references: [user_id])
   @@unique([phone_number,user_id])
 }
@@ -284,7 +284,7 @@ model Achivement{
  
 model FeedbackComments{
   feedback_id                              String @unique
-  comment                                  String @unique
+  comment                                  String 
   feedback                                 Feedbacks @relation(fields: [feedback_id],references: [feedbacks_id])
   @@unique([feedback_id,comment])
 }
@@ -298,8 +298,8 @@ model CoachBookingDayAndTime{
 }
 
 model ArcadePhone{
-  phone_number                             String @unique
-  arcade_id                                String @unique
+  phone_number                             String 
+  arcade_id                                String
   arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
   @@unique([phone_number,arcade_id])
 

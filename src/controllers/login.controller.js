@@ -13,8 +13,7 @@ module.exports = {
       //   // secure: false, // Set to true if using HTTPS
       //   // maxAge: 3600000, // 1 hour in milliseconds
       // });
-
-
+      
       res.json({ token });
     } catch (error) {
       res.status(401).json({ message: error.message });

@@ -90,36 +90,44 @@ const updatePlayer = async (req, res, playerId, player) => {
   }
 };
 
-// const deletePlayer = async (id) => {
-//   return await prisma.player.delete({
-//     where: {
-//        player_id: id
-//     },
-//   });
-// };
+
+
 
 const deletePlayer = async (playerId) => {
   try {
-    // First, find the player based on the provided playerId
+    //for find rhe player
     const player = await prisma.player.findUnique({
       where: {
         player_id: playerId,
       },
       include: {
-        user: true, // Include the associated user
+        user: {
+          include:{
+            phone : true,
+          }
+        },
       },
     });
-
     if (!player) {
       throw new Error("Player not found");
     }
-
-    //delete phoneNo
-    await prisma.userPhone.delete({
+    
+     //For delete phoneNo
+    const userPhones = await prisma.userPhone.findMany({
       where: {
-        user_id: player.user.user_id,
+        user_id: playerId,
       },
     });
+    for (const phone of userPhones) {
+      await prisma.userPhone.delete({
+        where: {
+          phone_number_user_id: {
+            user_id: playerId,
+            phone_number: phone.phone_number,
+          },
+        },
+      });
+    }
 
     // Delete the player
     await prisma.player.delete({
@@ -131,7 +139,7 @@ const deletePlayer = async (playerId) => {
     // Delete the associated user
     await prisma.user.delete({
       where: {
-        user_id: player.user.user_id,
+        user_id:playerId,
       },
     });
 
@@ -185,7 +193,7 @@ const addPlayer = async (req, res, player) => {
         user: {
           connect: {
             user_id: newPlayerID,
-          },
+          }, 
         },
       },
     });
