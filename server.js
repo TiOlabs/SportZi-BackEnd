@@ -16,16 +16,15 @@ const loginRoutes = require("./src/routes/login.route");
 const logoutRoutes = require("./src/routes/logout.route");
 const payment = require("./src/routes/paymentHandle.route");
 const admin = require("./src/routes/admin.route");
-const regUserRouter = require("./src/routes/getPayerDetails.route");
-const arcadeRoutes = require('./src/routes/arcade.route');
-const zoneRoutes = require('./src/routes/zone.route');
-const userRoutes = require('./src/routes/user.route');
+const regUserRouter = require("./src/routes/PayerDetails.route");
+const arcadeRoutes = require("./src/routes/arcade.route");
+const zoneRoutes = require("./src/routes/zone.route");
+const userRoutes = require("./src/routes/user.route");
 const authenticateToken = require("./src/middlewares/authenticateToken");
 const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
-// const authorizeCoach = require("../middlewares/authorizeCoach");
-// const authorizeManager = require("../middlewares/authorizeManager");
-const coachesPage = require('./src/routes/coachespage.route')
+const routeProtect = require('./src/routes/routeProtect.route');
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -41,13 +40,12 @@ app.use(logoutRoutes);
 app.use(payment);
 app.use(admin);
 app.use(regUserRouter);
-// app.use(coachCardRoutes);
+app.use(coachRoutes);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
-app.use(coachesPage);
 app.use(zoneRoutes);
 app.use(userRoutes);
-
+app.use(routeProtect);
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
@@ -64,9 +62,9 @@ app.get("/", (req, res) => {
 // });
 
 
-app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
-  res.status(200).json();
-});
+// app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
+//   res.status(200).json();
+// });
 // app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
 //   res.status(200).json();
 // });

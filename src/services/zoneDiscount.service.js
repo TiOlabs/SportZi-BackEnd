@@ -6,8 +6,6 @@ const getDiscountCards = async () => {
   return await prisma.zoneDiscount.findMany({
     include: {
       zone: true ,// Include Zone data
-      
-
     }
   });
 };
