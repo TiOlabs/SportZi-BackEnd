@@ -27,6 +27,7 @@ const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeManager = require("../middlewares/authorizeManager");
 const coachesPage = require("./src/routes/coachespage.route");
 const regArchade = require("./src/routes/archadeDetails.route");
+const routeProtect = require('./src/routes/routeProtect.route');
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -45,10 +46,11 @@ app.use(regUserRouter);
 app.use(coachRoutes);
 app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
-app.use(coachesPage);
 app.use(zoneRoutes);
 app.use(userRoutes);
 app.use(regArchade);
+app.use(routeProtect);
+
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
@@ -63,9 +65,12 @@ app.get("/", (req, res) => {
 //   res.status(200).json();
 // });
 
-app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
-  res.status(200).json();
-});
+
+
+// app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
+//   res.status(200).json();
+// });
+
 // app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
 //   res.status(200).json();
 // });

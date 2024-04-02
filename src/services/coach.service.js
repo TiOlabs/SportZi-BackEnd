@@ -38,12 +38,34 @@ const deleteCoach = async (coachId) => {
         coach_id: coachId,
       },
       include: {
-        user: true, // Include the associated user
+        user:{
+          include:{
+            phone:true,
+          }
+        }, // Include the associated user
       },
     });
+    
 
     if (!coach) {
       throw new Error("Coach not found");
+    }
+
+    // For delete phonenumbers
+    const userPhones = await prisma.userPhone.findMany({
+      where: {
+        user_id: coachId,
+      },
+    });
+    for (const phone of userPhones) {
+      await prisma.userPhone.delete({
+        where: {
+          phone_number_user_id: {
+            user_id: coachId,
+            phone_number: phone.phone_number,
+          },
+        },
+      });
     }
 
     // Delete the coach
@@ -56,17 +78,16 @@ const deleteCoach = async (coachId) => {
     // Delete the associated user
     await prisma.user.delete({
       where: {
-        user_id: coach.user.user_id,
+        user_id:coachId,
       },
     });
-
     return coach;
+
   } catch (error) {
     throw new Error(error);
   }
 };
 
-//new services
 
 const addCoach = async (req, res, coach) => {
   try {
