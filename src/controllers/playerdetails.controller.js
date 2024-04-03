@@ -10,8 +10,6 @@ const getPlayerdetails = async (req, res) => {
   } catch (error) {
     res.status(500).json({ massege: error.massege });
   }
-  // console.log(req.user);
-  // console.log("sdfsdf");
 };
 
 const updatePlayerdetails = async (req, res) => {
@@ -20,8 +18,6 @@ const updatePlayerdetails = async (req, res) => {
     const { userId } = req.user;
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
-    // achivements = ["dvdf", " fsd", " sgfvs"];
-    // console.log("dds", achivements);
     try {
       if (achivements) {
         try {
@@ -43,10 +39,8 @@ const updatePlayerdetails = async (req, res) => {
       achivements
     );
     res.status(200).json(playerDetails);
-    console.log("controller succes", playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
-    console.log("plaaaaaaaaaaaaaaaaaaaa", error);
   }
 };
 
