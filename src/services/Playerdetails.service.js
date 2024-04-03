@@ -53,7 +53,7 @@ const updatePlayerdetails = async (
   } catch (error) {
     throw error;
   }
-  return { ...updatedUser, achivements: createdAchievements };
+  return { updatedUser, achivements: createdAchievements };
 };
 const deleteAchivments = async (user_id) => {
   try {

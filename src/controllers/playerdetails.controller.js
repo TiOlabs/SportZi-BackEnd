@@ -21,7 +21,7 @@ const updatePlayerdetails = async (req, res) => {
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
     // achivements = ["dvdf", " fsd", " sgfvs"];
-    console.log("dds", achivements);
+    // console.log("dds", achivements);
     try {
       if (achivements) {
         try {
