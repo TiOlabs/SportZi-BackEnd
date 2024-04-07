@@ -25,7 +25,6 @@ const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeCoach = require("../middlewares/authorizeCoach");
 // const authorizeManager = require("../middlewares/authorizeManager");
-const coachesPage = require("./src/routes/coachespage.route");
 const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require('./src/routes/routeProtect.route');
 app.use(express.json());
