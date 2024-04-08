@@ -19,7 +19,6 @@ const getPlayerdetails = async (req, res) => {
 
 const addPlayerdetails = async (req, res) => {
   try {
-    console.log("controller begin");
     const { userId } = req.user;
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
@@ -46,23 +45,17 @@ const addPlayerdetails = async (req, res) => {
       achivements
     );
     res.status(200).json(playerDetails);
-    console.log("controller succes", playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
-    console.log("plaaaaaaaaaaaaaaaaaaaa", error);
+    console.log("error", error);
   }
 };
 
 const updatePlayerdetails = async (req, res) => {
-  console.log("updatePlayerdetails");
   try {
     const { id } = req.params;
-    console.log("controller beeegin")
-    console.log("ggggggggggggg",id);
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
-    // achivements = ["dvdf", " fsd", " sgfvs"];
-    console.log("dds", achivements);
     try {
       if (achivements) {
         try {
@@ -84,7 +77,6 @@ const updatePlayerdetails = async (req, res) => {
       user_image,
     );
     res.status(200).json(playerDetails);
-    console.log("controller succes", playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
     console.log("eroor", error);
