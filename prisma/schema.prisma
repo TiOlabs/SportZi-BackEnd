@@ -38,6 +38,7 @@ model User {
   phone                                     UserPhone[] 
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
+  userphoto                                 userphoto[]
 }
 
 model Player {
@@ -314,6 +315,13 @@ model PackageDayAndTime{
   time                                     String @unique
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
+}
+model userphoto{
+  user_id                                  String 
+  image                                    String @unique
+  user                                     User @relation(fields: [user_id],references: [user_id])
+  @@unique([user_id,image])
+
 }
 enum Role {
   PLAYER

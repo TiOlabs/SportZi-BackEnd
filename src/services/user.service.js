@@ -1,52 +1,60 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-
 const getUser = async () => {
-    return await prisma.user.findMany();
+  return await prisma.user.findMany();
 };
 
 const getUserById = async (id) => {
-    return await prisma.user.findUnique({
-        where: {
-            user_id: id,
-        },
-        include:{
-            phone:true,
-        }
- 
-    });
+  return await prisma.user.findUnique({
+    where: {
+      user_id: id,
+    },
+    include: {
+      phone: true,
+      userphoto: true,
+    },
+  });
 };
 
-
 const addUser = async (user) => {
-    return await prisma.user.create({
-        data: {
-            ...user,
-        },
-    });
+  return await prisma.user.create({
+    data: {
+      ...user,
+    },
+  });
+};
+
+const addUserPhoto = async (user_id, image) => {
+  return await prisma.userphoto.create({
+    data: {
+      user_id: user_id,
+
+      image: image,
+    },
+  });
 };
 
 const updateUser = async (id, user) => {
-    return await prisma.user.update({
-        where: { id: id },
-        data: {
-            ...user,
-        },
-    });
+  return await prisma.user.update({
+    where: { id: id },
+    data: {
+      ...user,
+    },
+  });
 };
 
 const deleteUser = async (id) => {
-    return await prisma.user.delete({
-        where: { id: id },
-    });
+  return await prisma.user.delete({
+    where: { id: id },
+  });
 };
 
 module.exports = {
-    getUser,
-    getUserById,
-    addUser,
-    updateUser,
-    deleteUser,
+  getUser,
+  getUserById,
+  addUser,
+  addUserPhoto,
+  updateUser,
+  deleteUser,
 };
-
