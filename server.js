@@ -51,29 +51,6 @@ app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
 
-// app.get('/api/protected', authenticateToken, (req, res) => {
-//   res.json({ message: 'Protected route accessed successfully', user: req.user});
-// });
-
-
-// app.get('/api/coaches', authenticateToken,authorizePlayer, (req, res) => {
-
-//   res.status(200).json();
-// });
-
-
-// app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
-//   res.status(200).json();
-// });
-// app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
-//   res.status(200).json();
-// });
-
-
-// app.listen(3000, () => {
-//   console.log("Server running on port 3000");
-// });
-
 const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)
 );
