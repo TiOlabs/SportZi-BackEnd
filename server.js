@@ -23,8 +23,10 @@ const userRoutes = require("./src/routes/user.route");
 const authenticateToken = require("./src/middlewares/authenticateToken");
 const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
+// const authorizeCoach = require("../middlewares/authorizeCoach");
+// const authorizeManager = require("../middlewares/authorizeManager");
+const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require('./src/routes/routeProtect.route');
-
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -45,7 +47,9 @@ app.use(coachAssignArcadeRoutes);
 app.use(arcadeRoutes);
 app.use(zoneRoutes);
 app.use(userRoutes);
+app.use(regArchade);
 app.use(routeProtect);
+
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");

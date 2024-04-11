@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -125,6 +125,7 @@ model Arcade {
   manager_id                               String
   open_time                                String
   close_time                               String
+  distription                              String@default("Add your Discription")
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
   coachBookingDetails                      CoachBookingDetails[]
@@ -180,6 +181,7 @@ model Zone {
   status                                   String @default("open")
   capacity                                 Int
   rate                                     Int
+  description                              String@default("Add your Discription")
   way_of_booking                           way_of_booking
   zone_image                               String
   open_time                                String

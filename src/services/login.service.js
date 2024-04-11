@@ -9,9 +9,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 module.exports = {
   async login(email, password) {
     const user = await prisma.user.findUnique({
-      where:{
-        email:email,
-      }
+      where: {
+        email: email,
+      },
     });
     if (!user) {
       throw new Error('Invalid username or password');
