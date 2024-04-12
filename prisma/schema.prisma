@@ -319,7 +319,7 @@ model PackageDayAndTime{
 model userphoto{
   user_id                                  String 
   image                                    String @unique
-  user                                     User @relation(fields: [user_id],references: [user_id])
+  user                                     User? @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,image])
 
 }

@@ -29,7 +29,6 @@ const addUserPhoto = async (user_id, image) => {
   return await prisma.userphoto.create({
     data: {
       user_id: user_id,
-
       image: image,
     },
   });
