@@ -2,7 +2,7 @@ const userServices = require('../services/user.service');
 
 const getUser = async (req, res) => {
     try {
-        const users = await userServices.getUsers();
+        const users = await userServices.getUser();
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -21,13 +21,25 @@ const getUserById = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
+        console.log("error", error);
     }
     };
 
 const addUser = async (req, res) => {
     try {
         const user = req.body;
-        const newUser = await userServices.addUser(user);
+        const newUser = await userServices.addUserPhoto(user);
+      
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+    }
+
+const addUserPhoto = async (req, res) => {
+    try {
+        let {user_id,image} = req.body;
+        const user = await userServices.addUserPhoto(user_id,image);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -61,6 +73,7 @@ module.exports = {
     getUser,
     getUserById,
     addUser,
+    addUserPhoto,
     updateUser,
     deleteUser
 
