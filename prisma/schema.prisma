@@ -121,10 +121,11 @@ model Arcade {
   arcade_name                              String
   location                                 String
   address                                  String?
-  arcade_email                             String @unique
+  arcade_email                             String 
   manager_id                               String
   open_time                                String
   close_time                               String
+  arcade_image                             String @default("ggg")
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
   coachBookingDetails                      CoachBookingDetails[]

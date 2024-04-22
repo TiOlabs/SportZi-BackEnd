@@ -3,9 +3,10 @@ const discountcardService = require("../services/zoneDiscount.service");
 const getDiscountCard = async (req, res) => {
     try {
         const discountCards = await discountcardService.getDiscountCards();
-        res.status(200).json(discountCards);
+        const reversedDiscountCards = discountCards.reverse();
+        res.status(200).json(reversedDiscountCards);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });   // error masaage control
     }
     };
 

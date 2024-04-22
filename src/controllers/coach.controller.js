@@ -3,7 +3,8 @@ const coachService = require("../services/coach.service");
 const getCoach = async (req, res) => {
   try {
     const coaches = await coachService.getCoaches();
-    res.status(200).json(coaches);
+    const reversedcoaches = coaches.reverse();
+    res.status(200).json(reversedcoaches);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

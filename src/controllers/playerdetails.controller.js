@@ -21,19 +21,19 @@ const updatePlayerdetails = async (req, res) => {
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
     // achivements = ["dvdf", " fsd", " sgfvs"];
-    console.log("dds", achivements);
-    try {
-      if (achivements) {
-        try {
-          const deleteAchivments =
-            await PlayerDetailsController.deleteAchivments(userId);
-        } catch (error) {
-          res.status(500).json({ massege: error.massege });
-        }
-      }
-    } catch (error) {
-      throw new error("error");
-    }
+    // console.log("dds", achivements);
+    // try {
+    //   if (achivements) {
+    //     try {
+    //       const deleteAchivments =
+    //         await PlayerDetailsController.deleteAchivments(userId);
+    //     } catch (error) {
+    //       res.status(500).json({ massege: error.massege });
+    //     }
+    //   }
+    // } catch (error) {
+    //   throw new error("error");
+    // }
     const playerDetails = await PlayerDetailsController.updatePlayerdetails(
       userId,
       firstname,
