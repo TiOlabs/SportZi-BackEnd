@@ -7,7 +7,6 @@ function authorizePlayer(req, res, next) {
       .status(403)
       .json({ message: "Forbidden: Only players can access this route" });
   }
-
   // Proceed to the next middleware or route handler
   next();
 }

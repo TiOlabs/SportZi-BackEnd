@@ -9,27 +9,6 @@ const getPlayers = async () => {
     },
   });
 };
-
-// const addPlayer = async (player) => {
-//   const hashedPassword = await bcrypt.hash(player.password, 10); // Hash the password
-
-//   return await prisma.player.create({
-//     data: {
-//       ...player,
-//       password: hashedPassword,
-//     },
-//   });
-// };
-
-// const updatePlayer = async (id, player) => {
-//   return await prisma.player.update({
-//     where: { id: id },
-//     data: {
-//       ...player,
-//     },
-//   });
-// };
-
 const updatePlayer = async (req, res, playerId, player) => {
   try {
     const {
@@ -50,7 +29,7 @@ const updatePlayer = async (req, res, playerId, player) => {
         player_id: playerId,
       },
       include: {
-        user: true, // Include the associated user
+        user: true,
       },
     });
 
@@ -90,36 +69,44 @@ const updatePlayer = async (req, res, playerId, player) => {
   }
 };
 
-// const deletePlayer = async (id) => {
-//   return await prisma.player.delete({
-//     where: {
-//        player_id: id
-//     },
-//   });
-// };
+
+
 
 const deletePlayer = async (playerId) => {
   try {
-    // First, find the player based on the provided playerId
+    //for find rhe player
     const player = await prisma.player.findUnique({
       where: {
         player_id: playerId,
       },
       include: {
-        user: true, // Include the associated user
+        user: {
+          include:{
+            phone : true,
+          }
+        },
       },
     });
-
     if (!player) {
       throw new Error("Player not found");
     }
-
-    //delete phoneNo
-    await prisma.userPhone.delete({
+    
+     //For delete phoneNo
+    const userPhones = await prisma.userPhone.findMany({
       where: {
-        user_id: player.user.user_id,
+        user_id: playerId,
       },
     });
+    for (const phone of userPhones) {
+      await prisma.userPhone.delete({
+        where: {
+          phone_number_user_id: {
+            user_id: playerId,
+            phone_number: phone.phone_number,
+          },
+        },
+      });
+    }
 
     // Delete the player
     await prisma.player.delete({
@@ -131,7 +118,7 @@ const deletePlayer = async (playerId) => {
     // Delete the associated user
     await prisma.user.delete({
       where: {
-        user_id: player.user.user_id,
+        user_id:playerId,
       },
     });
 
@@ -154,11 +141,11 @@ const addPlayer = async (req, res, player) => {
     return res.status(400).json({ message: "Email is already registered" });
   }
 
-  const hashedPassword = await bcrypt.hash(player.password, 10); // Hash the password
+  const hashedPassword = await bcrypt.hash(player.password, 10); 
 
   async function generateUserID() {
-    const userCount = await prisma.player.count(); // Get the count of existing users
-    const paddedID = String(userCount + 1).padStart(5, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
+    const userCount = await prisma.player.count(); 
+    const paddedID = String(userCount + 1).padStart(5, "0"); 
     return `P${paddedID}`;
   }
 
@@ -185,7 +172,7 @@ const addPlayer = async (req, res, player) => {
         user: {
           connect: {
             user_id: newPlayerID,
-          },
+          }, 
         },
       },
     });
