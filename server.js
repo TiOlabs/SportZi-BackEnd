@@ -27,6 +27,7 @@ const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeManager = require("../middlewares/authorizeManager");
 const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require('./src/routes/routeProtect.route');
+const coachBookingRoutes = require("./src/routes/coachBooking.route");
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -49,6 +50,7 @@ app.use(zoneRoutes);
 app.use(userRoutes);
 app.use(regArchade);
 app.use(routeProtect);
+app.use(coachBookingRoutes);
 
 
 app.get("/", (req, res) => {

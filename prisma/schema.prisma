@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("AZURE_DB_URL")
+  url          = env("LOCAL_DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -134,7 +134,6 @@ model Arcade {
   arcadefeedbacks                          ArcadeFeedbacks[]
   package                                  Package[]
   zone                                     Zone[]
-  arcadeSports                             ArcadeSports[]
   arcadePhone                              ArcadePhone[] 
 }
 
@@ -143,11 +142,9 @@ model CoachBookingDetails {
   status                                   String @default("pending")
   created_at                               DateTime @default(now())
   canceled_at                              DateTime @updatedAt
-  rate                                     Int
-  duration                                 Int
   participant_count                        Int
-  starting_date                            DateTime
-  user_id                                  String
+  date                                     String
+  time                                     String
   coach_id                                 String
   player_id                                String
   zone_id                                  String
@@ -189,10 +186,12 @@ model Zone {
   open_time                                String
   close_time                               String
   arcade_id                                String
+  sport_id                                 String
   discount                                 ZoneDiscount?
   coach_booking_details                    CoachBookingDetails[]
   zoneBookingDetails                       ZoneBookingDetails[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
+  sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
 }
 
 model ZoneBookingDetails {
@@ -213,7 +212,7 @@ model Sport{
   sport_id                                 String @id @unique @default(uuid()) 
   sport_name                               String
   coach                                    Coach[]
-  arcadeSports                             ArcadeSports[]
+  zone                                     Zone[]
 }
 
 model Availiability{
@@ -224,7 +223,7 @@ model Availiability{
 }
 
 model CoachAssignDetailsForArcade {
-  coach_id                                 String @unique
+  coach_id                                 String 
   arcade_id                                String @unique
   duration                                 Int
   description                              String
@@ -265,13 +264,6 @@ model PackageEnrollDetailsForPlayer {
   @@unique([player_id,package_id])
 }
 
-model ArcadeSports{
-  sport_id                                 String
-  arcade_id                                String 
-  sport                                    Sport @relation(fields: [sport_id],references: [sport_id])
-  arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
-  @@unique([sport_id,arcade_id])
-}
 
 model UserPhone{
   phone_number                             String 
