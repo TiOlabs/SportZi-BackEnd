@@ -3,11 +3,9 @@ const coachCardService = require("../services/coachAssignArcade.service");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const coachCards = await coachCardService.getCoachAssignDetailsById(id);
     if (coachCards) {
       res.status(200).json(coachCards);
-      console.log(coachCards);
     } else {
       res.status(404).json({ message: "Coach Card not found" });
     }
@@ -17,8 +15,6 @@ const getCoachAssignDetailsById = async (req, res) => {
 };
 
 const getZoneForCoachBooking = async (req, res) => {
-  console.log("getZoneForCoachBooking");
-  console.log(req.params);
   try {
     const { arcadeId, sportId, coachId } = req.params;
     const zone = await coachCardService.getZoneForCoachBooking(
@@ -26,7 +22,6 @@ const getZoneForCoachBooking = async (req, res) => {
       sportId,
       coachId
     );
-    console.log(zone);
     if (zone) {
       res.status(200).json(zone);
     } else {

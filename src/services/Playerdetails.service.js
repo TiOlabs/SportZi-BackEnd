@@ -27,8 +27,6 @@ const addPlayerdetails = async (
   achivements // assuming this is an array of achievements
 ) => {
   try {
-    console.log(user_id, firstname);
-
     const updatedUser = await prisma.user.update({
       where: {
         user_id: user_id,
@@ -65,10 +63,6 @@ const updatePlayerdetails = async (
   user_image
 ) => {
   try {
-    console.log(id, firstname);
-    console.log("hai", achivements);
-    console.log("image", user_image);
-
     return await prisma.user.update({
       where: {
         user_id: id,

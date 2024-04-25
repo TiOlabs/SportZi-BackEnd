@@ -26,7 +26,6 @@ const getZoneById = async (req, res) => {
 const addZone = async (req, res) => {
   try {
     const zone = req.body;
-    console.log(zone);
     const newZone = await zoneService.addZone(zone);
     res.status(201).json(newZone);
   } catch (error) {

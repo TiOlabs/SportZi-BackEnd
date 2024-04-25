@@ -44,7 +44,6 @@ const getCoachBookingByDate = async (date, coachId) => {
     });
 };
 const addCoachBooking = async (coachBookingDetails) => {
-    console.log("ccccccccccccccccccc",coachBookingDetails);
     return await prisma.coachBookingDetails.create({
         
         data: {

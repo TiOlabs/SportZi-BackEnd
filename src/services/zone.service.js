@@ -13,7 +13,6 @@ const getZoneById = async (id) => {
 };
 
 const addZone = async (zone) => {
-  console.log("............",zone);
   return await prisma.zone.create({
     data: {
       ...zone,
