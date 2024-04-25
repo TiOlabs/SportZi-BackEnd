@@ -192,6 +192,7 @@ model Zone {
   zoneBookingDetails                       ZoneBookingDetails[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
+  @@unique([arcade_id,sport_id])
 }
 
 model ZoneBookingDetails {
@@ -224,7 +225,7 @@ model Availiability{
 
 model CoachAssignDetailsForArcade {
   coach_id                                 String 
-  arcade_id                                String @unique
+  arcade_id                                String 
   duration                                 Int
   description                              String
   assigned_date                            DateTime @default(now())
