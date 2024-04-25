@@ -8,6 +8,15 @@ const getArcadeBooking = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getCompleteArcadeBooking = async (req, res) => {
+  try {
+    const arcadeBookings = await arcadeBookingService.getCompleteArcadeBooking();
+    res.status(200).json(arcadeBookings);
+    console.log(arcadeBookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 const getArcadeBookingById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,6 +85,7 @@ const deleteArcadeBooking = async (req, res) => {
 
 module.exports = {
   getArcadeBooking,
+  getCompleteArcadeBooking,
   getArcadeBookingById,
   getArcadeBookingByDate,
   addArcadeBooking,
