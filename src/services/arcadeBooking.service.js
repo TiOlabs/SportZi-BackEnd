@@ -15,7 +15,7 @@ const getCompleteArcadeBooking = async () => {
   const pastDay = new Date(today); // Create a copy of the current date
   pastDay.setDate(today.getDate() - 1); // Subtract 1 day from the copy
 
-  const pastDayString = pastDay.toISOString().split('T')[0]; // Convert past day to string format "YYYY-MM-DD"
+  const pastDayString = pastDay.toISOString().split("T")[0]; // Convert past day to string format "YYYY-MM-DD"
 
   return await prisma.zoneBookingDetails.findMany({
     where: {
@@ -30,27 +30,24 @@ const getCompleteArcadeBooking = async () => {
         include: {
           arcade: true,
         },
-      }
+      },
     },
   });
 };
-
-
 
 const getArcadeBookingById = async (id) => {
   try {
     return await prisma.zoneBookingDetails.findMany({
       where: {
-       user_id:id,
+        user_id: id,
       },
       include: {
-        user:true,
-        zone:{
-          include:{
-            arcade:true,
-          }
-
-        }
+        user: true,
+        zone: {
+          include: {
+            arcade: true,
+          },
+        },
       },
     });
   } catch (error) {
@@ -80,6 +77,7 @@ const addArcadeBooking = async (zoneBookingDetails) => {
 };
 
 const updateArcadeBooking = async (id, zoneBookingDetails) => {
+  console.log("hhhhhhhh",zoneBookingDetails);
   return await prisma.zoneBookingDetails.update({
     where: { zone_booking_id: id },
     data: {
