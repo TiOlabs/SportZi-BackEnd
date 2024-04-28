@@ -28,6 +28,7 @@ const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 const coachesPage = require("./src/routes/coach.route");
 const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require("./src/routes/routeProtect.route");
+const regManagesArcade = require("./src/routes/ManagersArchades.route");
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -50,7 +51,7 @@ app.use(zoneRoutes);
 app.use(userRoutes);
 app.use(regArchade);
 app.use(routeProtect);
-
+app.use(regManagesArcade);
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
