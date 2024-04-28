@@ -26,7 +26,11 @@ const getCompleteArcadeBooking = async () => {
     },
     include: {
       user: true,
-      zone: true,
+      zone: {
+        include: {
+          arcade: true,
+        },
+      }
     },
   });
 };
@@ -86,7 +90,7 @@ const updateArcadeBooking = async (id, zoneBookingDetails) => {
 
 const deleteArcadeBooking = async (id) => {
   return await prisma.zoneBookingDetails.delete({
-    where: { id: id },
+    where: { zone_booking_id: id },
   });
 };
 

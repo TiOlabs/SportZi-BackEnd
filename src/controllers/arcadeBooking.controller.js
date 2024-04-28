@@ -10,7 +10,8 @@ const getArcadeBooking = async (req, res) => {
 };
 const getCompleteArcadeBooking = async (req, res) => {
   try {
-    const arcadeBookings = await arcadeBookingService.getCompleteArcadeBooking();
+    const arcadeBookings =
+      await arcadeBookingService.getCompleteArcadeBooking();
     res.status(200).json(arcadeBookings);
     console.log(arcadeBookings);
   } catch (error) {
@@ -75,8 +76,7 @@ const updateArcadeBooking = async (req, res) => {
 const deleteArcadeBooking = async (req, res) => {
   try {
     const { id } = req.params;
-    const number = parseInt(id);
-    await arcadeBookingService.deleteArcadeBooking(number);
+    await arcadeBookingService.deleteArcadeBooking(id);
     res.status(200).json({ message: "Arcade Booking deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
