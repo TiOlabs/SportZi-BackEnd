@@ -3,6 +3,7 @@ const router = express.Router();
 const arcadeBookingController = require("../controllers/arcadeBooking.controller");
 
 router.get("/api/getarcadebookings", arcadeBookingController.getArcadeBooking);
+router.get("/api/getCompleteArcadeBookings", arcadeBookingController.getCompleteArcadeBooking);
 router.get("/api/getarcadebooking/:id", arcadeBookingController.getArcadeBookingById);
 router.get("/api/getarcadebookingbydate/:date/:zoneId", arcadeBookingController.getArcadeBookingByDate);
 router.post("/api/addarcadebooking", arcadeBookingController.addArcadeBooking);
