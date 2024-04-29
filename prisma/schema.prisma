@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("AZURE_DB_URL")
+  url          = env("LOCAL_DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -192,7 +192,7 @@ model Zone {
   zoneBookingDetails                       ZoneBookingDetails[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
-  @@unique([arcade_id,sport_id])
+ 
 }
 
 model ZoneBookingDetails {
