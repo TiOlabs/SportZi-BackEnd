@@ -51,7 +51,7 @@ const addPlayerdetails = async (
   } catch (error) {
     throw error;
   }
-  return { ...updatedUser, achivements: createdAchievements };
+  return { updatedUser, achivements: createdAchievements };
 };
 
 const updatePlayerdetails = async (
