@@ -2,13 +2,22 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getZone = async () => {
-  return await prisma.zone.findMany();
+  return await prisma.zone.findMany(
+    {
+      include:{
+        sport:true
+      }
+    }
+  );
 };
 const getZoneById = async (id) => {
   return await prisma.zone.findUnique({
     where: {
       zone_id: id,
     },
+    include:{
+      sport:true
+    }
   });
 };
 
@@ -21,8 +30,10 @@ const addZone = async (zone) => {
 };
 
 const updateZone = async (id, zone) => {
+  console.log("idddddddd",id);
+  console.log("zoneeeeee",zone);
   return await prisma.zone.update({
-    where: { id: id },
+    where: { zone_id: id },
     data: {
       ...zone,
     },
@@ -31,7 +42,7 @@ const updateZone = async (id, zone) => {
 
 const deleteZone = async (id) => {
   return await prisma.zone.delete({
-    where: { id: id },
+    where: { zone_id: id },
   });
 };
 
