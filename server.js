@@ -25,9 +25,13 @@ const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeCoach = require("../middlewares/authorizeCoach");
 // const authorizeManager = require("../middlewares/authorizeManager");
+
+const coachesPage = require("./src/routes/coach.route");
 const regArchade = require("./src/routes/archadeDetails.route");
+const regManagesArcade = require("./src/routes/ManagersArchades.route");
 const routeProtect = require('./src/routes/routeProtect.route');
 const coachBookingRoutes = require("./src/routes/coachBooking.route");
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -50,12 +54,33 @@ app.use(zoneRoutes);
 app.use(userRoutes);
 app.use(regArchade);
 app.use(routeProtect);
+app.use(regManagesArcade);
 app.use(coachBookingRoutes);
-
-
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
+
+
+// app.get('/api/protected', authenticateToken, (req, res) => {
+//   res.json({ message: 'Protected route accessed successfully', user: req.user});
+// });
+
+// app.get('/api/coaches', authenticateToken,authorizePlayer, (req, res) => {
+
+//   res.status(200).json();
+// });
+
+// app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
+//   res.status(200).json();
+// });
+
+// app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
+//   res.status(200).json();
+// });
+
+// app.listen(3000, () => {
+//   console.log("Server running on port 3000");
+// });
 
 const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)

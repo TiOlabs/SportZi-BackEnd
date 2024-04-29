@@ -3,6 +3,7 @@ const zoneService = require("../services/zone.service");
 const getZone = async (req, res) => {
   try {
     const zone = await zoneService.getZone();
+    console.log("zone",zone)
     res.status(200).json(zone);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,7 +37,8 @@ const addZone = async (req, res) => {
 const updateZone = async (req, res) => {
   try {
     const { id } = req.params;
-    const number = parseInt(id);
+    console.log(id)
+    const number = (id);
     const zone = req.body;
     const updatedZone = await zoneService.updateZone(number, zone);
     res.status(200).json(updatedZone);
@@ -46,10 +48,12 @@ const updateZone = async (req, res) => {
 };
 
 const deleteZone = async (req, res) => {
+  
   try {
     const { id } = req.params;
-    const number = parseInt(id);
-    await zoneService.deleteZone(number);
+    console.log("mtyugy7g67",id)
+    // const number = parseInt(id);
+    await zoneService.deleteZone(id);
     res.status(200).json({ message: "Zone Booking deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });

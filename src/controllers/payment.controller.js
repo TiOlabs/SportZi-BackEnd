@@ -18,7 +18,7 @@ const postpaymentStatus = async (req, res) => {
     const paymentStatus = await paymentcontroller.updatePaymentStatus();
     const paymentditails = await paymentcontroller.getpaymentditails();
     sendMail.sentEmail(
-      "thisarasenarathna0824@gmail.com",
+      "mskanishkaudayanga@gmail.com",
       paymentSlips.paymntSlip(
         paymentditails.amount,
         paymentditails.amount,

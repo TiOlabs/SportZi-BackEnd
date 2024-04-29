@@ -192,7 +192,6 @@ model Zone {
   zoneBookingDetails                       ZoneBookingDetails[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
- 
 }
 
 model ZoneBookingDetails {
