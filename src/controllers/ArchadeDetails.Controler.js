@@ -1,9 +1,10 @@
 const archadeDetailsController = require("../services/ArchadeDetails.services");
 const getArchadeDetails = async (req, res) => {
   try {
-    const { userId } = req.user;
+    const { ArcadeId } = req.query;
+    console.log("controller", ArcadeId);
     const archadeDetails = await archadeDetailsController.getArchadeDetails(
-      userId
+      ArcadeId
     );
     res.status(200).json(archadeDetails);
   } catch (error) {

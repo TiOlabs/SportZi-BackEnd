@@ -1,19 +1,14 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getArchadeDetails = async (user_id) => {
+const getArchadeDetails = async (arcade_id) => {
   try {
-    console.log("service", user_id);
+    console.log("service", arcade_id);
     return await prisma.arcade.findUnique({
       where: {
-        user_id: user_id,
-      },
-      include: {
-        achivement: true,
+        arcade_id: arcade_id,
       },
     });
-
-    console.log("serviceeeeeeeeee", user_id);
   } catch (error) {
     console.log("service error", error);
   }
