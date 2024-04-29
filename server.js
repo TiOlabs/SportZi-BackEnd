@@ -28,9 +28,7 @@ const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 
 const coachesPage = require("./src/routes/coach.route");
 const regArchade = require("./src/routes/archadeDetails.route");
-const routeProtect = require("./src/routes/routeProtect.route");
 const regManagesArcade = require("./src/routes/ManagersArchades.route");
-const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require('./src/routes/routeProtect.route');
 const coachBookingRoutes = require("./src/routes/coachBooking.route");
 
