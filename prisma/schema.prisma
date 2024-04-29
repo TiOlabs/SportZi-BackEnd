@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -38,6 +38,7 @@ model User {
   phone                                     UserPhone[] 
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
+  userphoto                                 userphoto[]
 }
 
 model Player {
@@ -121,10 +122,11 @@ model Arcade {
   arcade_name                              String
   location                                 String
   address                                  String?
-  arcade_email                             String @unique
+  arcade_email                             String 
   manager_id                               String
   open_time                                String
   close_time                               String
+  arcade_image                             String @default("Your image")
   distription                              String@default("Add your Discription")
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
@@ -132,7 +134,6 @@ model Arcade {
   arcadefeedbacks                          ArcadeFeedbacks[]
   package                                  Package[]
   zone                                     Zone[]
-  arcadeSports                             ArcadeSports[]
   arcadePhone                              ArcadePhone[] 
 }
 
@@ -141,11 +142,9 @@ model CoachBookingDetails {
   status                                   String @default("pending")
   created_at                               DateTime @default(now())
   canceled_at                              DateTime @updatedAt
-  rate                                     Int
-  duration                                 Int
   participant_count                        Int
-  starting_date                            DateTime
-  user_id                                  String
+  date                                     String
+  time                                     String
   coach_id                                 String
   player_id                                String
   zone_id                                  String
@@ -187,10 +186,13 @@ model Zone {
   open_time                                String
   close_time                               String
   arcade_id                                String
+  sport_id                                 String
   discount                                 ZoneDiscount?
   coach_booking_details                    CoachBookingDetails[]
   zoneBookingDetails                       ZoneBookingDetails[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
+  sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
+  @@unique([arcade_id,sport_id])
 }
 
 model ZoneBookingDetails {
@@ -211,7 +213,7 @@ model Sport{
   sport_id                                 String @id @unique @default(uuid()) 
   sport_name                               String
   coach                                    Coach[]
-  arcadeSports                             ArcadeSports[]
+  zone                                     Zone[]
 }
 
 model Availiability{
@@ -222,8 +224,8 @@ model Availiability{
 }
 
 model CoachAssignDetailsForArcade {
-  coach_id                                 String @unique
-  arcade_id                                String @unique
+  coach_id                                 String 
+  arcade_id                                String 
   duration                                 Int
   description                              String
   assigned_date                            DateTime @default(now())
@@ -263,13 +265,6 @@ model PackageEnrollDetailsForPlayer {
   @@unique([player_id,package_id])
 }
 
-model ArcadeSports{
-  sport_id                                 String
-  arcade_id                                String 
-  sport                                    Sport @relation(fields: [sport_id],references: [sport_id])
-  arcade                                   Arcade @relation(fields: [arcade_id],references: [arcade_id])
-  @@unique([sport_id,arcade_id])
-}
 
 model UserPhone{
   phone_number                             String 
@@ -314,6 +309,13 @@ model PackageDayAndTime{
   time                                     String @unique
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
+}
+model userphoto{
+  user_id                                  String 
+  image                                    String @unique
+  user                                     User? @relation(fields: [user_id],references: [user_id])
+  @@unique([user_id,image])
+
 }
 enum Role {
   PLAYER

@@ -8,14 +8,21 @@ const authenticateToken = require("../middlewares/authenticateToken");
 const authorizePlayer = require("../middlewares/authorizePlayer");
 
 regUserRouter.get(
-  "/api/auth/getplayerdetails/",
+  "/api/auth/getplayerdetails/:id",
   authenticateToken,
   authorizePlayer,
   PlayerDetailsController.getPlayerdetails
 );
 
 regUserRouter.post(
-  "/api/auth/updateplayerdetails",
+  "/api/auth/addPlayerdetails",
+  authenticateToken,
+  authorizePlayer,
+  PlayerDetailsController.addPlayerdetails
+);
+
+regUserRouter.put(
+  "/api/auth/updatePlayerdetails/:id",
   authenticateToken,
   authorizePlayer,
   PlayerDetailsController.updatePlayerdetails

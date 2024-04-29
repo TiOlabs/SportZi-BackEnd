@@ -11,10 +11,10 @@ router.get('/api/auth/check', authenticateToken, (req, res) => {
 });
 router.get('/api/auth/check-player',authenticateToken,authorizePlayer,(req,res) => {
     res.status(200).json();
-})
+});
 router.get('/api/auth/check-coach',authenticateToken,authorizeCoach,(req,res) => {
     res.status(200).json();
-})
+});
 router.get('/api/auth/check-manager',authenticateToken,authorizeManager,(req,res) => {
     res.status(200).json();
 })

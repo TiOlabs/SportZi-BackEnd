@@ -8,33 +8,45 @@ const getArcadeBooking = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getCompleteArcadeBooking = async (req, res) => {
+  try {
+    const arcadeBookings =
+      await arcadeBookingService.getCompleteArcadeBooking();
+    res.status(200).json(arcadeBookings);
+    console.log(arcadeBookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 const getArcadeBookingById = async (req, res) => {
-    try {
-      const {id} = req.params;
-      const arcadeBooking = await arcadeBookingService.getArcadeBookingById(id);
-      if (arcadeBooking) {
-        res.status(200).json(arcadeBooking);
-      } else {
-        res.status(404).json({ message: "Arcade Booking not found" });
-      }
-    } catch (error) { 
-      res.status(500).json({ message: error.message });
+  try {
+    const { id } = req.params;
+    const arcadeBooking = await arcadeBookingService.getArcadeBookingById(id);
+    if (arcadeBooking) {
+      res.status(200).json(arcadeBooking);
+    } else {
+      res.status(404).json({ message: "Arcade Booking not found" });
     }
-  };
-  const getArcadeBookingByDate = async (req, res) => {
-    try {
-      const { date,zoneId } = req.params;
-      const arcadeBooking = await arcadeBookingService.getArcadeBookingByDate(date,zoneId);
-      if (arcadeBooking) {
-        res.status(200).json(arcadeBooking);
-      } else {
-        res.status(404).json({ message: "Arcade Booking not found" });
-      }
-    } catch (error) { 
-      res.status(500).json({ message: error.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getArcadeBookingByDate = async (req, res) => {
+  try {
+    const { date, zoneId } = req.params;
+    const arcadeBooking = await arcadeBookingService.getArcadeBookingByDate(
+      date,
+      zoneId
+    );
+    if (arcadeBooking) {
+      res.status(200).json(arcadeBooking);
+    } else {
+      res.status(404).json({ message: "Arcade Booking not found" });
     }
-  };  
-
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const addArcadeBooking = async (req, res) => {
   try {
@@ -53,7 +65,8 @@ const updateArcadeBooking = async (req, res) => {
     const { id } = req.params;
     const arcadeBooking = req.body;
     const updatedArcadeBooking = await arcadeBookingService.updateArcadeBooking(
-      id,arcadeBooking
+      id,
+      arcadeBooking
     );
     res.status(200).json(updatedArcadeBooking);
   } catch (error) {
@@ -63,8 +76,7 @@ const updateArcadeBooking = async (req, res) => {
 const deleteArcadeBooking = async (req, res) => {
   try {
     const { id } = req.params;
-    const number = parseInt(id);
-    await arcadeBookingService.deleteArcadeBooking(number);
+    await arcadeBookingService.deleteArcadeBooking(id);
     res.status(200).json({ message: "Arcade Booking deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -73,6 +85,7 @@ const deleteArcadeBooking = async (req, res) => {
 
 module.exports = {
   getArcadeBooking,
+  getCompleteArcadeBooking,
   getArcadeBookingById,
   getArcadeBookingByDate,
   addArcadeBooking,

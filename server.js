@@ -25,10 +25,15 @@ const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 // const authorizeCoach = require("../middlewares/authorizeCoach");
 // const authorizeManager = require("../middlewares/authorizeManager");
+
 const coachesPage = require("./src/routes/coach.route");
 const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require("./src/routes/routeProtect.route");
 const regManagesArcade = require("./src/routes/ManagersArchades.route");
+const regArchade = require("./src/routes/archadeDetails.route");
+const routeProtect = require('./src/routes/routeProtect.route');
+const coachBookingRoutes = require("./src/routes/coachBooking.route");
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -52,9 +57,11 @@ app.use(userRoutes);
 app.use(regArchade);
 app.use(routeProtect);
 app.use(regManagesArcade);
+app.use(coachBookingRoutes);
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
+
 
 // app.get('/api/protected', authenticateToken, (req, res) => {
 //   res.json({ message: 'Protected route accessed successfully', user: req.user});

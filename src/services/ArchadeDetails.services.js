@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 
 const getArchadeDetails = async (arcade_id) => {
   try {
-    console.log("service", arcade_id);
     return await prisma.arcade.findUnique({
       where: {
         arcade_id: arcade_id,

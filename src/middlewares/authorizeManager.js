@@ -1,6 +1,5 @@
 function authorizeManager(req, res, next) {
   const { role } = req.user;
-
   // Check if user is a player
   if (role !== "MANAGER") {
     return res
@@ -13,3 +12,4 @@ function authorizeManager(req, res, next) {
 }
 
 module.exports = authorizeManager;
+

@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getPlayerdetails = async (user_id) => {
+const getPlayerdetails = async (id) => {
   try {
     return await prisma.user.findUnique({
       include: {
@@ -10,7 +10,7 @@ const getPlayerdetails = async (user_id) => {
       },
 
       where: {
-        user_id: user_id,
+        user_id: id,
       },
     });
   } catch (error) {
@@ -18,7 +18,7 @@ const getPlayerdetails = async (user_id) => {
   }
 };
 
-const updatePlayerdetails = async (
+const addPlayerdetails = async (
   user_id,
   firstname,
   lastname,
@@ -53,6 +53,43 @@ const updatePlayerdetails = async (
   }
   return { updatedUser, achivements: createdAchievements };
 };
+
+const updatePlayerdetails = async (
+  id,
+  firstname,
+  lastname,
+  discription,
+  achivements, // assuming this is an array of achievements
+  user_image
+) => {
+  try {
+    return await prisma.user.update({
+      where: {
+        user_id: id,
+      },
+      include: {
+        achivement: true,
+      },
+      data: {
+        firstname: firstname,
+        lastname: lastname,
+        Discription: discription,
+        achivement: {
+          create: achivements.map((achivement_details) => {
+            return {
+              achivement_details,
+            };
+          }),
+        },
+        user_image: user_image,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+  // return { ...updatedUser, achivements: createdAchievements };
+};
+
 const deleteAchivments = async (user_id) => {
   try {
     const player = await prisma.user.findUnique({
@@ -72,8 +109,10 @@ const deleteAchivments = async (user_id) => {
     throw error;
   }
 };
+
 module.exports = {
   getPlayerdetails,
-  updatePlayerdetails,
+  addPlayerdetails,
   deleteAchivments,
+  updatePlayerdetails,
 };
