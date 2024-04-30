@@ -30,8 +30,6 @@ const addZone = async (zone) => {
 };
 
 const updateZone = async (id, zone) => {
-  console.log("idddddddd",id);
-  console.log("zoneeeeee",zone);
   return await prisma.zone.update({
     where: { zone_id: id },
     data: {
