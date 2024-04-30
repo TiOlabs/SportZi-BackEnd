@@ -77,7 +77,6 @@ const addArcadeBooking = async (zoneBookingDetails) => {
 };
 
 const updateArcadeBooking = async (id, zoneBookingDetails) => {
-  console.log("hhhhhhhh",zoneBookingDetails);
   return await prisma.zoneBookingDetails.update({
     where: { zone_booking_id: id },
     data: {

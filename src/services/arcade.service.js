@@ -15,7 +15,6 @@ const getArcade = async () => {
 };
 
 const getArcadeById = async (id) => {
-  console.log("idddddddd", id);
   try {
     return await prisma.arcadeManager.findUnique({
       where: {

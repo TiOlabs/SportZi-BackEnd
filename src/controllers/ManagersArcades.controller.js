@@ -2,12 +2,10 @@ const ManagersArchadesController = require("../services/ManagersArcadesse.servic
 
 const getManagersArchades = async (req, res) => {
   const { userId } = req.user;
-  console.log("userrId", userId);
   try {
     const ManagersArchades = await ManagersArchadesController.getArchades(
       userId
     );
-    console.log("ManagersArchades", ManagersArchades);
     res.status(200).json(ManagersArchades);
   } catch (error) {
     console.log("erroro");
