@@ -89,15 +89,13 @@ const addArcadeManager = async (req, res, arcadeManager) => {
       email: arcadeManager.email,
     },
   });
-try{
+
   const existingArcade = await prisma.arcade.findUnique({
     where: {
       arcade_email: arcadeManager.arcade_email,
     },
   });
-}catch(err){
-  console.log("err",err);
-}
+
 
   if (existingUser) {
     return res.status(400).json({ message: "Email is already registered" });
