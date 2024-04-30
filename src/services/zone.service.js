@@ -2,26 +2,33 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getZone = async () => {
-  return await prisma.zone.findMany(
-    {
-      include:{
-        sport:true
-      }
-    }
-  );
+  return await prisma.zone.findMany({
+    include: {
+      sport: true,
+    },
+  });
 };
 const getZoneById = async (id) => {
-  return await prisma.zone.findUnique({
-    where: {
-      zone_id: id,
-    },
-    include:{
-      sport:true
-    }
-  });
+  try {
+    return await prisma.arcade.findUnique({
+      where: {
+        arcade_id: id,
+      },
+      include: {
+        zone: {
+          include: {
+            sport: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
 };
 
 const addZone = async (zone) => {
+  console.log("zone", zone);
   return await prisma.zone.create({
     data: {
       ...zone,

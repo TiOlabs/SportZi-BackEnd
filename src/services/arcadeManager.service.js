@@ -82,6 +82,7 @@ const deleteArcadeManager = async (managerId) => {
 
 
 const addArcadeManager = async (req, res, arcadeManager) => {
+  console.log("arcadeManager", arcadeManager);
   // Check if the email is already registered
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -94,6 +95,7 @@ const addArcadeManager = async (req, res, arcadeManager) => {
       arcade_email: arcadeManager.arcade_email,
     },
   });
+
 
   if (existingUser) {
     return res.status(400).json({ message: "Email is already registered" });
