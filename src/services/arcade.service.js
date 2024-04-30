@@ -15,18 +15,20 @@ const getArcade = async () => {
 };
 
 const getArcadeById = async (id) => {
-  return await prisma.arcade.findUnique({
-    where: {
-      arcade_id: id,
-    },
-    include: {
-      zone: {
-        include: {
-          sport: true,
-        },
+  console.log("idddddddd", id);
+  try {
+    return await prisma.arcadeManager.findUnique({
+      where: {
+        manager_id: id,
       },
-    },
-  });
+      include: {
+        arcade:true,
+        user: true,      
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
 };
 
 const addArcade = async (arcade) => {
