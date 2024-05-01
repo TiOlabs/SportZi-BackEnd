@@ -9,6 +9,14 @@ const getZone = async () => {
   });
 };
 const getZoneById = async (id) => {
+  return await prisma.zone.findUnique({
+    where: {
+      zone_id: id,
+    },
+  });
+};
+
+const getZoneDetailsForArcade = async (id) => {
   try {
     return await prisma.arcade.findUnique({
       where: {
@@ -96,6 +104,7 @@ const deleteZone = async (id) => {
 module.exports = {
   getZone,
   getZoneById,
+  getZoneDetailsForArcade,
   addZone,
   updateZone,
   deleteZone,

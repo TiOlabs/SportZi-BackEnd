@@ -23,6 +23,20 @@ const getZoneById = async (req, res) => {
   }
 };
 
+const getZoneDetailsForArcade = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const zone = await zoneService.getZoneDetailsForArcade(id);
+    if (zone) {
+      res.status(200).json(zone);
+    } else {
+      res.status(404).json({ message: "Zone not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 const addZone = async (req, res) => {
   try {
     const zone = req.body;
@@ -60,6 +74,7 @@ const deleteZone = async (req, res) => {
 module.exports = {
   getZone,
   getZoneById,
+  getZoneDetailsForArcade,
   addZone,
   updateZone,
   deleteZone,
