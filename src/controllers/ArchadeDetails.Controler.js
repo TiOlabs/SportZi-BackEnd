@@ -2,7 +2,6 @@ const archadeDetailsController = require("../services/ArchadeDetails.services");
 const getArchadeDetails = async (req, res) => {
   try {
     const { ArcadeId } = req.query;
-    console.log("controller", ArcadeId);
     const archadeDetails = await archadeDetailsController.getArchadeDetails(
       ArcadeId
     );

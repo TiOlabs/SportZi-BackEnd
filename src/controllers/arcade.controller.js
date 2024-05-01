@@ -12,11 +12,9 @@ const getArcade = async (req, res) => {
 const getArcadeById = async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("iddddddddvbbbb",id);
       const arcade = await arcadeService.getArcadeById(id);
       if (arcade) {
         res.status(200).json(arcade);
-        console.log("arcade",arcade);
       } else {
         res.status(404).json({ message: "Arcade Booking not found" });
       }

@@ -55,6 +55,29 @@ const getArcadeBookingById = async (id) => {
   }
 };
 
+const getArcadeBookingForArcade = async (id) => {
+  try {
+    return await prisma.arcade.findUnique({
+      where: {
+        arcade_id: id,
+      },
+      include: {
+        zone: {
+          include: {
+            zoneBookingDetails:{
+              include:{
+                user: true,
+              }
+            }
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getArcadeBookingByDate = async (date, zoneId) => {
   return await prisma.zoneBookingDetails.findMany({
     where: {
@@ -77,7 +100,6 @@ const addArcadeBooking = async (zoneBookingDetails) => {
 };
 
 const updateArcadeBooking = async (id, zoneBookingDetails) => {
-  console.log("hhhhhhhh",zoneBookingDetails);
   return await prisma.zoneBookingDetails.update({
     where: { zone_booking_id: id },
     data: {
@@ -96,6 +118,7 @@ module.exports = {
   getArcadeBookings,
   getCompleteArcadeBooking,
   getArcadeBookingById,
+  getArcadeBookingForArcade,
   getArcadeBookingByDate,
   addArcadeBooking,
   updateArcadeBooking,

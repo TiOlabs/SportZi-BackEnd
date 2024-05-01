@@ -3,7 +3,6 @@ const coachService = require("../services/coach.service");
 const getCoach = async (req, res) => {
   try {
     const coaches = await coachService.getCoaches();
-    console.log(coaches);
     const reversedcoaches = coaches.reverse();
     res.status(200).json(reversedcoaches);
   } catch (error) {
