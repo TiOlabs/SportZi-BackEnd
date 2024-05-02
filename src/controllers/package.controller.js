@@ -1,4 +1,4 @@
-const zoneService = require("../services/package.service");
+const packageService = require("../services/package.service");
 
 const getPackage = async (req, res) => {
     try {
@@ -24,6 +24,8 @@ const getPackageById = async (req, res) => {
     }
 };
 const addPackage = async (req, res) => {
+    console.log("req.body")
+    console.log("req.body",req.body)
     try {
         const package = req.body;
         const newPackage = await packageService.addPackage(package);
