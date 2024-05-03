@@ -5,9 +5,16 @@ const getPackage = async () => {
     return await prisma.package.findMany();
     };
 const getPackageById = async (id) => {
-    return await prisma.package.findUnique({
+    return await prisma.arcade.findUnique({
         where: {
-        package_id: id,
+        arcade_id: id,
+        },
+        include: {
+            package: {
+                include: {
+                    arcade: true,
+                },
+            },
         },
     });
 };

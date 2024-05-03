@@ -31,6 +31,7 @@ const regArchade = require("./src/routes/archadeDetails.route");
 const regManagesArcade = require("./src/routes/ManagersArchades.route");
 const routeProtect = require('./src/routes/routeProtect.route');
 const coachBookingRoutes = require("./src/routes/coachBooking.route");
+const packageRoutes = require("./src/routes/package.route");
 
 app.use(express.json());
 app.use(cors());
@@ -56,6 +57,7 @@ app.use(regArchade);
 app.use(routeProtect);
 app.use(regManagesArcade);
 app.use(coachBookingRoutes);
+app.use(packageRoutes);
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
