@@ -13,6 +13,17 @@ const getCoaches = async () => {
   });
 };
 
+const getCoachById = async (coachId) => {
+  return await prisma.coach.findUnique({
+    where: {
+      coach_id: coachId,
+    },
+    include: {
+      user: true,
+      sport: true,
+    },
+  });
+}
 // const addCoach = async (coach) => {
 //   return await prisma.coach.create({
 //     data: {
@@ -100,7 +111,7 @@ const addCoach = async (req, res, coach) => {
   async function generateSportID() {
     const sportCount = await prisma.sport.count(); // Get the count of existing users
     const paddedID = String(sportCount + 1).padStart(4, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
-    return `SP${paddedID}`;
+    return `C${paddedID}`;
   }
 
   // Check if the email is already registered
@@ -193,6 +204,7 @@ const addCoach = async (req, res, coach) => {
 
 module.exports = {
   getCoaches,
+  getCoachById,
   addCoach,
   // updateCoach,
   deleteCoach,
