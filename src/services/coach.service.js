@@ -24,7 +24,6 @@ const getCoachById = async (coachId) => {
   });
 };
 
-
 const getCoachAvailiability = async (coachId) => {
   try {
     const coach = await prisma.availiability.findMany({});
@@ -38,18 +37,6 @@ const getCoachAvailiability = async (coachId) => {
     throw new Error(error);
   }
 };
-
-const getCoachById = async (coachId) => {
-  return await prisma.coach.findUnique({
-    where: {
-      coach_id: coachId,
-    },
-    include: {
-      user: true,
-      sport: true,
-    },
-  });
-}
 // const addCoach = async (coach) => {
 //   return await prisma.coach.create({
 //     data: {
@@ -125,34 +112,11 @@ const deleteCoach = async (coachId) => {
 
 const addCoach = async (req, res, coach) => {
   try {
-
-  async function generateUserID() {
-    const userCount = await prisma.coach.count(); // Get the count of existing users
-    const paddedID = String(userCount + 1).padStart(5, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
-    return `C${paddedID}`;
-  }
-
-  async function generateSportID() {
-    const sportCount = await prisma.sport.count(); // Get the count of existing users
-    const paddedID = String(sportCount + 1).padStart(4, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
-    return `C${paddedID}`;
-  }
-
-  // Check if the email is already registered
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email: coach.email,
-    },
-  });
-  if (existingUser) {
-    return res.status(400).json({ message: "Email is already registered" });
-  }
-
-
-  const hashedPassword = await bcrypt.hash(coach.password, 10); // Hash the password
-
-  const newCoachID = await generateUserID();
-
+    async function generateUserID() {
+      const userCount = await prisma.coach.count(); // Get the count of existing users
+      const paddedID = String(userCount + 1).padStart(5, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
+      return `C${paddedID}`;
+    }
 
     async function generateSportID() {
       const sportCount = await prisma.sport.count(); // Get the count of existing users
