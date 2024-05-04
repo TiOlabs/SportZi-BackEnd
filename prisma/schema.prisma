@@ -78,7 +78,6 @@ model ZoneDiscount {
   discount_id                               String  @unique @default(uuid()) 
   discount_percentage                       Int
   description                               String
-  discount_image                            String
   zone_id                                   String @unique
   zone                                      Zone @relation(fields: [zone_id], references: [zone_id])
 }
@@ -217,10 +216,11 @@ model Sport{
 }
 
 model Availiability{
-  coach_id                                 String @unique
-  date                                     String
-  time                                     String
+  coach_id                                 String 
+  date                                     String 
+  time                                     String 
   coach                                    Coach @relation(fields: [coach_id], references: [coach_id])
+  @@unique([coach_id,date,time])
 }
 
 model CoachAssignDetailsForArcade {

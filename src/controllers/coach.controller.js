@@ -24,6 +24,21 @@ const getCoachById = async (req, res) => {
   }
 };
 
+const getCoachAvailiability = async (req, res) => {
+  try {
+    const { id} = req.params;
+
+    const coach = await coachService.getCoachAvailiability(id);
+    if (coach) {
+      res.status(200).json(coach);
+    } else {
+      res.status(404).json({ message: "Coach not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 //   const addCoach = async (req, res) => {
 //     try {
 //       const coach = req.body;
@@ -80,6 +95,7 @@ const addCoach = async (req, res) => {
 module.exports = {
   getCoach,
   getCoachById,
+  getCoachAvailiability,
   addCoach,
   // updateCoach,
 
