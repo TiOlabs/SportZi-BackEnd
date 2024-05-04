@@ -30,6 +30,25 @@ const getArcadeById = async (id) => {
   }
 };
 
+const getArcadeByArcadeId = async (id) => {
+  try {
+    return await prisma.arcade.findUnique({
+      where: {
+        arcade_id: id,
+      },
+      include: {
+       zone:{
+        include:{
+          sport:true,
+        }
+       }
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
 const addArcade = async (arcade) => {
   return await prisma.arcade.create({
     data: {
@@ -56,6 +75,7 @@ const deleteArcade = async (id) => {
 module.exports = {
   getArcade,
   getArcadeById,
+  getArcadeByArcadeId,
   addArcade,
   updateArcade,
   deleteArcade,
