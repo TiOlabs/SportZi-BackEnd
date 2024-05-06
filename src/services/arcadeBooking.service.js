@@ -92,6 +92,7 @@ const getArcadeBookingByDate = async (date, zoneId) => {
   });
 };
 const addArcadeBooking = async (zoneBookingDetails) => {
+  console.log(zoneBookingDetails);
   return await prisma.zoneBookingDetails.create({
     data: {
       ...zoneBookingDetails,

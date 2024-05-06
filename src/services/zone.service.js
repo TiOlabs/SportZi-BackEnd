@@ -66,7 +66,6 @@ const addZone = async (zone) => {
           data: {
             discount_percentage: parsedDiscount,
             description: discount_description,
-            discount_image: "shcsg",
             // Assuming you have a field to link discounts to zones, like zoneId
             zone: {
               connect: {
