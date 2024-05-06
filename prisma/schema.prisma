@@ -204,6 +204,7 @@ model ZoneBookingDetails {
   participant_count                        Int
   user_id                                  String
   zone_id                                  String
+  way_of_booking                           way_of_booking
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   user                                     User@relation(fields: [user_id],references: [user_id])
 }
