@@ -202,6 +202,7 @@ model ZoneBookingDetails {
   date                                     String
   time                                     String
   participant_count                        Int
+  booking_type                             String 
   user_id                                  String
   zone_id                                  String
   way_of_booking                           way_of_booking
@@ -218,10 +219,10 @@ model Sport{
 
 model Availiability{
   coach_id                                 String 
-  date                                     String 
+  day                                      Day
   time                                     String 
   coach                                    Coach @relation(fields: [coach_id], references: [coach_id])
-  @@unique([coach_id,date,time])
+  @@unique([coach_id,day,time])
 }
 
 model CoachAssignDetailsForArcade {
@@ -330,6 +331,15 @@ enum way_of_booking {
   Both
 } 
 
+enum Day{
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
 
 
 
