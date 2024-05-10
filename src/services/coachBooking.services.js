@@ -4,7 +4,20 @@ const prisma = new PrismaClient();
 const getCoachBookings = async () => {
   return await prisma.coachBookingDetails.findMany({
     include: {
-      coach: true,
+      coach: {
+        include:{
+          user:true
+        }
+      },
+      player:{
+        include:{
+          user: true,
+        }
+      },
+      zone: true,
+      arcade: true,
+      coachBookingDayAndTime:true
+
     },
   });
 };
@@ -31,6 +44,7 @@ const getCoachBookingByDate = async (date, coachId) => {
   });
 };
 const addCoachBooking = async (coachBookingDetails) => {
+  console.log(coachBookingDetails);
   return await prisma.coachBookingDetails.create({
     data: {
       ...coachBookingDetails,
@@ -40,7 +54,7 @@ const addCoachBooking = async (coachBookingDetails) => {
 
 const updateCoachBooking = async (id, coachBookingDetails) => {
   return await prisma.coachBookingDetails.update({
-    where: { coach_booking_id: id },
+    where: {booking_id: id },
     data: {
       ...coachBookingDetails,
     },
