@@ -56,6 +56,8 @@ const updateCoachBooking = async (req, res) => {
   try {
     const { id } = req.params;
     const coachBooking = req.body;
+    console.log(id);
+    console.log(coachBooking);
     const updatedCoachBooking = await coachBookingServices.updateCoachBooking(
       id,
       coachBooking
