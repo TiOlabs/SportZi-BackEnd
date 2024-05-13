@@ -7,6 +7,7 @@ router.get("/api/getCompleteArcadeBookings", arcadeBookingController.getComplete
 router.get("/api/getarcadebooking/:id", arcadeBookingController.getArcadeBookingById);
 router.get("/api/getarcadebookingForArcade/:id", arcadeBookingController.getArcadeBookingForArcade);
 router.get("/api/getarcadebookingbydate/:date/:zoneId", arcadeBookingController.getArcadeBookingByDate);
+router.get("/api/getarcadebookingbyCreatedTime/:created_at/:userId", arcadeBookingController.getArcadeBookingByCretedTime);
 router.post("/api/addarcadebooking", arcadeBookingController.addArcadeBooking);
 router.put("/api/updatearcadebooking/:id", arcadeBookingController.updateArcadeBooking);
 router.delete("/api/deletearcadebooking/:id", arcadeBookingController.deleteArcadeBooking);

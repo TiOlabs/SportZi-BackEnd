@@ -91,8 +91,20 @@ const getArcadeBookingByDate = async (date, zoneId) => {
     },
   });
 };
+
+const getArcadeBookingByCretedTime = async (created_at, userId) => {
+  console.log("sssssssss",created_at); 
+  console.log("sssssssss",userId);
+  return await prisma.zoneBookingDetails.findMany({
+    where: {
+      user_id: userId,
+      created_at: created_at,
+    },
+  });
+};
+
 const addArcadeBooking = async (zoneBookingDetails) => {
-  console.log(zoneBookingDetails);
+
   return await prisma.zoneBookingDetails.create({
     data: {
       ...zoneBookingDetails,
@@ -121,6 +133,7 @@ module.exports = {
   getArcadeBookingById,
   getArcadeBookingForArcade,
   getArcadeBookingByDate,
+  getArcadeBookingByCretedTime,
   addArcadeBooking,
   updateArcadeBooking,
   deleteArcadeBooking,

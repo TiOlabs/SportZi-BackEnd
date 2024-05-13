@@ -11,9 +11,7 @@ const getCoachBooking = async (req, res) => {
 const getCoachBookingById = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const coachBooking = await coachBookingServices.getCoachBookingById(id);
-    console
     if (coachBooking) {
       res.status(200).json(coachBooking);
     } else {
