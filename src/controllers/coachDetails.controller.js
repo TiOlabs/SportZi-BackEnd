@@ -1,10 +1,10 @@
 const coachDetailsServices = require("../services/coachDetails.services");
 
 const getCoachDetails = async (req, res) => {
-  const { userId } = req.user;
-  console.log(userId);
+  const { id } = req.params;
+  console.log("ccccc",id);
   try {
-    const coachDetails = await coachDetailsServices.getCoachDetails(userId);
+    const coachDetails = await coachDetailsServices.getCoachDetails(id);
     res.status(200).json(coachDetails);
     console.log(coachDetails);
   } catch (err) {

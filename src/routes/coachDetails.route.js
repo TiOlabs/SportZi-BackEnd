@@ -4,7 +4,7 @@ const coachDetailsController = require("../controllers/coachDetails.controller")
 const authenticateToken = require("../middlewares/authenticateToken");
 const authorizeCoach = require("../middlewares/authorizeCoach");
 regCoachDetails.get(
-  "/api/auth/getcoachDetailsForCoach",
+  "/api/auth/getcoachDetailsForCoach/:id",
   authenticateToken,
   authorizeCoach,
   coachDetailsController.getCoachDetails
