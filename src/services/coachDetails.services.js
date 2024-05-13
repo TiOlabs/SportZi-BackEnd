@@ -1,11 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getCoachDetails = async (user_id) => {
+const getCoachDetails = async (userId) => {
+  console.log("service", userId); 
   try {
     return await prisma.user.findUnique({
       where: {
-        user_id: user_id,
+        user_id: userId,
+      },
+      include: {
+        phone: true,
+        achivement: true,
       },
     });
   } catch (error) {

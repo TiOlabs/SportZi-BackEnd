@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -25,7 +25,7 @@ model User {
   gender                                    String
   accountNumber                             String?
   is_active                                 String @default("active")
-  user_image                                String?
+  user_image                                String? @default("sportzi/hpcqj2p2rzdnmmwmnriu")
   address                                   String? 
   city                                      String? 
   contry                                    String?
