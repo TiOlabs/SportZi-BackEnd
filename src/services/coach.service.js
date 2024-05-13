@@ -118,11 +118,6 @@ const addCoach = async (req, res, coach) => {
       return `C${paddedID}`;
     }
 
-    async function generateSportID() {
-      const sportCount = await prisma.sport.count(); // Get the count of existing users
-      const paddedID = String(sportCount + 1).padStart(4, "0"); // Pad numeric ID with zeros to ensure it's at least 4 digits long
-      return `C${paddedID}`;
-    }
 
     // Check if the email is already registered
     const existingUser = await prisma.user.findUnique({
@@ -152,26 +147,7 @@ const addCoach = async (req, res, coach) => {
       },
     });
 
-    const existingSport = await prisma.sport.findFirst({
-      where: {
-        sport_name: coach.sport_name,
-      },
-    });
 
-    let sportID;
-    if (!existingSport) {
-      sportID = await generateSportID();
-
-      //add sport table tuple
-      const newSport = await prisma.sport.create({
-        data: {
-          sport_id: sportID,
-          sport_name: coach.sport_name,
-        },
-      });
-    } else {
-      sportID = existingSport.sport_id;
-    }
 
     const newCoach = await prisma.coach.create({
       data: {
@@ -182,7 +158,7 @@ const addCoach = async (req, res, coach) => {
         },
         sport: {
           connect: {
-            sport_id: sportID,
+            sport_id: coach.sport_id,
           },
         },
       },
