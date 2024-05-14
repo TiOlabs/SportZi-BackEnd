@@ -1,4 +1,4 @@
-const ManagersArchadesController = require("../services/ManagersArcadesse.services");
+const ManagersArchadesController = require("../services/ManagersArcadesse.service");
 
 const getManagersArchades = async (req, res) => {
   const { userId } = req.user;
