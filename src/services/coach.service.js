@@ -118,7 +118,6 @@ const addCoach = async (req, res, coach) => {
       return `C${paddedID}`;
     }
 
-
     // Check if the email is already registered
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -146,11 +145,10 @@ const addCoach = async (req, res, coach) => {
         password: hashedPassword,
       },
     });
-
-
-
     const newCoach = await prisma.coach.create({
+      
       data: {
+        rate: coach.rate,
         user: {
           connect: {
             user_id: newCoachID,

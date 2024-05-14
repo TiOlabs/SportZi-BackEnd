@@ -14,6 +14,21 @@ const getCoachAssignDetailsById = async (req, res) => {
   }
 };
 
+const getCoachApplyingDetailsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coachApplyDetails =
+      await coachCardService.getCoachApplyingDetailsById(id);
+    if (coachApplyDetails) {
+      res.status(200).json(coachApplyDetails);
+    } else {
+      res.status(404).json({ message: "Coach Card not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getZoneForCoachBooking = async (req, res) => {
   try {
     const { arcadeId, sportId, coachId } = req.params;
@@ -37,6 +52,7 @@ const getZoneForCoachBooking = async (req, res) => {
 const addCoachCard = async (req, res) => {
   try {
     const coach = req.body;
+    console.log("coach", coach);
     const newCoach = await coachCardService.addCoachCard(coach);
     res.status(201).json(newCoach);
   } catch (error) {
@@ -59,6 +75,19 @@ const updateCoachCard = async (req, res) => {
   }
 };
 
+const updateCoachAssignDetailsForArcade = async (req, res) => {
+  try {
+    const coachAssignDetails = req.body;
+    const updatedCoachCard =
+      await coachCardService.updateCoachAssignDetailsForArcade(
+        coachAssignDetails
+      );
+    res.status(200).json(updatedCoachCard);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const deleteCoachCard = async (req, res) => {
   try {
     const { id } = req.params;
@@ -73,7 +102,9 @@ const deleteCoachCard = async (req, res) => {
 module.exports = {
   getCoachAssignDetailsById,
   getZoneForCoachBooking,
+  getCoachApplyingDetailsById,
   addCoachCard,
   updateCoachCard,
+  updateCoachAssignDetailsForArcade,
   deleteCoachCard,
 };
