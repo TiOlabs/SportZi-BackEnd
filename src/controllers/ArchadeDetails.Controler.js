@@ -1,4 +1,4 @@
-const archadeDetailsController = require("../services/ArchadeDetails.services");
+const archadeDetailsController = require("../services/ArchadeDetails.service");
 const getArchadeDetails = async (req, res) => {
   try {
     const { ArcadeId } = req.query;

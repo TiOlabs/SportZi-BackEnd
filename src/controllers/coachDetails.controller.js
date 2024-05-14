@@ -1,4 +1,4 @@
-const coachDetailsServices = require("../services/coachDetails.services");
+const coachDetailsServices = require("../services/coachDetails.service");
 
 const getCoachDetails = async (req, res) => {
   const { id } = req.params;
