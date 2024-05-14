@@ -26,6 +26,34 @@ const getCoachAssignDetailsById = async (id) => {
   }
 };
 
+const getCoachApplyingDetailsById = async (id) => {
+  try {
+    return await prisma.coachAssignDetailsForArcade.findMany({
+      where: { arcade_id: id },
+
+      include: {
+        arcade: {
+          include: {
+            zone: true,
+          },
+        },
+        coach: {
+          include: {
+            sport: true,
+          },
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+    throw error;
+  }
+};
+
 const getZoneForCoachBooking = async (arcadeId, sportId, coachId) => {
   try {
     return await prisma.zone.findUnique({
@@ -60,6 +88,40 @@ const updateCoachCard = async (id, coach) => {
   });
 };
 
+const updateCoachAssignDetailsForArcade = async (coachAssignDetails) => {
+  console.log("coachAssignDetails", coachAssignDetails);
+  console.log("coachAssignDetails.coach_id", coachAssignDetails.coach_id);
+  try {
+    // Update coachAssignDetailsForArcade
+    await prisma.coachAssignDetailsForArcade.update({
+      where: {
+        coach_id_arcade_id: {
+          coach_id: coachAssignDetails.coach_id,
+          arcade_id: coachAssignDetails.arcade_id,
+        },
+      },
+      data: {
+        ...coachAssignDetails,
+      },
+    });
+
+    // Update coach table
+    await prisma.coach.update({
+      where: {
+        coach_id: coachAssignDetails.coach_id,
+      },
+      data: {
+        status: "active",
+      },
+    });
+
+    // Return whatever you need to return
+  } catch (error) {
+    console.error("Error updating coachAssignDetailsForArcade:", error);
+    throw error; // Rethrow the error for handling further up the call stack if needed
+  }
+};
+
 const deleteCoachCard = async (id) => {
   return await prisma.coachAssignDetailsForArcade.delete({
     where: { id: id },
@@ -69,7 +131,9 @@ const deleteCoachCard = async (id) => {
 module.exports = {
   getCoachAssignDetailsById,
   getZoneForCoachBooking,
+  getCoachApplyingDetailsById,
   addCoachCard,
   updateCoachCard,
+  updateCoachAssignDetailsForArcade,
   deleteCoachCard,
 };

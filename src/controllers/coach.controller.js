@@ -86,6 +86,7 @@ const prisma = new PrismaClient();
 const addCoach = async (req, res) => {
   try {
     const coach = req.body;
+    console.log("coach", coach);  
     const newCoach = await coachService.addCoach(req, res, coach);
   } catch (error) {
     res.status(500).json({ message: error.message });
