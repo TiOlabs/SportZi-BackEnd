@@ -145,7 +145,6 @@ const addCoach = async (req, res, coach) => {
         password: hashedPassword,
       },
     });
-
     const newCoach = await prisma.coach.create({
       
       data: {
