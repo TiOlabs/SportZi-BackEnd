@@ -48,6 +48,33 @@ const getCoachBookingById = async (id) => {
   }
 };
 
+const getCoachBookingForCoach = async (id) => {
+  try {
+    return await prisma.coachBookingDetails.findMany({
+      where: {
+        coach_id: id,
+      },
+      include: {
+        coach: {
+          include: {
+            user: true,
+          },
+        },
+        player: {
+          include: {
+            user: true,
+          },
+        },
+        zone: true,
+        arcade: true,
+        coachBookingDayAndTime: true,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCoachBookingByBookingId = async (bookingId) => {
   return await prisma.coachBookingDetails.findUnique({
     where: {
@@ -163,6 +190,7 @@ const deleteCoachBooking = async (id) => {
 module.exports = {
   getCoachBookings,
   getCoachBookingById,
+  getCoachBookingForCoach,
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,
