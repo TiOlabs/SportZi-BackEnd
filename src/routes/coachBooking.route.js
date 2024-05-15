@@ -8,6 +8,11 @@ router.get(
   coachBookingController.getCoachBookingById
 );
 router.get(
+  "/api/getCoachBookingForCoach/:id",
+  coachBookingController.getCoachBookingForCoach
+);
+
+router.get(
   "/api/getCoachBookinByBookingId/:bookingId",
   coachBookingController.getCoachBookingByBookingId
 );

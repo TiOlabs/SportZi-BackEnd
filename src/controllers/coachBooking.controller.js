@@ -22,6 +22,21 @@ const getCoachBookingById = async (req, res) => {
   }
 };
 
+const getCoachBookingForCoach = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coachBooking = await coachBookingServices.getCoachBookingForCoach(id);
+    if (coachBooking) {
+      res.status(200).json(coachBooking);
+    } else {
+      res.status(404).json({ message: "Coach Booking not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const getCoachBookingByBookingId = async (req, res) => {
   try {
     const { bookingId } = req.params;
@@ -128,6 +143,7 @@ const deleteCoachBooking = async (req, res) => {
 module.exports = {
   getCoachBooking,
   getCoachBookingById,
+  getCoachBookingForCoach,
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,
