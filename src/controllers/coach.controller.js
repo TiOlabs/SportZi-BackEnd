@@ -26,7 +26,7 @@ const getCoachById = async (req, res) => {
 
 const getCoachAvailiability = async (req, res) => {
   try {
-    const { id} = req.params;
+    const { id } = req.params;
 
     const coach = await coachService.getCoachAvailiability(id);
     if (coach) {
@@ -51,19 +51,16 @@ const getCoachAvailiability = async (req, res) => {
 //     }
 //   };
 
-//   const updateCoach = async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       const number = parseInt(id);
-//       const coach = req.body;
-//       const updatedCoach = await coachService.updateCoach(
-//         number,coach
-//       );
-//       res.status(200).json(updatedCoach);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   };
+const updateCoach = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coach = req.body;
+    const updatedCoach = await coachService.updateCoach(id, coach);
+    res.status(200).json(updatedCoach);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const deleteCoach = async (req, res) => {
   try {
@@ -86,7 +83,7 @@ const prisma = new PrismaClient();
 const addCoach = async (req, res) => {
   try {
     const coach = req.body;
-    console.log("coach", coach);  
+    console.log("coach", coach);
     const newCoach = await coachService.addCoach(req, res, coach);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -98,7 +95,6 @@ module.exports = {
   getCoachById,
   getCoachAvailiability,
   addCoach,
-  // updateCoach,
-
+  updateCoach,
   deleteCoach,
 };

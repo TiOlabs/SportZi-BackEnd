@@ -45,14 +45,14 @@ const getCoachAvailiability = async (coachId) => {
 //   });
 // };
 
-// const updateCoach = async (id,coach) => {
-//     return await prisma.coach.update({
-//       where: { id: id },
-//       data: {
-//         ...coach,
-//       },
-//     });
-//   };
+const updateCoach = async (id,coach) => {
+    return await prisma.coach.update({
+      where: { coach_id: id },
+      data: {
+        ...coach,
+      },
+    });
+  };
 
 const deleteCoach = async (coachId) => {
   try {
@@ -185,6 +185,6 @@ module.exports = {
   getCoachById,
   getCoachAvailiability,
   addCoach,
-  // updateCoach,
+  updateCoach,
   deleteCoach,
 };
