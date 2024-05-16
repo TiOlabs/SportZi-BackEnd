@@ -8,7 +8,7 @@ router.get(
   coachBookingController.getCoachBookingById
 );
 router.get(
-  "/api/getCoachBookingForCoach/:id",
+  "/api/getcoachDetailsForCoachByCoachId/:id",
   coachBookingController.getCoachBookingForCoach
 );
 
