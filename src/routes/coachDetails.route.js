@@ -10,4 +10,8 @@ regCoachDetails.get(
   coachDetailsController.getCoachDetails
 );
 
+regCoachDetails.get(
+  "/api/auth/getcoachDetailsForUsers",
+  coachDetailsController.getCoachDetailsToUsers
+);
 module.exports = regCoachDetails;
