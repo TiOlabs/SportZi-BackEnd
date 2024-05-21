@@ -215,9 +215,10 @@ model ZoneBookingDetails {
 
 model Sport{
   sport_id                                 String @id @unique @default(uuid()) 
-  sport_name                               String
+  sport_name                               String @unique
   coach                                    Coach[]
   zone                                     Zone[]
+ 
 }
 
 model Availiability{
