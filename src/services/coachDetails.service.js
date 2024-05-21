@@ -2,8 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getCoachDetails = async (userId) => {
-  console.log("service", userId); 
   try {
+    console.log("service", userId);
     return await prisma.user.findUnique({
       where: {
         user_id: userId,
@@ -17,4 +17,21 @@ const getCoachDetails = async (userId) => {
     console.log("service error", error);
   }
 };
-module.exports = { getCoachDetails };
+
+const getCoachDetailsToUsers = async (coachId) => {
+  try {
+    if (coachId.startsWith(":")) {
+      coachId = coachId.slice(1);
+    }
+    console.log("service", coachId);
+    return await prisma.user.findUnique({
+      where: {
+        user_id: coachId,
+      },
+    });
+  } catch (error) {
+    console.log("service error", error);
+  }
+};
+
+module.exports = { getCoachDetails, getCoachDetailsToUsers };
