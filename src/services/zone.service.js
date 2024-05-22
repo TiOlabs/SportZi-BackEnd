@@ -13,6 +13,9 @@ const getZoneById = async (id) => {
     where: {
       zone_id: id,
     },
+    include: {
+      arcade: true,
+    },
   });
 };
 
@@ -36,11 +39,8 @@ const getZoneDetailsForArcade = async (id) => {
 };
 
 const addZone = async (zone) => {
-
-
   // Extract discount-related fields from the zone object
   const { discount, discount_description, ...zoneData } = zone;
-
 
   // Create the zone entry
   const createdZone = await prisma.zone.create({
@@ -57,8 +57,6 @@ const addZone = async (zone) => {
 
       // Check if the parsed discount is a valid number
       if (!isNaN(parsedDiscount)) {
-    
-
         // Create the zoneDiscount entry
         await prisma.zoneDiscount.create({
           data: {
