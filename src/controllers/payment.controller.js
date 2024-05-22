@@ -1,6 +1,6 @@
 const paymentcontroller = require("../services/payment.service");
 
-const sendMail = require("../sentMail/Sentmail");
+const {sendMail} = require("../sentMail/Sentmail");
 const paymentSlips = require("../sentMail/PaymentSucces");
 
 const getpaymentditails = async (req, res) => {
