@@ -310,9 +310,9 @@ model ArcadePhone{
 }
 
 model PackageDayAndTime{
-  package_id                               String @unique
-  day                                      String @unique
-  time                                     String @unique
+  package_id                               String
+  day                                      Day
+  time                                     String 
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
 }
