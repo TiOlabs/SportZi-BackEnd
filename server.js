@@ -34,6 +34,7 @@ const coachBookingRoutes = require("./src/routes/coachBooking.route");
 const packageRoutes = require("./src/routes/package.route");
 const regCoachDetails = require("./src/routes/coachDetails.route");
 const sport = require("./src/routes/sport.route");
+const packageEnrollmentPlayer = require("./src/routes/packageEnrollmentPlayer.route");
 
 app.use(express.json());
 app.use(cors());
@@ -62,6 +63,7 @@ app.use(coachBookingRoutes);
 app.use(packageRoutes);
 app.use(regCoachDetails);
 app.use(sport)
+app.use(packageEnrollmentPlayer);
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });

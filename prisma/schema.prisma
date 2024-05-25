@@ -167,9 +167,11 @@ model Package {
   canceled_at                              DateTime @updatedAt
   status                                   String @default("open")
   arcade_id                                String
+  zone_id                                  String
   percentageForCoach                       Int
   discount                                 PackageDiscount?
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
+  zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   coachApplyDetailsForPackage              CoachAEnrollDetailsForPackage[]
   playerPackageEnrollDetails               PackageEnrollDetailsForPlayer[]
   packageDayAndTime                        PackageDayAndTime[]
@@ -191,6 +193,7 @@ model Zone {
   discount                                 ZoneDiscount?
   coach_booking_details                    CoachBookingDetails[]
   zoneBookingDetails                       ZoneBookingDetails[]
+  package                                  Package[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
 }
