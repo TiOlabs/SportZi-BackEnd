@@ -41,13 +41,14 @@ const addPackageEnrollmentPlayer = async (req, res) => {
 
 const updatePackageEnrollmentPlayer = async (req, res) => {
   try {
-    const { id } = req.params;
-    console.log(id);
-    const number = id;
+    const { player_id,package_id } = req.params;
+    
+  
     const packageEnrollmentPlayer = req.body;
     const updatedPackageEnrollmentPlayer =
       await packageEnrollmentPlayerService.updatePackageEnrollmentPlayer(
-        number,
+        player_id,
+        package_id,
         packageEnrollmentPlayer
       );
     res.status(200).json(updatedPackageEnrollmentPlayer);

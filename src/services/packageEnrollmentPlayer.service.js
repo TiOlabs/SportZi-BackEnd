@@ -35,11 +35,13 @@ const addPackageEnrollmentPlayer = async (packageEnrollDetailsForPlayer) => {
 };
 
 const updatePackageEnrollmentPlayer = async (
-  id,
+  player_id,
+  package_id,
   packageEnrollDetailsForPlayer
 ) => {
   return await prisma.packageEnrollDetailsForPlayer.update({
-    where: { packageEnrollDetailsForPlayer_id: id },
+    where: { player_id: player_id, package_id: package_id },
+
     data: {
       ...packageEnrollDetailsForPlayer,
     },
