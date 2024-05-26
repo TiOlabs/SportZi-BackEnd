@@ -1,4 +1,6 @@
 const coachBookingServices = require("../services/coachBooking.service");
+const { PlayerCanceled } = require("../sentMail/playerCanceled");
+const { CoachCanceled } = require("../sentMail/coachCanceled");
 
 const getCoachBooking = async (req, res) => {
   try {
@@ -35,7 +37,6 @@ const getCoachBookingForCoach = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 const getCoachBookingByBookingId = async (req, res) => {
   try {
@@ -102,7 +103,46 @@ const addCoachBooking = async (req, res) => {
 const updateCoachBooking = async (req, res) => {
   try {
     const { id } = req.params;
-    const coachBooking = req.body;
+    const {
+      status,
+      email,
+      role,
+      coach_name,
+      player_name,
+      booking_date,
+      booking_time,
+      arcade_email,
+      arcade_name
+    } = req.body;
+    if (role === "PLAYER") {
+      try {
+        PlayerCanceled(
+          arcade_email,
+          email,
+          coach_name,
+          player_name,
+          booking_date,
+          booking_time
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else if (role === "COACH") {
+      try {
+        CoachCanceled(
+          email,
+          coach_name,
+          player_name,
+          booking_date,
+          booking_time,
+          arcade_email,
+          arcade_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+    const coachBooking = { status };
     console.log(id);
     console.log(coachBooking);
     const updatedCoachBooking = await coachBookingServices.updateCoachBooking(
@@ -119,11 +159,12 @@ const updateCoachBookingByCreatedTime = async (req, res) => {
   try {
     const { created_at, userId } = req.params;
     const coachBooking = req.body;
-    const updatedCoachBooking = await coachBookingServices.updateCoachBookingByCreatedTime(
-      created_at,
-      userId,
-      coachBooking
-    );
+    const updatedCoachBooking =
+      await coachBookingServices.updateCoachBookingByCreatedTime(
+        created_at,
+        userId,
+        coachBooking
+      );
     res.status(200).json(updatedCoachBooking);
   } catch (error) {
     res.status(500).json({ message: error.message });
