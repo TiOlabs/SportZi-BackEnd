@@ -1,4 +1,8 @@
 const arcadeBookingService = require("../services/arcadeBooking.service");
+const {
+  PlayerCanceledArcadeBooking,
+} = require("../sentMail/playerCanceledArcadeBookings");
+const {ArcadeCanceledArcadeBooking} = require("../sentMail/arcadeCanceledArcadeBooking");
 
 const getArcadeBooking = async (req, res) => {
   try {
@@ -44,7 +48,7 @@ const getArcadeBookingForArcade = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 const getArcadeBookingByDate = async (req, res) => {
   try {
     const { date, zoneId } = req.params;
@@ -66,14 +70,15 @@ const getArcadeBookingByCretedTime = async (req, res) => {
   try {
     console.log("gggggg");
     const { created_at, userId } = req.params;
-    console.log("ccccccccc",created_at);
-    console.log("dddddddddddd",userId);
+    console.log("ccccccccc", created_at);
+    console.log("dddddddddddd", userId);
 
-    const arcadeBooking = await arcadeBookingService.getArcadeBookingByCretedTime(
-      created_at,
-      userId
-    );
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",arcadeBooking);
+    const arcadeBooking =
+      await arcadeBookingService.getArcadeBookingByCretedTime(
+        created_at,
+        userId
+      );
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
     } else {
@@ -82,14 +87,13 @@ const getArcadeBookingByCretedTime = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 const getArcadeBookingByBookingId = async (req, res) => {
   try {
     const { bookingId } = req.params;
-    const arcadeBooking = await arcadeBookingService.getArcadeBookingsByBookingId(
-      bookingId
-    );
+    const arcadeBooking =
+      await arcadeBookingService.getArcadeBookingsByBookingId(bookingId);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
     } else {
@@ -116,11 +120,12 @@ const updateArcadeBookingByCretedTime = async (req, res) => {
   try {
     const { created_at, userId } = req.params;
     const arcadeBooking = req.body;
-    const updatedArcadeBooking = await arcadeBookingService.updateArcadeBookingByCretedTime(
-      created_at,
-      userId,
-      arcadeBooking
-    );
+    const updatedArcadeBooking =
+      await arcadeBookingService.updateArcadeBookingByCretedTime(
+        created_at,
+        userId,
+        arcadeBooking
+      );
     res.status(200).json(updatedArcadeBooking);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -130,7 +135,46 @@ const updateArcadeBookingByCretedTime = async (req, res) => {
 const updateArcadeBooking = async (req, res) => {
   try {
     const { id } = req.params;
-    const arcadeBooking = req.body;
+
+    const {
+      booking_id,
+      status,
+      email,
+      role,
+      zone_name,
+      player_name,
+      booking_date,
+      booking_time,
+      arcade_name
+    } = req.body;
+    if (role === "PLAYER") {
+      try {
+        PlayerCanceledArcadeBooking(
+          email,
+          zone_name,
+          player_name,
+          booking_date,
+          booking_time,
+          arcade_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else if (role === "ARCADE"){
+      try {
+        ArcadeCanceledArcadeBooking(
+          email,
+          zone_name,
+          player_name,
+          booking_date,
+          booking_time,
+          arcade_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+    const arcadeBooking = {status};
     const updatedArcadeBooking = await arcadeBookingService.updateArcadeBooking(
       id,
       arcadeBooking

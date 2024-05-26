@@ -16,18 +16,30 @@ transporter.verify((error, success) => {
   }
 });
 
-const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
+const CoachCanceled = (
+  email,
+  coach_name,
+  player_name,
+  booking_date,
+  booking_time,
+  arcade_email,
+  arcade_name
+) => {
+  console.log("email");
+  console.log(email, coach_name, player_name, booking_date, booking_time);
+
   const mailoptions = {
     from: SENDERSMAIL,
     to: email,
-    subject: "Request Accepted",
-    html: ` <head>
+    cc: arcade_email,
+    subject: "Booking Cancellation Notice",
+    html: `<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Accepted</title>
+    <title>Booking Cancellation Notice</title>
     
     <style>
-        /* Add your custom styling here */
+       
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -60,15 +72,17 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
 <body>
     <div class="container">
         <img src="logo.png" alt="Logo" border="0">
-        <h1>Your Request Has Been Accepted!</h1>
-        <p>Dear ${Coach_name},</p>
-        <p>We are delighted to inform you that your request to join our arcade has been accepted. Welcome aboard!</p>
-        <p>Thank you for choosing us, and we look forward to having you as part of our community.</p>
+        <center><h1>Booking Cancellation Notice</h1></center>
+        <p>Dear ${player_name},</p>
+        <p>We regret to inform you that Coach ${coach_name} has canceled your booking scheduled for ${booking_date} at ${booking_time}.</p>
+        <p>We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
+        <p>Thank you for your understanding.</p>
         <p>Best regards,</p>
-        <p>The ${arcade_name} Team</p>
+        <p>The SportZi Team</p>
     </div>
 </body>`,
   };
+
   transporter.sendMail(mailoptions, function (error, info) {
     if (error) {
       console.log("this is error" + error);
@@ -78,4 +92,4 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
   });
 };
 
-module.exports = { CoachAcceptEmail };
+module.exports = { CoachCanceled };
