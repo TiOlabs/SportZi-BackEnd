@@ -24,9 +24,17 @@ const getCoachDetailsToUsers = async (coachId) => {
       coachId = coachId.slice(1);
     }
     console.log("service", coachId);
-    return await prisma.user.findUnique({
+    return await prisma.coach.findUnique({
       where: {
-        user_id: coachId,
+        coach_id: coachId,
+      },
+      include: {
+        user: {
+          include: {
+            phone: true,
+            achivement: true,
+          },
+        },
       },
     });
   } catch (error) {

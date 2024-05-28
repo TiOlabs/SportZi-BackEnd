@@ -2,27 +2,29 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getReports = async () => {
-  return await prisma.report.findMany({
+  return await prisma.reportUser.findMany({
     include: {
-      user: true,
+      reporter_user: true,
+      victim_user: true,
     },
   });
 };
 
 const getReportById = async (id) => {
-  return await prisma.report.findUnique({
+  return await prisma.reportUser.findUnique({
     where: {
       report_id: id,
     },
     include: {
-      user: true,
+      reporter_user: true,
+      victim_user: true,
     },
   });
 };
 
 const addReport = async (report) => {
   try {
-    return await prisma.report.create({
+    return await prisma.reportUser.create({
       data: report,
     });
   } catch (e) {
@@ -31,14 +33,14 @@ const addReport = async (report) => {
 };
 
 const updateReport = async (id, report) => {
-  return await prisma.report.update({
+  return await prisma.reportUser.update({
     where: { report_id: id },
     data: report,
   });
 };
 
 const deleteReport = async (id) => {
-  return await prisma.report.delete({
+  return await prisma.reportUser.delete({
     where: { report_id: id },
   });
 };
