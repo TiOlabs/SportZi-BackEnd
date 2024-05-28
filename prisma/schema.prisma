@@ -39,6 +39,10 @@ model User {
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
   userphoto                                 userphoto[]
+ reportsMade                                ReportUser[]      @relation("reporter")
+  reportsReceived                           ReportUser[]      @relation("victim")
+  reportsMadeArcade                         ReportArcade[]    @relation("reporterArcade")
+
 }
 
 model Player {
@@ -134,6 +138,7 @@ model Arcade {
   package                                  Package[]
   zone                                     Zone[]
   arcadePhone                              ArcadePhone[] 
+  reportsReceived                          ReportArcade[] @relation("victim")
   @@unique([arcade_email])
 }
 
@@ -324,6 +329,25 @@ model userphoto{
   image                                    String @unique
   user                                     User? @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,image])
+
+}
+model ReportUser {
+  report_id                                String @id @unique @default(uuid())
+  reporter_user_id                         String
+  victim_user_id                           String
+  report_reason                            String
+  description                              String
+  reporter_user                            User   @relation("reporter", fields: [reporter_user_id], references: [user_id])
+  victim_user                              User   @relation("victim", fields: [victim_user_id], references: [user_id])
+}
+model ReportArcade{
+  report_id                                String @id @unique @default(uuid())
+  reporter_user_id                         String
+  victim_arcade_id                         String
+  report_reason                            String
+  description                              String
+  reporter_user                            User   @relation("reporterArcade", fields: [reporter_user_id], references: [user_id])
+  victim_arcade                            Arcade @relation("victim", fields: [victim_arcade_id], references: [arcade_id])
 
 }
 enum Role {
