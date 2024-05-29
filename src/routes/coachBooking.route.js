@@ -11,7 +11,10 @@ router.get(
   "/api/getcoachDetailsForCoachByCoachId/:id",
   coachBookingController.getCoachBookingForCoach
 );
-
+router.get(
+  "/api/getCoachBookingByArcadeId/:ArcadeId",
+  coachBookingController.getCoachBookingByArcadeId  
+);
 router.get(
   "/api/getCoachBookinByBookingId/:bookingId",
   coachBookingController.getCoachBookingByBookingId

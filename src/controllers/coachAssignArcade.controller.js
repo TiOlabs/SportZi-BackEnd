@@ -2,6 +2,7 @@ const { sentEmail } = require("../sentMail/Sentmail");
 const coachCardService = require("../services/coachAssignArcade.service");
 const { CoachAcceptEmail } = require("../sentMail/coachAcception");
 const { CoachUnassigned } = require("../sentMail/coachUnassigned");
+const { CoachRequestEmail } = require("../sentMail/coachRequest");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -53,7 +54,16 @@ const getZoneForCoachBooking = async (req, res) => {
 
 const addCoachCard = async (req, res) => {
   try {
-    const coach = req.body;
+    const { coach_name, arcade_name, email, ...coach } = req.body;
+    console.log("coach_name", coach_name);
+    console.log("arcade_name", arcade_name);
+    console.log("email", email);
+    console.log("coach", coach);
+    try {
+      CoachRequestEmail(email, coach_name, arcade_name);
+    } catch (error) {
+      console.log("Error in sending email", error);
+    }
     console.log("coach", coach);
     const newCoach = await coachCardService.addCoachCard(coach);
     res.status(201).json(newCoach);

@@ -45,14 +45,14 @@ const getCoachAvailiability = async (coachId) => {
 //   });
 // };
 
-const updateCoach = async (id,coach) => {
-    return await prisma.coach.update({
-      where: { coach_id: id },
-      data: {
-        ...coach,
-      },
-    });
-  };
+const updateCoach = async (id, coach) => {
+  return await prisma.coach.update({
+    where: { coach_id: id },
+    data: {
+      ...coach,
+    },
+  });
+};
 
 const deleteCoach = async (coachId) => {
   try {
@@ -110,7 +110,7 @@ const deleteCoach = async (coachId) => {
   }
 };
 
-const addCoach = async (req, res, coach) => {
+const addCoach = async (req, res, coach, combinedTimeslot) => {
   try {
     async function generateUserID() {
       const userCount = await prisma.coach.count(); // Get the count of existing users
@@ -146,7 +146,6 @@ const addCoach = async (req, res, coach) => {
       },
     });
     const newCoach = await prisma.coach.create({
-      
       data: {
         rate: coach.rate,
         user: {
@@ -173,6 +172,16 @@ const addCoach = async (req, res, coach) => {
         },
       },
     });
+
+    for (const slot of combinedTimeslot) {
+      await prisma.availiability.create({
+        data: {
+          coach_id: newCoachID,
+          day: slot.day,
+          time: slot.timeslot,
+        },
+      });
+    }
 
     res.status(201).json(newUser);
   } catch (e) {

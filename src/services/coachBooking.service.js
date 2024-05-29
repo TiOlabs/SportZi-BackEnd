@@ -75,6 +75,33 @@ const getCoachBookingForCoach = async (id) => {
   }
 };
 
+const getCoachBookingByArcadeId = async (ArcadeId) => {
+  try {
+    return await prisma.coachBookingDetails.findMany({
+      where: {
+        arcade_id: ArcadeId,
+      },
+      include: {
+        coach: {
+          include: {
+            user: true,
+          },
+        },
+        player: {
+          include: {
+            user: true,
+          },
+        },
+        zone: true,
+        arcade: true,
+        coachBookingDayAndTime: true,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCoachBookingByBookingId = async (bookingId) => {
   return await prisma.coachBookingDetails.findUnique({
     where: {
@@ -167,18 +194,18 @@ const updateCoachBookingByCreatedTime = async (
   userId,
   coachBooking
 ) => {
-  try{
-  return await prisma.coachBookingDetails.update({
-    where: {
-      player_id_created_at: { created_at: created_at, player_id: userId },
-    },
-    data: {
-      ...coachBooking,
-    },
-  });
-}catch(error){
-  console.log(error);
-}
+  try {
+    return await prisma.coachBookingDetails.update({
+      where: {
+        player_id_created_at: { created_at: created_at, player_id: userId },
+      },
+      data: {
+        ...coachBooking,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteCoachBooking = async (id) => {
@@ -191,6 +218,7 @@ module.exports = {
   getCoachBookings,
   getCoachBookingById,
   getCoachBookingForCoach,
+  getCoachBookingByArcadeId,
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,

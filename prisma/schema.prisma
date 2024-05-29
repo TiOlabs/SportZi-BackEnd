@@ -195,6 +195,7 @@ model Zone {
   close_time                               String
   arcade_id                                String
   sport_id                                 String
+  time_Step                                Float
   discount                                 ZoneDiscount?
   coach_booking_details                    CoachBookingDetails[]
   zoneBookingDetails                       ZoneBookingDetails[]
