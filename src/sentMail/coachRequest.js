@@ -19,7 +19,7 @@ transporter.verify((error, success) => {
 const CoachRequestEmail = (email, coach_name, arcade_name) => {
   const mailoptions = {
     from: SENDERSMAIL,
-    to: "spynavindu@gmail.com",
+    to: email,
     subject: "Coach Request",
     html: ` <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@ const CoachRequestEmail = (email, coach_name, arcade_name) => {
         <img src="logo.png" alt="Logo" border="0">
         <h1>Coach Request</h1>
         <p>Dear ${arcade_name} Team,</p>
-        <p>We are delighted to inform you that Coach ${coach_name} has expressed interest in joining your arcade. Coach ${coach_name} brings valuable experience and expertise, and we believe their presence would enhance our community. You can visit coach's profile through the coach request.</p>
+        <p>We are delighted to inform you that Coach ${coach_name} has expressed interest in joining your arcade. Coach ${coach_name} brings valuable experience and expertise, and we believe their presence would enhance your community. You can visit coach's profile through the coach request.</p>
         <p>Best regards,</p>
         <p>The SportZi Team</p>
     </div>
