@@ -39,7 +39,7 @@ model User {
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
   userphoto                                 userphoto[]
- reportsMade                                ReportUser[]      @relation("reporter")
+  reportsMade                               ReportUser[]      @relation("reporter")
   reportsReceived                           ReportUser[]      @relation("victim")
   reportsMadeArcade                         ReportArcade[]    @relation("reporterArcade")
 
@@ -139,6 +139,7 @@ model Arcade {
   zone                                     Zone[]
   arcadePhone                              ArcadePhone[] 
   reportsReceived                          ReportArcade[] @relation("victim")
+  arcadephoto                              Arcadephoto[]
   @@unique([arcade_email])
 }
 
@@ -330,6 +331,13 @@ model userphoto{
   image                                    String @unique
   user                                     User? @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,image])
+
+}
+model Arcadephoto{
+  arcade_id                                String 
+  image                                    String @unique
+  Arcade                                   Arcade? @relation(fields: [arcade_id],references: [arcade_id])
+  @@unique([arcade_id,image])
 
 }
 model ReportUser {

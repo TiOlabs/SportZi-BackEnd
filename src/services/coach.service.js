@@ -18,7 +18,11 @@ const getCoachById = async (coachId) => {
       coach_id: coachId,
     },
     include: {
-      user: true,
+      user: {
+        include: {
+          userphoto: true,
+        },
+      },
       sport: true,
     },
   });

@@ -21,8 +21,8 @@ const getArcadeById = async (id) => {
         manager_id: id,
       },
       include: {
-        arcade:true,
-        user: true,      
+        arcade: true,
+        user: true,
       },
     });
   } catch (error) {
@@ -37,17 +37,31 @@ const getArcadeByArcadeId = async (id) => {
         arcade_id: id,
       },
       include: {
-       zone:{
-        include:{
-          sport:true,
-        }
-       }
+        zone: {
+          include: {
+            sport: true,
+          },
+        },
+        arcadephoto: true,
       },
     });
   } catch (error) {
     console.log("error", error);
   }
-}
+};
+
+const addArcadePhoto = async (arcade_id, image) => {
+  try {
+    return await prisma.arcadephoto.create({
+      data: {
+        arcade_id: arcade_id,
+        image: image,
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 
 const addArcade = async (arcade) => {
   return await prisma.arcade.create({
@@ -76,6 +90,7 @@ module.exports = {
   getArcade,
   getArcadeById,
   getArcadeByArcadeId,
+  addArcadePhoto,
   addArcade,
   updateArcade,
   deleteArcade,
