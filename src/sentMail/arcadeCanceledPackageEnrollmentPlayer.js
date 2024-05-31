@@ -21,10 +21,10 @@ const ArcadeCanceledPackageEnrollmentPlayer = (
   package_name,
   arcade_name
 ) => {
-  console.log("email");
+  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
-    to: email,
+    to:"spynavindu@gmail.com",
     subject: "Booking Cancellation Notice",
     html: `<head>
     <meta charset="UTF-8">

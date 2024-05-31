@@ -160,6 +160,7 @@ model CoachBookingDetails {
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id])
   coachBookingDayAndTime                   CoachBookingDayAndTime[]
+  coachCancelBookings                      CoachCancelBookings?
   @@unique([player_id ,created_at])
 }
 
@@ -189,6 +190,7 @@ model Zone {
   status                                   String @default("open")
   capacity                                 Int
   rate                                     Int
+  full_zone_rate                           Int
   description                              String@default("Add your Discription")
   way_of_booking                           way_of_booking
   zone_image                               String
@@ -219,6 +221,7 @@ model ZoneBookingDetails {
   way_of_booking                           way_of_booking
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   user                                     User@relation(fields: [user_id],references: [user_id])
+  ArcadeCancelBookings                     ArcadeCancelBookings?
   @@unique([user_id,created_at])
 
 }
@@ -278,6 +281,7 @@ model PackageEnrollDetailsForPlayer {
   duration                                 Int
   player                                   Player @relation(fields: [player_id], references: [player_id])
   package                                  Package @relation(fields: [package_id],references: [package_id])
+  packageCancelEnrollments                 PackageCancelEnrollments?
   @@unique([player_id,package_id])
 }
 
@@ -358,6 +362,27 @@ model ReportArcade{
   reporter_user                            User   @relation("reporterArcade", fields: [reporter_user_id], references: [user_id])
   victim_arcade                            Arcade @relation("victim", fields: [victim_arcade_id], references: [arcade_id])
 
+}
+model ArcadeCancelBookings{
+  booking_id                               String @id @unique
+  reason                                   String
+  arcadeBooking                            ZoneBookingDetails @relation(fields: [booking_id], references: [zone_booking_id])
+
+}
+
+model CoachCancelBookings{
+  booking_id                               String @id @unique
+  reason                                   String
+  coachBooking                             CoachBookingDetails @relation(fields: [booking_id], references: [booking_id])
+
+}
+
+model PackageCancelEnrollments{
+  reason                                   String
+  player_id                                String
+  package_id                               String
+  packageEnrollment                        PackageEnrollDetailsForPlayer @relation(fields: [player_id, package_id], references: [player_id, package_id])
+  @@unique([player_id, package_id])
 }
 enum Role {
   PLAYER

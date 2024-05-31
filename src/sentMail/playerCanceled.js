@@ -26,10 +26,10 @@ const PlayerCanceled = (
 ) => {
   console.log("email");
   console.log(email, coach_name, player_name, booking_date, booking_time);
-
+  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
-    to: email,
+    to: "spynavindu@gmail.com",
     cc: arcade_email,
     subject: "Booking Cancellation Notice",
     html: `<head>

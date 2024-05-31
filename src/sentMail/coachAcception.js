@@ -17,9 +17,10 @@ transporter.verify((error, success) => {
 });
 
 const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
+  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
-    to: email,
+    to: "spynavindu@gmail.com",
     subject: "Request Accepted",
     html: ` <head>
     <meta charset="UTF-8">
