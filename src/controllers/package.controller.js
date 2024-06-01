@@ -42,8 +42,8 @@ const updatePackage = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const number = id;
-    const package = req.body;
-    const updatedPackage = await packageService.updatePackage(number, package);
+    const {combinedTimeslot,...package} = req.body;
+    const updatedPackage = await packageService.updatePackage(number, package , combinedTimeslot);
     res.status(200).json(updatedPackage);
   } catch (error) {
     res.status(500).json({ message: error.message });

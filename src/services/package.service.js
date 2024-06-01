@@ -14,6 +14,7 @@ const getPackageById = async (id) => {
         include: {
           arcade: true,
           packageDayAndTime: true,
+          zone: true,
         },
       },
     },
@@ -50,13 +51,24 @@ const addPackage = async (package, combinedTimeslot) => {
   }
 };
 
-const updatePackage = async (id, package) => {
-  return await prisma.package.update({
+const updatePackage = async (id, package, combinedTimeslot) => {
+  const Updatepackage = await prisma.package.update({
     where: { package_id: id },
     data: {
       ...package,
     },
   });
+  for (const slot of combinedTimeslot) {
+    // Creating new entry in packageDayAndTime table for each day and timeslot
+    await prisma.packageDayAndTime.update({
+      where: { package_id: id },
+      data: {
+        package_id: id,
+        day: slot.day,
+        time: slot.timeslot,
+      },
+    });
+  }
 };
 
 const deletePackage = async (id) => {
