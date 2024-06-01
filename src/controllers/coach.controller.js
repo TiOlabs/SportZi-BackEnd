@@ -3,9 +3,37 @@ const coachService = require("../services/coach.service");
 const getCoach = async (req, res) => {
   try {
     const coaches = await coachService.getCoaches();
-    console.log(coaches);
     const reversedcoaches = coaches.reverse();
     res.status(200).json(reversedcoaches);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getCoachById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coach = await coachService.getCoachById(id);
+    if (coach) {
+      res.status(200).json(coach);
+    } else {
+      res.status(404).json({ message: "Coach not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getCoachAvailiability = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const coach = await coachService.getCoachAvailiability(id);
+    if (coach) {
+      res.status(200).json(coach);
+    } else {
+      res.status(404).json({ message: "Coach not found" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -23,19 +51,16 @@ const getCoach = async (req, res) => {
 //     }
 //   };
 
-//   const updateCoach = async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       const number = parseInt(id);
-//       const coach = req.body;
-//       const updatedCoach = await coachService.updateCoach(
-//         number,coach
-//       );
-//       res.status(200).json(updatedCoach);
-//     } catch (error) {
-//       res.status(500).json({ message: error.message });
-//     }
-//   };
+const updateCoach = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coach = req.body;
+    const updatedCoach = await coachService.updateCoach(id, coach);
+    res.status(200).json(updatedCoach);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const deleteCoach = async (req, res) => {
   try {
@@ -57,8 +82,15 @@ const prisma = new PrismaClient();
 
 const addCoach = async (req, res) => {
   try {
-    const coach = req.body;
-    const newCoach = await coachService.addCoach(req, res, coach);
+    const { combinedTimeslot, ...coach } = req.body;
+
+    console.log("coach", coach);
+    const newCoach = await coachService.addCoach(
+      req,
+      res,
+      coach,
+      combinedTimeslot
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -66,8 +98,9 @@ const addCoach = async (req, res) => {
 
 module.exports = {
   getCoach,
+  getCoachById,
+  getCoachAvailiability,
   addCoach,
-  // updateCoach,
-
+  updateCoach,
   deleteCoach,
 };

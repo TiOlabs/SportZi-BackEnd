@@ -1,0 +1,45 @@
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+const getCoachDetails = async (userId) => {
+  try {
+    console.log("service", userId);
+    return await prisma.user.findUnique({
+      where: {
+        user_id: userId,
+      },
+      include: {
+        phone: true,
+        achivement: true,
+      },
+    });
+  } catch (error) {
+    console.log("service error", error);
+  }
+};
+
+const getCoachDetailsToUsers = async (coachId) => {
+  try {
+    if (coachId.startsWith(":")) {
+      coachId = coachId.slice(1);
+    }
+    console.log("service", coachId);
+    return await prisma.coach.findUnique({
+      where: {
+        coach_id: coachId,
+      },
+      include: {
+        user: {
+          include: {
+            phone: true,
+            achivement: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log("service error", error);
+  }
+};
+
+module.exports = { getCoachDetails, getCoachDetailsToUsers };

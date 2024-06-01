@@ -1,11 +1,29 @@
+const { sentEmail } = require("../sentMail/Sentmail");
 const coachCardService = require("../services/coachAssignArcade.service");
-
+const { CoachAcceptEmail } = require("../sentMail/coachAcception");
+const { CoachUnassigned } = require("../sentMail/coachUnassigned");
+const { CoachRequestEmail } = require("../sentMail/coachRequest");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
     const coachCards = await coachCardService.getCoachAssignDetailsById(id);
     if (coachCards) {
       res.status(200).json(coachCards);
+    } else {
+      res.status(404).json({ message: "Coach Card not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getCoachApplyingDetailsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const coachApplyDetails =
+      await coachCardService.getCoachApplyingDetailsById(id);
+    if (coachApplyDetails) {
+      res.status(200).json(coachApplyDetails);
     } else {
       res.status(404).json({ message: "Coach Card not found" });
     }
@@ -36,7 +54,17 @@ const getZoneForCoachBooking = async (req, res) => {
 
 const addCoachCard = async (req, res) => {
   try {
-    const coach = req.body;
+    const { coach_name, arcade_name, email, ...coach } = req.body;
+    console.log("coach_name", coach_name);
+    console.log("arcade_name", arcade_name);
+    console.log("email", email);
+    console.log("coach", coach);
+    try {
+      CoachRequestEmail(email, coach_name, arcade_name);
+    } catch (error) {
+      console.log("Error in sending email", error);
+    }
+    console.log("coach", coach);
     const newCoach = await coachCardService.addCoachCard(coach);
     res.status(201).json(newCoach);
   } catch (error) {
@@ -59,6 +87,48 @@ const updateCoachCard = async (req, res) => {
   }
 };
 
+const updateCoachAssignDetailsForArcade = async (req, res) => {
+  console.log("req.body", req.body);
+  console.log("req.body.email", req.body.email);
+  console.log("req.body.coach_name", req.body.coach_name);
+  try {
+    const { email, coach_name, arcade_name, arcade_email, role } = req.body;
+    // Send email
+    if (role === "COACH") {
+      try {
+        CoachUnassigned(arcade_email, coach_name, arcade_name);
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else {
+      try {
+        CoachAcceptEmail(email, coach_name, arcade_name);
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+
+    // Extract only the fields needed for updating the coach assignment details
+    const { coach_id, arcade_id, status } = req.body;
+    console.log("coach_id", coach_id);
+    console.log("arcade_id", arcade_id);
+    console.log("status", status);
+
+    const coachAssignDetails = { coach_id, arcade_id, status };
+
+    // Update coach assignment details
+    const updatedCoachCard =
+      await coachCardService.updateCoachAssignDetailsForArcade(
+        coachAssignDetails
+      );
+
+    // Send the updated coach card in the response
+    res.status(200).json(updatedCoachCard);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const deleteCoachCard = async (req, res) => {
   try {
     const { id } = req.params;
@@ -73,7 +143,9 @@ const deleteCoachCard = async (req, res) => {
 module.exports = {
   getCoachAssignDetailsById,
   getZoneForCoachBooking,
+  getCoachApplyingDetailsById,
   addCoachCard,
   updateCoachCard,
+  updateCoachAssignDetailsForArcade,
   deleteCoachCard,
 };

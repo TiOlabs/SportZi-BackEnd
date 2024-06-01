@@ -1,0 +1,28 @@
+const coachDetailsServices = require("../services/coachDetails.service");
+
+const getCoachDetails = async (req, res) => {
+  const { id } = req.params;
+  console.log("ccccc", id);
+  try {
+    const coachDetails = await coachDetailsServices.getCoachDetails(id);
+    res.status(200).json(coachDetails);
+    console.log(coachDetails);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getCoachDetailsToUsers = async (req, res) => {
+  const { coachId } = req.query;
+  console.log("coach Id  is", coachId);
+  try {
+    const coachDetails = await coachDetailsServices.getCoachDetailsToUsers(
+      coachId
+    );
+    res.status(200).json(coachDetails);
+    console.log("dataaa user ", coachDetails);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+module.exports = { getCoachDetails, getCoachDetailsToUsers };

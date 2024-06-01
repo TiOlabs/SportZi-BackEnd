@@ -95,6 +95,7 @@ const addArcadeManager = async (req, res, arcadeManager) => {
     },
   });
 
+
   if (existingUser) {
     return res.status(400).json({ message: "Email is already registered" });
   }
