@@ -28,6 +28,8 @@ const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
 const regArchade = require("./src/routes/archadeDetails.route");
 const routeProtect = require('./src/routes/routeProtect.route');
 const coachBookingRoutes = require("./src/routes/coachBooking.route");
+const coachFeedbacksRoutes = require("./src/routes/coachFeedbacks.route");
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -51,6 +53,7 @@ app.use(userRoutes);
 app.use(regArchade);
 app.use(routeProtect);
 app.use(coachBookingRoutes);
+app.use(coachFeedbacksRoutes);
 
 
 app.get("/", (req, res) => {
