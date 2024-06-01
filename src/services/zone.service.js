@@ -29,6 +29,7 @@ const getZoneDetailsForArcade = async (id) => {
         zone: {
           include: {
             sport: true,
+            arcade: true,
           },
         },
       },
