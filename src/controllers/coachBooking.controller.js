@@ -1,6 +1,9 @@
 const coachBookingServices = require("../services/coachBooking.service");
 const { PlayerCanceled } = require("../sentMail/playerCanceled");
 const { CoachCanceled } = require("../sentMail/coachCanceled");
+const {
+  ArcadeCanceledCoachBooking,
+} = require("../sentMail/arcadeCanceledCoachBookings");
 
 const getCoachBooking = async (req, res) => {
   try {
@@ -129,6 +132,8 @@ const updateCoachBooking = async (req, res) => {
       booking_time,
       arcade_email,
       arcade_name,
+      coach_email,
+      zone_name,
     } = req.body;
     if (role === "PLAYER") {
       try {
@@ -153,6 +158,21 @@ const updateCoachBooking = async (req, res) => {
           booking_time,
           arcade_email,
           arcade_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else if (role === "ARCADE" && coach_name !== "") {
+      try {
+        ArcadeCanceledCoachBooking(
+          coach_email,
+          zone_name,
+          player_name,
+          booking_date,
+          booking_time,
+          arcade_name,
+          coach_name,
+          email
         );
       } catch (error) {
         console.log("Error in sending email", error);

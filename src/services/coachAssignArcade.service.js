@@ -40,8 +40,6 @@ const getCoachApplyingDetailsById = async (id) => {
         coach: {
           include: {
             sport: true,
-          },
-          include: {
             user: true,
           },
         },

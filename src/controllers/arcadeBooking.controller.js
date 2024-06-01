@@ -2,7 +2,12 @@ const arcadeBookingService = require("../services/arcadeBooking.service");
 const {
   PlayerCanceledArcadeBooking,
 } = require("../sentMail/playerCanceledArcadeBookings");
-const {ArcadeCanceledArcadeBooking} = require("../sentMail/arcadeCanceledArcadeBooking");
+const {
+  ArcadeCanceledArcadeBooking,
+} = require("../sentMail/arcadeCanceledArcadeBooking");
+const {
+  ArcadeCanceledCoachBooking,
+} = require("../sentMail/arcadeCanceledCoachBookings");
 
 const getArcadeBooking = async (req, res) => {
   try {
@@ -90,14 +95,19 @@ const getArcadeBookingByCretedTime = async (req, res) => {
 };
 
 const getArcadeBookingByBookingId = async (req, res) => {
+  console.log("getArcadeBookingByBookingId-------------");
   try {
     const { bookingId } = req.params;
+    console.log("bookingId", bookingId);
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingsByBookingId(bookingId);
+      console.log("arcadeBooking", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
+      console.log("arcadeBooking------", arcadeBooking);
     } else {
-      res.status(404).json({ message: "Arcade Booking not found" });
+      console.log("----Arcade Booking not found-----");
+      res.status(404).json({ message: "----Arcade Booking not found-----" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -145,7 +155,10 @@ const updateArcadeBooking = async (req, res) => {
       player_name,
       booking_date,
       booking_time,
-      arcade_name
+      arcade_name,
+      arcade_email,
+      coach_email,
+      coach_name,
     } = req.body;
     if (role === "PLAYER") {
       try {
@@ -155,12 +168,13 @@ const updateArcadeBooking = async (req, res) => {
           player_name,
           booking_date,
           booking_time,
-          arcade_name
+          arcade_name,
+          arcade_email
         );
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    } else if (role === "ARCADE"){
+    } else if (role === "ARCADE" ) {
       try {
         ArcadeCanceledArcadeBooking(
           email,
@@ -174,7 +188,7 @@ const updateArcadeBooking = async (req, res) => {
         console.log("Error in sending email", error);
       }
     }
-    const arcadeBooking = {status};
+    const arcadeBooking = { status };
     const updatedArcadeBooking = await arcadeBookingService.updateArcadeBooking(
       id,
       arcadeBooking

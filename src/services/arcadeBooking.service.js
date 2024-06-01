@@ -103,16 +103,21 @@ const getArcadeBookingByCretedTime = async (created_at, userId) => {
   });
 };
 
-const getArcadeBookingsByBookingId = async (id) => {
-  return await prisma.zoneBookingDetails.findUnique({
-    where: {
-      zone_booking_id: id,
-    },
-    include: {
-      user: true,
-      zone: true,
-    },
-  });
+const getArcadeBookingsByBookingId = async (bookingId) => {
+  console.log("getArcadeBookingByBookingId Serviceeeeeeee-------------");
+  try {
+    return await prisma.zoneBookingDetails.findUnique({
+      where: {
+        zone_booking_id: bookingId,
+      },
+      include: {
+        user: true,
+        zone: true,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const addArcadeBooking = async (zoneBookingDetails) => {
