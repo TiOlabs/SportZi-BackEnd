@@ -22,7 +22,7 @@ regUserRouter.post(
 );
 
 regUserRouter.put(
-  "/api/auth/updatePlayerdetails/:id",
+  "/api/auth/updateArcadedetails/:id",
   authenticateToken,
   authorizePlayer,
   PlayerDetailsController.updatePlayerdetails

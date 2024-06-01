@@ -14,7 +14,7 @@ const getCoachDetails = async (req, res) => {
 
 const getCoachDetailsToUsers = async (req, res) => {
   const { coachId } = req.query;
-  console.log("coach Id  is", coachId);
+
   try {
     const coachDetails = await coachDetailsServices.getCoachDetailsToUsers(
       coachId
