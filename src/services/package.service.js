@@ -2,7 +2,21 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getPackage = async () => {
-  return await prisma.package.findMany();
+  return await prisma.package.findMany({
+    include: {
+      arcade: {
+        select: {
+          arcade_name: true,
+          arcade_image: true,
+        },
+      },
+      zone: {
+        select: {
+          zone_name: true,
+        },
+      },
+    },
+  });
 };
 const getPackageById = async (id) => {
   return await prisma.arcade.findUnique({
