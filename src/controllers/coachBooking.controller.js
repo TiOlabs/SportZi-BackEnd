@@ -134,6 +134,7 @@ const updateCoachBooking = async (req, res) => {
       arcade_name,
       coach_email,
       zone_name,
+      reason
     } = req.body;
     if (role === "PLAYER") {
       try {
@@ -143,7 +144,8 @@ const updateCoachBooking = async (req, res) => {
           coach_name,
           player_name,
           booking_date,
-          booking_time
+          booking_time,
+          reason
         );
       } catch (error) {
         console.log("Error in sending email", error);
@@ -157,7 +159,8 @@ const updateCoachBooking = async (req, res) => {
           booking_date,
           booking_time,
           arcade_email,
-          arcade_name
+          arcade_name,
+          reason
         );
       } catch (error) {
         console.log("Error in sending email", error);
@@ -172,7 +175,8 @@ const updateCoachBooking = async (req, res) => {
           booking_time,
           arcade_name,
           coach_name,
-          email
+          email,
+          reason
         );
       } catch (error) {
         console.log("Error in sending email", error);

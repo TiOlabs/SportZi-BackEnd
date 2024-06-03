@@ -23,13 +23,13 @@ const CoachCanceled = (
   booking_date,
   booking_time,
   arcade_email,
-  arcade_name
+  arcade_name,
+  reason
 ) => {
   console.log("email");
   console.log(email, coach_name, player_name, booking_date, booking_time);
-  console.log("email",email);
+  console.log("email", email);
   const mailoptions = {
-    
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
     cc: arcade_email,
@@ -76,6 +76,7 @@ const CoachCanceled = (
         <center><h1>Booking Cancellation Notice</h1></center>
         <p>Dear ${player_name},</p>
         <p>We regret to inform you that Coach ${coach_name} has canceled your booking scheduled for ${booking_date} at ${booking_time}.</p>
+        <p>Reason: ${reason}</p>
         <p>We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
         <p>Thank you for your understanding.</p>
         <p>Best regards,</p>

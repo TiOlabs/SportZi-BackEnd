@@ -151,6 +151,7 @@ model CoachBookingDetails {
   participant_count                        Int
   date                                     String
   time                                     String
+  full_amount                              Float
   coach_id                                 String
   player_id                                String
   zone_id                                  String
@@ -214,6 +215,7 @@ model ZoneBookingDetails {
   canceled_at                              DateTime @updatedAt
   date                                     String
   time                                     String
+  full_amount                              Float
   participant_count                        Int
   booking_type                             String 
   user_id                                  String

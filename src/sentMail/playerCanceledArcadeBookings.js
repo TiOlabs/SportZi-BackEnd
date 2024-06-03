@@ -22,16 +22,19 @@ const PlayerCanceledArcadeBooking = (
   player_name,
   booking_date,
   booking_time,
-  arcade_name
+  arcade_name,
+  reason
 ) => {
   console.log("email");
+  console.log("reason", reason);  
   console.log(
     email,
     zone_name,
     player_name,
     booking_date,
     booking_time,
-    arcade_name
+    arcade_name,
+    reason
   );
   console.log("email",email);
   const mailoptions = {
@@ -80,6 +83,7 @@ const PlayerCanceledArcadeBooking = (
         <h1>Booking Cancellation Notice</h1>
         <p>Dear ${arcade_name} Team,</p>
         <p>We regret to inform you that ${player_name} has canceled your booking scheduled for ${booking_date} at ${booking_time} in ${zone_name}.</p>
+        <p>Reason for cancellation: ${reason}</p>
         <p>We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
         <p>Thank you for your understanding.</p>
         <p>Best regards,</p>

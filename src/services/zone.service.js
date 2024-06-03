@@ -15,6 +15,7 @@ const getZoneById = async (id) => {
     },
     include: {
       arcade: true,
+      discount: true,
     },
   });
 };
