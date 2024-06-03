@@ -38,7 +38,8 @@ const sport = require("./src/routes/sport.route");
 const packageEnrollmentPlayer = require("./src/routes/packageEnrollmentPlayer.route");
 const reportRoutes = require("./src/routes/report.route");
 const reportArcadeRoutes = require("./src/routes/reportArcade.route");
-
+const arcadeCancelBookings = require("./src/routes/bookingCancelArcade.route");
+const coachCancelBookings = require("./src/routes/bookingCancelCoach.route");
 
 app.use(express.json());
 app.use(cors());
@@ -64,7 +65,8 @@ app.use(regArchade);
 app.use(routeProtect);
 app.use(regManagesArcade);
 app.use(coachBookingRoutes);
-
+app.use(arcadeCancelBookings);
+app.use(coachCancelBookings);
 app.use(coachFeedbacksRoutes);
 app.use(packageRoutes);
 app.use(regCoachDetails);
