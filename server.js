@@ -1,8 +1,5 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
-const PORT = 8000;
-
 const cookieParser = require("cookie-parser");
 
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
@@ -23,9 +20,6 @@ const userRoutes = require("./src/routes/user.route");
 const authenticateToken = require("./src/middlewares/authenticateToken");
 const authorizePlayer = require("./src/middlewares/authorizePlayer");
 const { authorizeIDgetting } = require("./src/middlewares/autherizeIDgetting");
-// const authorizeCoach = require("../middlewares/authorizeCoach");
-// const authorizeManager = require("../middlewares/authorizeManager");
-
 const coachesPage = require("./src/routes/coach.route");
 const regArchade = require("./src/routes/archadeDetails.route");
 const regManagesArcade = require("./src/routes/ManagersArchades.route");
@@ -41,10 +35,15 @@ const reportArcadeRoutes = require("./src/routes/reportArcade.route");
 const arcadeCancelBookings = require("./src/routes/bookingCancelArcade.route");
 const coachCancelBookings = require("./src/routes/bookingCancelCoach.route");
 
+const app = express();
+const PORT = 8000;
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
-// app.use("/api/auth/*", authenticateToken);
+
+// Routes
 app.use(arcadeBookingRoutes);
 app.use(zoneDiscountRoutes);
 app.use(playerRoutes);
@@ -75,31 +74,20 @@ app.use(packageEnrollmentPlayer);
 app.use(reportRoutes);
 app.use(reportArcadeRoutes);
 
+// Basic route
 app.get("/", (req, res) => {
   res.send("Backend Server is Running");
 });
 
-// app.get('/api/protected', authenticateToken, (req, res) => {
-//   res.json({ message: 'Protected route accessed successfully', user: req.user});
-// });
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 
-// app.get('/api/coaches', authenticateToken,authorizePlayer, (req, res) => {
-
-//   res.status(200).json();
-// });
-
-// app.get("/api/coaches", authenticateToken, authorizePlayer, (req, res) => {
-//   res.status(200).json();
-// });
-
-// app.use("/api/", authenticateToken, regUserRouter, (req, res) => {
-//   res.status(200).json();
-// });
-
-// app.listen(3000, () => {
-//   console.log("Server running on port 3000");
-// });
-
+// Server setup
 const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)
 );
+
+module.exports = server; // Export server for testing purposes
