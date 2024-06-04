@@ -13,6 +13,7 @@ const getUserById = async (id) => {
     include: {
       phone: true,
       userphoto: true,
+      
     },
   });
 };
