@@ -8,6 +8,12 @@ const {
 const {
   ArcadeCanceledCoachBooking,
 } = require("../sentMail/arcadeCanceledCoachBookings");
+const {
+  ArcadeBookingEmailForArcade,
+} = require("../sentMail/arcadeBookingEmail");
+const {
+  ArcadeBookingEmailForUser,
+} = require("../sentMail/arcadeBookingEmailForUser");
 
 const getArcadeBooking = async (req, res) => {
   try {
@@ -101,7 +107,7 @@ const getArcadeBookingByBookingId = async (req, res) => {
     console.log("bookingId", bookingId);
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingsByBookingId(bookingId);
-      console.log("arcadeBooking", arcadeBooking);
+    console.log("arcadeBooking", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
       console.log("arcadeBooking------", arcadeBooking);
@@ -116,9 +122,73 @@ const getArcadeBookingByBookingId = async (req, res) => {
 
 const addArcadeBooking = async (req, res) => {
   try {
-    const arcadeBooking = req.body;
+    const {
+      status,
+      date,
+      time,
+      full_amount,
+      participant_count,
+      user_id,
+      zone_id,
+      way_of_booking,
+      booking_type,
+      created_at,
+      arcade_email,
+      arcade_name,
+      role,
+      reservation_type,
+      zone_name,
+      user_name,
+      email,
+    } = req.body;
+    console.log("user_name", user_name);
+    if (booking_type === "zone") {
+      try {
+        ArcadeBookingEmailForArcade(
+          arcade_email,
+          arcade_name,
+          role,
+          reservation_type,
+          zone_name,
+          full_amount,
+          date,
+          time,
+          participant_count,
+          user_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+      try {
+        ArcadeBookingEmailForUser(
+          email,
+          arcade_name,
+          role,
+          reservation_type,
+          zone_name,
+          full_amount,
+          date,
+          time,
+          user_name
+        );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+    const arcadeBaooking = {
+      status,
+      date,
+      time,
+      full_amount,
+      participant_count,
+      user_id,
+      zone_id,
+      way_of_booking,
+      booking_type,
+      created_at,
+    };
     const newArcadeBooking = await arcadeBookingService.addArcadeBooking(
-      arcadeBooking
+      arcadeBaooking
     );
     res.status(201).json(newArcadeBooking);
   } catch (error) {
@@ -178,7 +248,7 @@ const updateArcadeBooking = async (req, res) => {
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    } else if (role === "ARCADE" ) {
+    } else if (role === "ARCADE") {
       try {
         ArcadeCanceledArcadeBooking(
           email,

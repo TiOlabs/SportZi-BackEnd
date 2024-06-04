@@ -4,6 +4,8 @@ const { CoachCanceled } = require("../sentMail/coachCanceled");
 const {
   ArcadeCanceledCoachBooking,
 } = require("../sentMail/arcadeCanceledCoachBookings");
+const { CoachBookingEmailForCoach } = require("../sentMail/coachBookingEmail");
+const { CoachBookingEmailForUser } = require("../sentMail/coachBookingEmailForUsers");
 
 const getCoachBooking = async (req, res) => {
   try {
@@ -109,7 +111,69 @@ const getCoachBookingByCretedTime = async (req, res) => {
 
 const addCoachBooking = async (req, res) => {
   try {
-    const coachBooking = req.body;
+    const {
+      status,
+      date,
+      time,
+      full_amount,
+      participant_count,
+      player_id,
+      zone_id,
+      coach_id,
+      arcade_id,
+      created_at,
+      coach_email,
+      coach_name,
+      role,
+      reservation_type,
+      zone_name,
+      user_name,
+      email,
+      arcade_name
+    } = req.body;
+    const coachBooking = {
+      status,
+      date,
+      time,
+      full_amount,
+      participant_count,
+      player_id,
+      zone_id,
+      coach_id,
+      arcade_id,
+      created_at,
+    };
+    try {
+      CoachBookingEmailForCoach(
+        coach_email,
+        coach_name,
+        reservation_type,
+        zone_name,
+        full_amount,
+        date,
+        time,
+        participant_count,
+        user_name,
+        arcade_name
+      );
+    } catch (error) {
+      console.log("Error in sending email", error);
+    }
+    try {
+      CoachBookingEmailForUser(
+        email,
+        reservation_type,
+        zone_name,
+        full_amount,
+        date,
+        time,
+        participant_count,
+        user_name,
+        arcade_name
+      );
+    } catch (error) {
+      console.log("Error in sending email", error);
+    }
     const newCoachBooking = await coachBookingServices.addCoachBooking(
       coachBooking
     );
