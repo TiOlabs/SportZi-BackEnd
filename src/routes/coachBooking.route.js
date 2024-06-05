@@ -13,7 +13,7 @@ router.get(
 );
 router.get(
   "/api/getCoachBookingByArcadeId/:ArcadeId",
-  coachBookingController.getCoachBookingByArcadeId  
+  coachBookingController.getCoachBookingByArcadeId
 );
 router.get(
   "/api/getCoachBookinByBookingId/:bookingId",
@@ -26,6 +26,10 @@ router.get(
 router.get(
   "/api/getCoachBookingByCreatedTime/:created_at/:player_id",
   coachBookingController.getCoachBookingByCretedTime
+);
+router.get(
+  "/api/getCoachEnrollPackageDetailsForCoachBookingForm/:coachId",
+  coachBookingController.getCoachEnrollPackageDetailsForCoachBookingForm
 );
 router.post("/api/addCoachBooking", coachBookingController.addCoachBooking);
 router.put(

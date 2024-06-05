@@ -109,6 +109,18 @@ const getCoachBookingByCretedTime = async (req, res) => {
   }
 };
 
+const getCoachEnrollPackageDetailsForCoachBookingForm = async (req, res) => {
+  const { coachId } = req.params;
+  try {
+    const coachEnrollPackageDetails =
+      await coachBookingServices.getCoachEnrollPackageDetailsForCoachBookingForm(coachId);
+    res.status(200).json(coachEnrollPackageDetails);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const addCoachBooking = async (req, res) => {
   try {
     const {
@@ -293,6 +305,7 @@ module.exports = {
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,
+  getCoachEnrollPackageDetailsForCoachBookingForm,
   addCoachBooking,
   updateCoachBooking,
   updateCoachBookingByCreatedTime,

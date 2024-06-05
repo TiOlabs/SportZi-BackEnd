@@ -19,7 +19,6 @@ transporter.verify((error, success) => {
 const CoachBookingEmailForCoach = (
     coach_email,
     coach_name,
-    role,
     reservation_type,
     zone_name,
     full_amount,
