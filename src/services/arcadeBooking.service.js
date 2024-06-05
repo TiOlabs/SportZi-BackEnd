@@ -5,7 +5,11 @@ const getArcadeBookings = async () => {
   return await prisma.zoneBookingDetails.findMany({
     include: {
       user: true,
-      zone: true,
+      zone: {
+        include: {
+          arcade: true,
+        },
+      },
     },
   });
 };
