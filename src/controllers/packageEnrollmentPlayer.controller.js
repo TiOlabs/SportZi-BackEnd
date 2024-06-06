@@ -1,5 +1,7 @@
 const packageEnrollmentPlayerService = require("../services/packageEnrollmentPlayer.service");
-const { ArcadeCanceledPackageEnrollmentPlayer } = require("../sentMail/arcadeCanceledPackageEnrollmentPlayer");
+const {
+  ArcadeCanceledPackageEnrollmentPlayer,
+} = require("../sentMail/arcadeCanceledPackageEnrollmentPlayer");
 
 const getPackageEnrollmentPlayer = async (req, res) => {
   try {
@@ -43,16 +45,12 @@ const addPackageEnrollmentPlayer = async (req, res) => {
 const updatePackageEnrollmentPlayer = async (req, res) => {
   try {
     const { player_id, package_id } = req.params;
-const{status,email,arcade_name,package_name,role} = req.body;
-    const packageEnrollmentPlayer = {status};
-    if(role==="ARCADE"){
-      try{
-        ArcadeCanceledPackageEnrollmentPlayer(
-          email,
-          arcade_name,
-          package_name
-        );
-      }catch(error){
+    const { status, email, arcade_name, package_name, role } = req.body;
+    const packageEnrollmentPlayer = { status };
+    if (role === "ARCADE") {
+      try {
+        ArcadeCanceledPackageEnrollmentPlayer(email, arcade_name, package_name);
+      } catch (error) {
         console.log("Error in sending email", error);
       }
     }

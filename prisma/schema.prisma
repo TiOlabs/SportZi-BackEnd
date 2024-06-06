@@ -270,7 +270,6 @@ model CoachAEnrollDetailsForPackage{
   @@unique([coach_id,package_id])
 
 }
-
 model PackageEnrollDetailsForPlayer {
   player_id                                String @unique
   package_id                               String @unique

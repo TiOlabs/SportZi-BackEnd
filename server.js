@@ -36,9 +36,9 @@ const packageRoutes = require("./src/routes/package.route");
 const regCoachDetails = require("./src/routes/coachDetails.route");
 const sport = require("./src/routes/sport.route");
 const packageEnrollmentPlayer = require("./src/routes/packageEnrollmentPlayer.route");
+const packageEnrollmentCoach = require("./src/routes/packageEnrollmentCoach.route");
 const reportRoutes = require("./src/routes/report.route");
 const reportArcadeRoutes = require("./src/routes/reportArcade.route");
-
 
 app.use(express.json());
 app.use(cors());
@@ -70,6 +70,7 @@ app.use(packageRoutes);
 app.use(regCoachDetails);
 app.use(sport);
 app.use(packageEnrollmentPlayer);
+app.use(packageEnrollmentCoach);
 app.use(reportRoutes);
 app.use(reportArcadeRoutes);
 
