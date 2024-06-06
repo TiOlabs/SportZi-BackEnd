@@ -206,6 +206,8 @@ model Zone {
   package                                  Package[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
+  zoneRejectDayAndTime                     ZoneRejectDayAndTime[]
+  zoneRejectDateAndTime                    ZoneRejectDateAndTime[]
 }
 
 model ZoneBookingDetails {
@@ -331,6 +333,22 @@ model PackageDayAndTime{
   time                                     String 
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
+}
+
+model ZoneRejectDayAndTime{
+  zone_id                                  String
+  day                                      Day
+  time                                     String 
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,day,time])
+}
+
+model ZoneRejectDateAndTime{
+  zone_id                                  String
+  date                                     String 
+  time                                     String
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,date])
 }
 model userphoto{
   user_id                                  String 
