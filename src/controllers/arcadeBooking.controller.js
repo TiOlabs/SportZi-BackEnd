@@ -14,6 +14,7 @@ const {
 const {
   ArcadeBookingEmailForUser,
 } = require("../sentMail/arcadeBookingEmailForUser");
+const { ArcadeCloseArcade } = require("../sentMail/arcadeCloseArcade");
 
 const getArcadeBooking = async (req, res) => {
   try {
@@ -230,8 +231,13 @@ const updateArcadeBooking = async (req, res) => {
       coach_email,
       coach_name,
       reason,
+      timeForDay,
+      timeForDate,
+      user_names,
+      emails
     } = req.body;
     console.log("reason", reason);
+    
     if (role === "PLAYER") {
       try {
         console.log(reason);
@@ -259,6 +265,23 @@ const updateArcadeBooking = async (req, res) => {
           arcade_name,
           reason
         );
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else if (role === "ForceDeleteZoneBookings") {
+      try {
+        emails.forEach((email) => {
+          user_names.forEach((user_name) => {
+            ArcadeCloseArcade(
+              email,
+              zone_name,
+              arcade_name,
+              reason,
+              user_name,
+              timeForDay,
+            );
+          });
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }

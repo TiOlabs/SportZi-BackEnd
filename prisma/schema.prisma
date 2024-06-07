@@ -338,6 +338,7 @@ model ZoneRejectDayAndTime{
   zone_id                                  String
   day                                      Day
   time                                     String 
+  reason                                   String
   zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
   @@unique([zone_id,day,time])
 }
@@ -346,8 +347,9 @@ model ZoneRejectDateAndTime{
   zone_id                                  String
   date                                     String 
   time                                     String
+  reason                                   String
   zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
-  @@unique([zone_id,date])
+  @@unique([zone_id,date,time])
 }
 model userphoto{
   user_id                                  String 
