@@ -25,7 +25,6 @@ const getArcadeById = async (req, res) => {
 const getArcadeByArcadeId = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("id", id);
     const arcade = await arcadeService.getArcadeByArcadeId(id);
     if (arcade) {
       res.status(200).json(arcade);

@@ -84,7 +84,6 @@ const addCoach = async (req, res) => {
   try {
     const { combinedTimeslot, ...coach } = req.body;
 
-    console.log("coach", coach);
     const newCoach = await coachService.addCoach(
       req,
       res,

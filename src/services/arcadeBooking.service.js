@@ -97,8 +97,6 @@ const getArcadeBookingByDate = async (date, zoneId) => {
 };
 
 const getArcadeBookingByCretedTime = async (created_at, userId) => {
-  console.log("sssssssss", created_at);
-  console.log("sssssssss", userId);
   return await prisma.zoneBookingDetails.findMany({
     where: {
       user_id: userId,
@@ -108,7 +106,6 @@ const getArcadeBookingByCretedTime = async (created_at, userId) => {
 };
 
 const getArcadeBookingsByBookingId = async (bookingId) => {
-  console.log("getArcadeBookingByBookingId Serviceeeeeeee-------------");
   try {
     return await prisma.zoneBookingDetails.findUnique({
       where: {

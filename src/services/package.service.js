@@ -72,8 +72,6 @@ const updatePackage = async (id, package, combinedTimeslot) => {
       ...package,
     },
   });
-  console.log("Updatepackage", Updatepackage);
-  console.log("combinedTimeslot", combinedTimeslot);
 
   try {
     await prisma.packageDayAndTime.deleteMany({

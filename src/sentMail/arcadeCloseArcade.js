@@ -24,7 +24,6 @@ const ArcadeCloseArcade = (
   user_name,
   timeForDay,
 ) => {
-  console.log("email", email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",

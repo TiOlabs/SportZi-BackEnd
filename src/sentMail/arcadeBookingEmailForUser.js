@@ -27,7 +27,6 @@ const ArcadeBookingEmailForUser = (
   time,
   user_name
 ) => {
-  console.log("email", email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",

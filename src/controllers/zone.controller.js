@@ -53,9 +53,6 @@ const updateZone = async (req, res) => {
     const number = id;
     const { combinedTimeslot, combinedTimeslotForDate, reason, ...zone } =
       req.body;
-    console.log("reasonnnnnn", reason);
-    console.log("combinedTimeslot", combinedTimeslot);
-    console.log("combinedTimeslotForDate", combinedTimeslotForDate);
     const updatedZone = await zoneService.updateZone(
       number,
       zone,

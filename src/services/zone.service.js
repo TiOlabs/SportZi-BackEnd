@@ -94,15 +94,12 @@ const updateZone = async (
   combinedTimeslotForDate,
   reason
 ) => {
-  console.log("reasonnnnnn in service.......", reason);
   const updateZone = await prisma.zone.update({
     where: { zone_id: id },
     data: {
       ...zone,
     },
   });
-  console.log("combinedTimeslot", combinedTimeslot);
-  console.log("combinedTimeslotForDate", combinedTimeslotForDate);
   try {
     // Delete all existing entries in zoneRejectDayAndTime for the given zone_id
     await prisma.zoneRejectDayAndTime.deleteMany({

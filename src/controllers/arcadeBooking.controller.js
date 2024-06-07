@@ -80,17 +80,13 @@ const getArcadeBookingByDate = async (req, res) => {
 
 const getArcadeBookingByCretedTime = async (req, res) => {
   try {
-    console.log("gggggg");
     const { created_at, userId } = req.params;
-    console.log("ccccccccc", created_at);
-    console.log("dddddddddddd", userId);
 
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingByCretedTime(
         created_at,
         userId
       );
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
     } else {
@@ -102,18 +98,13 @@ const getArcadeBookingByCretedTime = async (req, res) => {
 };
 
 const getArcadeBookingByBookingId = async (req, res) => {
-  console.log("getArcadeBookingByBookingId-------------");
   try {
     const { bookingId } = req.params;
-    console.log("bookingId", bookingId);
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingsByBookingId(bookingId);
-    console.log("arcadeBooking", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
-      console.log("arcadeBooking------", arcadeBooking);
     } else {
-      console.log("----Arcade Booking not found-----");
       res.status(404).json({ message: "----Arcade Booking not found-----" });
     }
   } catch (error) {
@@ -142,7 +133,6 @@ const addArcadeBooking = async (req, res) => {
       user_name,
       email,
     } = req.body;
-    console.log("user_name", user_name);
     if (booking_type === "zone") {
       try {
         ArcadeBookingEmailForArcade(

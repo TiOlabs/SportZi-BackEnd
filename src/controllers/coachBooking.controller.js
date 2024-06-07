@@ -259,8 +259,6 @@ const updateCoachBooking = async (req, res) => {
       }
     }
     const coachBooking = { status };
-    console.log(id);
-    console.log(coachBooking);
     const updatedCoachBooking = await coachBookingServices.updateCoachBooking(
       id,
       coachBooking
