@@ -15,6 +15,9 @@ const getZoneById = async (id) => {
     },
     include: {
       arcade: true,
+      discount: true,
+      zoneRejectDateAndTime: true,
+      zoneRejectDayAndTime: true,
     },
   });
 };
@@ -30,6 +33,8 @@ const getZoneDetailsForArcade = async (id) => {
           include: {
             sport: true,
             arcade: true,
+            zoneRejectDateAndTime: true,
+            zoneRejectDayAndTime: true,
           },
         },
       },
@@ -82,13 +87,38 @@ const addZone = async (zone) => {
   return createdZone;
 };
 
-const updateZone = async (id, zone) => {
-  return await prisma.zone.update({
+const updateZone = async (
+  id,
+  zone,
+  combinedTimeslot,
+  combinedTimeslotForDate
+) => {
+  const updateZone = await prisma.zone.update({
     where: { zone_id: id },
     data: {
       ...zone,
     },
   });
+  console.log("combinedTimeslot", combinedTimeslot);
+  console.log("combinedTimeslotForDate", combinedTimeslotForDate);
+  for (const slot of combinedTimeslot) {
+    await prisma.zoneRejectDayAndTime.create({
+      data: {
+        zone_id: id,
+        day: slot.day,
+        time: slot.timeslot,
+      },
+    });
+  }
+  for (const slot of combinedTimeslotForDate) {
+    await prisma.zoneRejectDateAndTime.create({
+      data: {
+        zone_id: id,
+        date: slot.date,
+        time: slot.timeslot,
+      },
+    });
+  }
 };
 
 const deleteZone = async (id) => {

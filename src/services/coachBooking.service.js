@@ -172,6 +172,26 @@ const getCoachBookingByCretedTime = async (created_at, player_id) => {
   }
 };
 
+const getCoachEnrollPackageDetailsForCoachBookingForm = async (coachId) => {
+  try {
+    return await prisma.coachAEnrollDetailsForPackage.findMany({
+      where: {
+        coach_id: coachId,
+      },
+      include: {
+        coach: true,
+        package: {
+          include: {
+            packageDayAndTime: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const addCoachBooking = async (coachBookingDetails) => {
   return await prisma.coachBookingDetails.create({
     data: {
@@ -222,6 +242,7 @@ module.exports = {
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,
+  getCoachEnrollPackageDetailsForCoachBookingForm,
   addCoachBooking,
   updateCoachBooking,
   updateCoachBookingByCreatedTime,

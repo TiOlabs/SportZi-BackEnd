@@ -28,6 +28,7 @@ const getPackageById = async (id) => {
         include: {
           arcade: true,
           packageDayAndTime: true,
+          zone: true,
         },
       },
     },
@@ -64,13 +65,43 @@ const addPackage = async (package, combinedTimeslot) => {
   }
 };
 
-const updatePackage = async (id, package) => {
-  return await prisma.package.update({
+const updatePackage = async (id, package, combinedTimeslot) => {
+  const Updatepackage = await prisma.package.update({
     where: { package_id: id },
     data: {
       ...package,
     },
   });
+  console.log("Updatepackage", Updatepackage);
+  console.log("combinedTimeslot", combinedTimeslot);
+
+  try {
+    for (const slot of combinedTimeslot) {
+      // Check if the entry already exists
+      const existingEntry = await prisma.packageDayAndTime.findUnique({
+        where: {
+          package_id_day_time: {
+            package_id: id,
+            day: slot.day,
+            time: slot.timeslot,
+          },
+        },
+      });
+
+      // If the entry does not exist, create a new entry
+      if (!existingEntry) {
+        await prisma.packageDayAndTime.create({
+          data: {
+            package_id: id,
+            day: slot.day,
+            time: slot.timeslot,
+          },
+        });
+      }
+    }
+  } catch (err) {
+    console.log("eeeeeeeeeeeeee", err);
+  }
 };
 
 const deletePackage = async (id) => {

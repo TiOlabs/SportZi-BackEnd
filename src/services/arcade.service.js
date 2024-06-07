@@ -40,6 +40,11 @@ const getArcadeByArcadeId = async (id) => {
         zone: {
           include: {
             sport: true,
+            zoneBookingDetails: {
+              include:{
+                zone: true,
+              }
+            }
           },
         },
         arcadephoto: true,

@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("LOCAL_DATABASE_URL")
+  url          = env("AZURE_DB_URL")
   relationMode = "prisma"
 }
 
@@ -151,6 +151,7 @@ model CoachBookingDetails {
   participant_count                        Int
   date                                     String
   time                                     String
+  full_amount                              Float
   coach_id                                 String
   player_id                                String
   zone_id                                  String
@@ -205,6 +206,8 @@ model Zone {
   package                                  Package[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
+  zoneRejectDayAndTime                     ZoneRejectDayAndTime[]
+  zoneRejectDateAndTime                    ZoneRejectDateAndTime[]
 }
 
 model ZoneBookingDetails {
@@ -214,6 +217,7 @@ model ZoneBookingDetails {
   canceled_at                              DateTime @updatedAt
   date                                     String
   time                                     String
+  full_amount                              Float
   participant_count                        Int
   booking_type                             String 
   user_id                                  String
@@ -328,6 +332,22 @@ model PackageDayAndTime{
   time                                     String 
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
+}
+
+model ZoneRejectDayAndTime{
+  zone_id                                  String
+  day                                      Day
+  time                                     String 
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,day,time])
+}
+
+model ZoneRejectDateAndTime{
+  zone_id                                  String
+  date                                     String 
+  time                                     String
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,date])
 }
 model userphoto{
   user_id                                  String 
@@ -476,3 +496,5 @@ model CoachAssignDetails {
   // state String
   coach_image String
 }
+
+//no

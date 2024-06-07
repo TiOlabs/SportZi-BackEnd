@@ -16,31 +16,27 @@ transporter.verify((error, success) => {
   }
 });
 
-const CoachCanceled = (
-  email,
-  coach_name,
-  player_name,
-  booking_date,
-  booking_time,
+const ArcadeBookingEmailForArcade = (
   arcade_email,
   arcade_name,
-  reason
+  role,
+  reservation_type,
+  zone_name,
+  full_amount,
+  date,
+  time,
+  participant_count,
+  user_name
 ) => {
-  console.log("email");
-  console.log(email, coach_name, player_name, booking_date, booking_time);
-  console.log("email", email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
-    cc: arcade_email,
-    subject: "Booking Cancellation Notice",
+    subject: "Booking Confirmation",
     html: `<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Cancellation Notice</title>
-    
+    <title>Booking Confirmation</title>
     <style>
-       
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -65,26 +61,32 @@ const CoachCanceled = (
         img {
             display: block;
             margin: 0 auto;
-            width: 100px; /* Adjust the width as needed */
-            height: 100px; /* Adjust the height as needed */
+            width: 100px; 
+            height: 100px; 
         }
     </style>
 </head>
 <body>
     <div class="container">
         <img src="logo.png" alt="Logo" border="0">
-        <center><h1>Booking Cancellation Notice</h1></center>
-        <p>Dear ${player_name},</p>
-        <p>We regret to inform you that Coach ${coach_name} has canceled your booking scheduled for ${booking_date} at ${booking_time}.</p>
-        <p>Reason: ${reason}</p>
-        <p>We apologize for any inconvenience this may cause. If you have any questions or need further assistance, please do not hesitate to contact us.</p>
-        <p>Thank you for your understanding.</p>
+        <h1>Booking Confirmation</h1>
+        <p>Dear ${arcade_name} Team,</p>
+        <p>We are pleased to inform you that ${role} ${user_name} has booked the ${zone_name} zone at your arcade.</p>
+        <p>Booking Details:</p>
+        <ul>
+            <li>Date: ${date}</li>
+            <li>Time: ${time}</li>
+            <li>Participant Count: ${participant_count}</li>
+            <li>Reservation Type: ${reservation_type}</li>
+            <li>Total Amount: Rs.${full_amount}.00</li>
+        </ul>
+        <p>you can see more details in your Profile.</p>
+        <p>Please ensure everything is set up for their visit. Thank you!</p>
         <p>Best regards,</p>
         <p>The SportZi Team</p>
     </div>
 </body>`,
   };
-
   transporter.sendMail(mailoptions, function (error, info) {
     if (error) {
       console.log("this is error" + error);
@@ -94,4 +96,4 @@ const CoachCanceled = (
   });
 };
 
-module.exports = { CoachCanceled };
+module.exports = { ArcadeBookingEmailForArcade };
