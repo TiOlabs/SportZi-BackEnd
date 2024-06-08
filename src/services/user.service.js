@@ -35,6 +35,15 @@ const addUserPhoto = async (user_id, image) => {
   });
 };
 
+const deleteUserPhoto = async (user_id, image) => {
+  return await prisma.userphoto.delete({
+    where: {
+      user_id: user_id,
+      image: image,
+    },
+  });
+};
+
 const updateUser = async (id, user) => {
   return await prisma.user.update({
     where: { id: id },
@@ -55,6 +64,7 @@ module.exports = {
   getUserById,
   addUser,
   addUserPhoto,
+  deleteUserPhoto,
   updateUser,
   deleteUser,
 };

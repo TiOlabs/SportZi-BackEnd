@@ -192,12 +192,17 @@ const getCoachEnrollPackageDetailsForCoachBookingForm = async (coachId) => {
   }
 };
 
-const addCoachBooking = async (coachBookingDetails) => {
+const addCoachBooking = async (coachBooking) => {
+  console.log(coachBooking);
+  try{
   return await prisma.coachBookingDetails.create({
     data: {
-      ...coachBookingDetails,
+      ...coachBooking,
     },
   });
+} catch (error) {
+  console.log(error);
+}
 };
 
 const updateCoachBooking = async (id, coachBookingDetails) => {

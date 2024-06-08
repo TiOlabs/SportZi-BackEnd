@@ -46,6 +46,16 @@ const addArcadePhoto = async (req, res) => {
   }
 };
 
+const deleteArcadePhoto = async (req, res) => {
+  try {
+    const { arcade_id, image } = req.body;
+    await arcadeService.deleteArcadePhoto(arcade_id, image);
+    res.status(200).json({ message: "Arcade Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const addArcade = async (req, res) => {
   try {
     const arcade = req.body;
@@ -84,6 +94,7 @@ module.exports = {
   getArcadeById,
   getArcadeByArcadeId,
   addArcadePhoto,
+  deleteArcadePhoto,
   addArcade,
   updateArcade,
   deleteArcade,

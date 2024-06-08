@@ -68,6 +68,19 @@ const addArcadePhoto = async (arcade_id, image) => {
   }
 };
 
+const deleteArcadePhoto = async (arcade_id, image) => {
+  try {
+    return await prisma.arcadephoto.delete({
+      where: {
+        arcade_id: arcade_id,
+        image: image,
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 const addArcade = async (arcade) => {
   return await prisma.arcade.create({
     data: {
@@ -96,6 +109,7 @@ module.exports = {
   getArcadeById,
   getArcadeByArcadeId,
   addArcadePhoto,
+  deleteArcadePhoto,
   addArcade,
   updateArcade,
   deleteArcade,
