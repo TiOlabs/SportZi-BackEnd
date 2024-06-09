@@ -5,6 +5,7 @@ const arcadeController = require("../controllers/arcade.controller");
 router.get("/api/getarcadeDetails", arcadeController.getArcade);
 router.get("/api/getarcadeDetailsById/:id", arcadeController.getArcadeById);
 router.get("/api/getarcadeDetails/:id", arcadeController.getArcadeByArcadeId);
+router.get("/api/getarcadeDetailsByArcadeId/:id", arcadeController.getArcadeByArcadeIdForCoachBooking);
 router.post("/api/addArcadePhoto", arcadeController.addArcadePhoto);
 router.delete("/api/deleteArcadePhoto", arcadeController.deleteArcadePhoto);
 router.post("/api/addarcadeDetails", arcadeController.addArcade);

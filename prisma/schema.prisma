@@ -55,7 +55,7 @@ model Player {
 model Coach {
   coach_id                                  String @unique
   status                                    String @default("pending")
-  sport_id                                  String
+  sport_id                                  String 
   rate                                      Int?
   short_desctiption                         String @default("i am a Coach")
   coach_booking_details                     CoachBookingDetails[]

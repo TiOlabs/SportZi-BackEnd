@@ -36,6 +36,20 @@ const getArcadeByArcadeId = async (req, res) => {
   }
 };
 
+const getArcadeByArcadeIdForCoachBooking = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const arcade = await arcadeService.getArcadeByArcadeIdForCoachBooking(id);
+    if (arcade) {
+      res.status(200).json(arcade);
+    } else {
+      res.status(404).json({ message: "Arcade Booking not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 const addArcadePhoto = async (req, res) => {
   try {
     let { arcade_id, image } = req.body;
@@ -93,6 +107,7 @@ module.exports = {
   getArcade,
   getArcadeById,
   getArcadeByArcadeId,
+  getArcadeByArcadeIdForCoachBooking,
   addArcadePhoto,
   deleteArcadePhoto,
   addArcade,

@@ -41,13 +41,28 @@ const getArcadeByArcadeId = async (id) => {
           include: {
             sport: true,
             zoneBookingDetails: {
-              include:{
+              include: {
                 zone: true,
-              }
-            }
+              },
+            },
           },
         },
         arcadephoto: true,
+      },
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
+const getArcadeByArcadeIdForCoachBooking = async (id) => {
+  try {
+    return await prisma.arcade.findUnique({
+      where: {
+        arcade_id: id,
+      },
+      include: {
+        zone: true,
       },
     });
   } catch (error) {
@@ -108,6 +123,7 @@ module.exports = {
   getArcade,
   getArcadeById,
   getArcadeByArcadeId,
+  getArcadeByArcadeIdForCoachBooking,
   addArcadePhoto,
   deleteArcadePhoto,
   addArcade,
