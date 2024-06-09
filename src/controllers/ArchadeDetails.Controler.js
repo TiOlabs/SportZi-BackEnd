@@ -14,7 +14,7 @@ const getArchadeDetails = async (req, res) => {
 const updateArcadeDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    let { firstname, discription, paymentTypes, user_image } = req.body;
+    let { arcade_name, discription, open_time, close_time } = req.body;
 
     // try {
     //   if (paymentTypes) {
@@ -28,13 +28,13 @@ const updateArcadeDetails = async (req, res) => {
     // } catch (error) {
     //   throw new error("error");
     // }
-    const ArchadeDetails = await PlayerDetailsController.updateArcadeDetails(
+    const ArchadeDetails = await archadeDetailsController.updateArcadeDetails(
       id,
-      firstname,
-      lastname,
+      arcade_name,
       discription,
-      paymentTypes,
-      user_image
+      open_time,
+      close_time
+      //user_image
     );
     res.status(200).json(ArchadeDetails);
   } catch (error) {

@@ -7,6 +7,12 @@ const getArchadeDetails = async (arcade_id) => {
       where: {
         arcade_id: arcade_id,
       },
+      // include: {
+      //   ArcadeManager: true,
+      //   include: {
+      //     user: true,
+      //   },
+      // },
     });
   } catch (error) {
     console.log("service error", error);
@@ -15,23 +21,25 @@ const getArchadeDetails = async (arcade_id) => {
 
 const updateArcadeDetails = async (
   id,
-  firstname,
-  discription,
-  paymentTypes, // assuming this is an array of achievements
-  user_image
+  arcade_name,
+  distription,
+  open_time,
+  close_time
+  //  user_image
 ) => {
   try {
-    return await prisma.user.update({
+    return await prisma.arcade.update({
       where: {
-        user_id: id,
+        arcade_id: id,
       },
       // include: {
       //   achivement: true,
       // },
       data: {
-        firstname: firstname,
-        lastname: lastname,
-        Discription: discription,
+        arcade_name: arcade_name,
+        open_time: open_time,
+        close_time: close_time,
+        distription: distription,
         // achivement: {
         //   create: achivements.map((achivement_details) => {
         //     return {
@@ -39,7 +47,6 @@ const updateArcadeDetails = async (
         //     };
         //   }),
         // },
-        user_image: user_image,
       },
     });
   } catch (error) {
