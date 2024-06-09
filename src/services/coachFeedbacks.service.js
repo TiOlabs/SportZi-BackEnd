@@ -2,14 +2,37 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// const getCoachFeedbacks = async () => {
-//   return await prisma.coachFeedbacks.findMany({
-//     include: {
-//       arcade: true,
-//     },
-//   });
-// };
-const addCoachFeedbacks = async (req, res, feedback,userId) => {
+const getCoachFeedbacks = async (req,res,coachId) => {
+  try{
+    const coachFeedbacks = await prisma.coachFeedbacks.findMany({
+      where :{
+        coach_id:coachId,
+      },
+      include: {
+        feedback:{
+          include:{
+            user:true,
+            feedbackComments:true,
+          }
+        }
+      },
+      orderBy: {
+        feedback: {
+          created_at: 'desc',
+        },
+      },
+    });
+
+    return coachFeedbacks;
+  }catch(e){
+    return res.status(400).json(e.message);
+  }
+
+  
+};
+
+
+const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
   try {
     // console.log("Incoming feedback:", feedback);
 
@@ -33,7 +56,7 @@ const addCoachFeedbacks = async (req, res, feedback,userId) => {
         rate: feedback.rating,
         coach: {
           connect: {
-            coach_id: "C00001",
+            coach_id: coachId,
           },
         },
         feedback: {
@@ -97,7 +120,7 @@ const getCoachAvgRating = async (req, res,coachId) => {
 
 
 module.exports = {
-  // getCoachFeedbacks,
+  getCoachFeedbacks,
   addCoachFeedbacks,
   // updateCoachFeedbacks,
   // deleteCoachFeedbacks,

@@ -97,6 +97,7 @@ model PackageDiscount {
 
 model Feedbacks{
 feedbacks_id                                String @id @unique @default(uuid()) 
+created_at                                  DateTime @default(now())
 coach_feedbacks                             CoachFeedbacks?
 arcade_feedbacks                            ArcadeFeedbacks?
 user_id                                     String
@@ -305,7 +306,7 @@ model Achivement{
  
 model FeedbackComments{
   feedback_id                              String @unique
-  comment                                  String 
+  comment                                  String @db.VarChar(500) 
   feedback                                 Feedbacks @relation(fields: [feedback_id],references: [feedbacks_id])
   @@unique([feedback_id,comment])
 }

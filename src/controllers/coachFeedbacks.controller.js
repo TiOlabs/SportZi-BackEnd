@@ -1,22 +1,31 @@
 //coachFeedbacks.controller.js
 const coachFeedbacksService = require("../services/coachFeedbacks.service");
 
-// const getCoachFeedbacks = async (req, res) => {
-//   try {
-//     const coachFeedbacks = await arcadeRatingsService.getCoachFeedbacks();
-//     coachFeedbacks.sort((a, b) => b.rating - a.rating);
-//     const top10Items = coachFeedbacks.slice(0, 10);
-//     res.status(200).json(top10Items);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+const getCoachFeedbacks = async (req, res) => {
+  try {
+    const {coachId} = req.params
+    const coachFeedbacks = await coachFeedbacksService.getCoachFeedbacks(req,res,coachId);
+    if(coachFeedbacks){
+      res.status(200).json(coachFeedbacks);
+    }
+    else{
+      res.status(404).json({ message: "No found feedbacks" });
+    }
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const addCoachFeedbacks = async (req, res) => {
   try {
     const feedback = req.body;
+    const {coachId} = req.params;
+    console.log(coachId);
     // console.log(feedback);
     const userId = req.user.userId;
-    const newFeedback = await coachFeedbacksService.addCoachFeedbacks(req,res,feedback,userId);
+    const newFeedback = await coachFeedbacksService.addCoachFeedbacks(req,res,feedback,coachId,userId);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -60,7 +69,7 @@ const getCoachAvgRating = async (req,res) => {
 }
 
 module.exports = {
-  // getCoachFeedbacks,
+  getCoachFeedbacks,
   addCoachFeedbacks,
   // updateCoachFeedbacks,
   // deleteCoachFeedbacks,
