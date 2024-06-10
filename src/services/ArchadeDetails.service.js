@@ -7,12 +7,13 @@ const getArchadeDetails = async (arcade_id) => {
       where: {
         arcade_id: arcade_id,
       },
-      // include: {
-      //   ArcadeManager: true,
-      //   include: {
-      //     user: true,
-      //   },
-      // },
+      include: {
+        manager: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
   } catch (error) {
     console.log("service error", error);
