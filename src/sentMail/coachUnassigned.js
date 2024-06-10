@@ -19,7 +19,7 @@ transporter.verify((error, success) => {
 const CoachUnassigned = (arcade_email, coach_name, arcade_name) => {
   const mailoptions = {
     from: SENDERSMAIL,
-    to: arcade_email,
+    to: "spynavindu@gmail.com",
     subject: "Coach Resignation Notice",
     html: ` <head>
     <meta charset="UTF-8">

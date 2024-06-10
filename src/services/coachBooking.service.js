@@ -75,6 +75,33 @@ const getCoachBookingForCoach = async (id) => {
   }
 };
 
+const getCoachBookingByArcadeId = async (ArcadeId) => {
+  try {
+    return await prisma.coachBookingDetails.findMany({
+      where: {
+        arcade_id: ArcadeId,
+      },
+      include: {
+        coach: {
+          include: {
+            user: true,
+          },
+        },
+        player: {
+          include: {
+            user: true,
+          },
+        },
+        zone: true,
+        arcade: true,
+        coachBookingDayAndTime: true,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCoachBookingByBookingId = async (bookingId) => {
   return await prisma.coachBookingDetails.findUnique({
     where: {
@@ -145,12 +172,37 @@ const getCoachBookingByCretedTime = async (created_at, player_id) => {
   }
 };
 
-const addCoachBooking = async (coachBookingDetails) => {
+const getCoachEnrollPackageDetailsForCoachBookingForm = async (coachId) => {
+  try {
+    return await prisma.coachAEnrollDetailsForPackage.findMany({
+      where: {
+        coach_id: coachId,
+      },
+      include: {
+        coach: true,
+        package: {
+          include: {
+            packageDayAndTime: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addCoachBooking = async (coachBooking) => {
+  console.log(coachBooking);
+  try{
   return await prisma.coachBookingDetails.create({
     data: {
-      ...coachBookingDetails,
+      ...coachBooking,
     },
   });
+} catch (error) {
+  console.log(error);
+}
 };
 
 const updateCoachBooking = async (id, coachBookingDetails) => {
@@ -167,18 +219,18 @@ const updateCoachBookingByCreatedTime = async (
   userId,
   coachBooking
 ) => {
-  try{
-  return await prisma.coachBookingDetails.update({
-    where: {
-      player_id_created_at: { created_at: created_at, player_id: userId },
-    },
-    data: {
-      ...coachBooking,
-    },
-  });
-}catch(error){
-  console.log(error);
-}
+  try {
+    return await prisma.coachBookingDetails.update({
+      where: {
+        player_id_created_at: { created_at: created_at, player_id: userId },
+      },
+      data: {
+        ...coachBooking,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteCoachBooking = async (id) => {
@@ -191,9 +243,11 @@ module.exports = {
   getCoachBookings,
   getCoachBookingById,
   getCoachBookingForCoach,
+  getCoachBookingByArcadeId,
   getCoachBookingByBookingId,
   getCoachBookingByDate,
   getCoachBookingByCretedTime,
+  getCoachEnrollPackageDetailsForCoachBookingForm,
   addCoachBooking,
   updateCoachBooking,
   updateCoachBookingByCreatedTime,

@@ -40,8 +40,6 @@ const getCoachApplyingDetailsById = async (id) => {
         coach: {
           include: {
             sport: true,
-          },
-          include: {
             user: true,
           },
         },
@@ -89,8 +87,6 @@ const updateCoachCard = async (id, coach) => {
 };
 
 const updateCoachAssignDetailsForArcade = async (coachAssignDetails) => {
-  console.log("coachAssignDetails", coachAssignDetails);
-  console.log("coachAssignDetails.coach_id", coachAssignDetails.coach_id);
   try {
     // Update coachAssignDetailsForArcade
     await prisma.coachAssignDetailsForArcade.update({

@@ -33,3 +33,17 @@ const sentEmail = (ReciveMail, slip) => {
 };
 
 module.exports = { sentEmail };
+
+{
+  /* <div
+                  style={{
+                    backgroundColor: "#000",
+                    width: "90px",
+                    height: "81px",
+                    borderRadius: "50%",
+                    marginRight: "10px",
+                    backgroundImage: `url(${profilePic})`,
+                    backgroundSize: "cover",
+                  }}
+                ></div> */
+}

@@ -13,6 +13,7 @@ const getUserById = async (id) => {
     include: {
       phone: true,
       userphoto: true,
+      
     },
   });
 };
@@ -28,6 +29,15 @@ const addUser = async (user) => {
 const addUserPhoto = async (user_id, image) => {
   return await prisma.userphoto.create({
     data: {
+      user_id: user_id,
+      image: image,
+    },
+  });
+};
+
+const deleteUserPhoto = async (user_id, image) => {
+  return await prisma.userphoto.delete({
+    where: {
       user_id: user_id,
       image: image,
     },
@@ -54,6 +64,7 @@ module.exports = {
   getUserById,
   addUser,
   addUserPhoto,
+  deleteUserPhoto,
   updateUser,
   deleteUser,
 };

@@ -4,7 +4,12 @@ const prisma = new PrismaClient();
 const getDiscountCards = async () => {
   return await prisma.zoneDiscount.findMany({
     include: {
-      zone: true, // Include Zone data
+      zone: {
+        include: {
+          sport: true,
+          arcade: true,
+        },
+      }, // Include Zone data
     },
   });
 };

@@ -24,7 +24,6 @@ const getSportById = async (req, res) => {
 };
 
 const addSport = async (req, res) => {
-  console.log(req.body);
   try {
     const sport = req.body;
     const newSport = await sportService.addSport(sport);

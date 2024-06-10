@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 
 const getCoachDetails = async (userId) => {
   try {
-    console.log("service", userId);
     return await prisma.user.findUnique({
       where: {
         user_id: userId,
@@ -24,9 +23,18 @@ const getCoachDetailsToUsers = async (coachId) => {
       coachId = coachId.slice(1);
     }
 
-    return await prisma.user.findUnique({
+    return await prisma.coach.findUnique({
+
       where: {
-        user_id: coachId,
+        coach_id: coachId,
+      },
+      include: {
+        user: {
+          include: {
+            phone: true,
+            achivement: true,
+          },
+        },
       },
     });
   } catch (error) {

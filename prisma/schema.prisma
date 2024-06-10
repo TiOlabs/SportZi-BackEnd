@@ -39,6 +39,10 @@ model User {
   zoneBookingDetails                        ZoneBookingDetails[]
   achivement                                Achivement[]
   userphoto                                 userphoto[]
+  reportsMade                               ReportUser[]      @relation("reporter")
+  reportsReceived                           ReportUser[]      @relation("victim")
+  reportsMadeArcade                         ReportArcade[]    @relation("reporterArcade")
+
 }
 
 model Player {
@@ -51,7 +55,7 @@ model Player {
 model Coach {
   coach_id                                  String @unique
   status                                    String @default("pending")
-  sport_id                                  String
+  sport_id                                  String 
   rate                                      Int?
   short_desctiption                         String @default("i am a Coach")
   coach_booking_details                     CoachBookingDetails[]
@@ -93,6 +97,7 @@ model PackageDiscount {
 
 model Feedbacks{
 feedbacks_id                                String @id @unique @default(uuid()) 
+created_at                                  DateTime @default(now())
 coach_feedbacks                             CoachFeedbacks?
 arcade_feedbacks                            ArcadeFeedbacks?
 user_id                                     String
@@ -134,6 +139,8 @@ model Arcade {
   package                                  Package[]
   zone                                     Zone[]
   arcadePhone                              ArcadePhone[] 
+  reportsReceived                          ReportArcade[] @relation("victim")
+  arcadephoto                              Arcadephoto[]
   @@unique([arcade_email])
 }
 
@@ -145,6 +152,7 @@ model CoachBookingDetails {
   participant_count                        Int
   date                                     String
   time                                     String
+  full_amount                              Float
   coach_id                                 String
   player_id                                String
   zone_id                                  String
@@ -154,6 +162,7 @@ model CoachBookingDetails {
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id])
   coachBookingDayAndTime                   CoachBookingDayAndTime[]
+  coachCancelBookings                      CoachCancelBookings?
   @@unique([player_id ,created_at])
 }
 
@@ -183,6 +192,7 @@ model Zone {
   status                                   String @default("open")
   capacity                                 Int
   rate                                     Int
+  full_zone_rate                           Int
   description                              String@default("Add your Discription")
   way_of_booking                           way_of_booking
   zone_image                               String
@@ -190,12 +200,15 @@ model Zone {
   close_time                               String
   arcade_id                                String
   sport_id                                 String
+  time_Step                                Float
   discount                                 ZoneDiscount?
   coach_booking_details                    CoachBookingDetails[]
   zoneBookingDetails                       ZoneBookingDetails[]
   package                                  Package[]
   arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id]) 
   sport                                    Sport @relation(fields: [sport_id], references: [sport_id])
+  zoneRejectDayAndTime                     ZoneRejectDayAndTime[]
+  zoneRejectDateAndTime                    ZoneRejectDateAndTime[]
 }
 
 model ZoneBookingDetails {
@@ -205,6 +218,7 @@ model ZoneBookingDetails {
   canceled_at                              DateTime @updatedAt
   date                                     String
   time                                     String
+  full_amount                              Float
   participant_count                        Int
   booking_type                             String 
   user_id                                  String
@@ -212,6 +226,7 @@ model ZoneBookingDetails {
   way_of_booking                           way_of_booking
   zone                                     Zone @relation(fields: [zone_id], references: [zone_id])
   user                                     User@relation(fields: [user_id],references: [user_id])
+  ArcadeCancelBookings                     ArcadeCancelBookings?
   @@unique([user_id,created_at])
 
 }
@@ -260,7 +275,6 @@ model CoachAEnrollDetailsForPackage{
   @@unique([coach_id,package_id])
 
 }
-
 model PackageEnrollDetailsForPlayer {
   player_id                                String @unique
   package_id                               String @unique
@@ -271,6 +285,7 @@ model PackageEnrollDetailsForPlayer {
   duration                                 Int
   player                                   Player @relation(fields: [player_id], references: [player_id])
   package                                  Package @relation(fields: [package_id],references: [package_id])
+  packageCancelEnrollments                 PackageCancelEnrollments?
   @@unique([player_id,package_id])
 }
 
@@ -291,7 +306,7 @@ model Achivement{
  
 model FeedbackComments{
   feedback_id                              String @unique
-  comment                                  String 
+  comment                                  String @db.VarChar(500) 
   feedback                                 Feedbacks @relation(fields: [feedback_id],references: [feedbacks_id])
   @@unique([feedback_id,comment])
 }
@@ -319,12 +334,77 @@ model PackageDayAndTime{
   package                                  Package @relation(fields: [package_id],references: [package_id])
   @@unique([package_id,day,time])
 }
+
+model ZoneRejectDayAndTime{
+  zone_id                                  String
+  day                                      Day
+  time                                     String 
+  reason                                   String
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,day,time])
+}
+
+model ZoneRejectDateAndTime{
+  zone_id                                  String
+  date                                     String 
+  time                                     String
+  reason                                   String
+  zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
+  @@unique([zone_id,date,time])
+}
 model userphoto{
   user_id                                  String 
   image                                    String @unique
   user                                     User? @relation(fields: [user_id],references: [user_id])
   @@unique([user_id,image])
 
+}
+model Arcadephoto{
+  arcade_id                                String 
+  image                                    String @unique
+  Arcade                                   Arcade? @relation(fields: [arcade_id],references: [arcade_id])
+  @@unique([arcade_id,image])
+
+}
+model ReportUser {
+  report_id                                String @id @unique @default(uuid())
+  reporter_user_id                         String
+  victim_user_id                           String
+  report_reason                            String
+  description                              String
+  reporter_user                            User   @relation("reporter", fields: [reporter_user_id], references: [user_id])
+  victim_user                              User   @relation("victim", fields: [victim_user_id], references: [user_id])
+}
+model ReportArcade{
+  report_id                                String @id @unique @default(uuid())
+  reporter_user_id                         String
+  victim_arcade_id                         String
+  report_reason                            String
+  description                              String
+  reporter_user                            User   @relation("reporterArcade", fields: [reporter_user_id], references: [user_id])
+  victim_arcade                            Arcade @relation("victim", fields: [victim_arcade_id], references: [arcade_id])
+
+}
+model ArcadeCancelBookings{
+  booking_id                               String @id @unique
+  reason                                   String
+  arcadeBooking                            ZoneBookingDetails @relation(fields: [booking_id], references: [zone_booking_id])
+
+}
+
+model CoachCancelBookings{
+  booking_id                               String @id @unique
+  reason                                   String
+  coachBooking                             CoachBookingDetails @relation(fields: [booking_id], references: [booking_id])
+
+}
+
+model PackageCancelEnrollments{
+  reason                                   String
+  player_id                                String
+  package_id                               String
+  packageEnrollment                        PackageEnrollDetailsForPlayer @relation(fields: [player_id, package_id], references: [player_id, package_id])
+  @@unique([player_id, package_id])
 }
 enum Role {
   PLAYER
@@ -419,3 +499,5 @@ model CoachAssignDetails {
   // state String
   coach_image String
 }
+
+//no

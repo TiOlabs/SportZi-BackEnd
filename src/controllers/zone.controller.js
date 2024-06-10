@@ -35,7 +35,7 @@ const getZoneDetailsForArcade = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 const addZone = async (req, res) => {
   try {
@@ -50,9 +50,16 @@ const addZone = async (req, res) => {
 const updateZone = async (req, res) => {
   try {
     const { id } = req.params;
-    const number = (id);
-    const zone = req.body;
-    const updatedZone = await zoneService.updateZone(number, zone);
+    const number = id;
+    const { combinedTimeslot, combinedTimeslotForDate, reason, ...zone } =
+      req.body;
+    const updatedZone = await zoneService.updateZone(
+      number,
+      zone,
+      combinedTimeslot,
+      combinedTimeslotForDate,
+      reason
+    );
     res.status(200).json(updatedZone);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -60,7 +67,6 @@ const updateZone = async (req, res) => {
 };
 
 const deleteZone = async (req, res) => {
-  
   try {
     const { id } = req.params;
     // const number = parseInt(id);
