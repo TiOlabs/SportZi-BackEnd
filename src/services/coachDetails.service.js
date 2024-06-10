@@ -22,7 +22,9 @@ const getCoachDetailsToUsers = async (coachId) => {
     if (coachId.startsWith(":")) {
       coachId = coachId.slice(1);
     }
+
     return await prisma.coach.findUnique({
+
       where: {
         coach_id: coachId,
       },
