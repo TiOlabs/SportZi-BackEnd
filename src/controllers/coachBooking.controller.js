@@ -5,7 +5,22 @@ const {
   ArcadeCanceledCoachBooking,
 } = require("../sentMail/arcadeCanceledCoachBookings");
 const { CoachBookingEmailForCoach } = require("../sentMail/coachBookingEmail");
-const { CoachBookingEmailForUser } = require("../sentMail/coachBookingEmailForUsers");
+const {
+  CoachBookingEmailForUser,
+} = require("../sentMail/coachBookingEmailForUsers");
+const {
+  sendNotidicationToCoachAboutCoachBooking,
+  sendNotificationToArcadeAboutCoachBooking,
+  sendNotificationToPlayerAboutCoachCancelCoachBooking,
+  sendNotificationToCoachAboutCoachCancelCoachBooking,
+  sendNotificationToArcadeAboutCoachCancelCoachBooking,
+  sendNotificationToPlayerAboutPlayerCancelCoachBooking,
+  sendNotificationToCoachAboutPlayerCancelCoachBooking,
+  sendNotificationToArcadeAboutPlayerCancelCoachBooking,
+  sendNotificationToArcadeAboutArcadeCancelCoachBooking,
+  sendNotificationToPlayerAboutArcadeCancelCoachBooking,
+  sendNotificationToCoachAboutArcadeCancelCoachBooking,
+} = require("../services/notification.service");
 
 const getCoachBooking = async (req, res) => {
   try {
@@ -113,13 +128,14 @@ const getCoachEnrollPackageDetailsForCoachBookingForm = async (req, res) => {
   const { coachId } = req.params;
   try {
     const coachEnrollPackageDetails =
-      await coachBookingServices.getCoachEnrollPackageDetailsForCoachBookingForm(coachId);
+      await coachBookingServices.getCoachEnrollPackageDetailsForCoachBookingForm(
+        coachId
+      );
     res.status(200).json(coachEnrollPackageDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 const addCoachBooking = async (req, res) => {
   try {
@@ -141,7 +157,7 @@ const addCoachBooking = async (req, res) => {
       zone_name,
       user_name,
       email,
-      arcade_name
+      arcade_name,
     } = req.body;
     const coachBooking = {
       status,
@@ -168,9 +184,18 @@ const addCoachBooking = async (req, res) => {
         user_name,
         arcade_name
       );
+      sendNotidicationToCoachAboutCoachBooking({
+        coachId: coach_id,
+        message: `You have received a new booking request from ${user_name} in ${zone_name} on ${date} at ${time}.`,
+      });
+      sendNotificationToArcadeAboutCoachBooking({
+        arcadeId: arcade_id,
+        message: `Coach ${coach_name} has received a new booking request from ${user_name} in ${zone_name} on ${date} at ${time}.`,
+      });
     } catch (error) {
       console.log("Error in sending email", error);
     }
+
     try {
       CoachBookingEmailForUser(
         email,
@@ -210,7 +235,10 @@ const updateCoachBooking = async (req, res) => {
       arcade_name,
       coach_email,
       zone_name,
-      reason
+      reason,
+      player_id,
+      coach_id,
+      arcade_id,
     } = req.body;
     if (role === "PLAYER") {
       try {
@@ -223,6 +251,18 @@ const updateCoachBooking = async (req, res) => {
           booking_time,
           reason
         );
+        sendNotificationToPlayerAboutPlayerCancelCoachBooking({
+          playerId: player_id,
+          message: `You have successfully canceled the booking with coach ${coach_name}.`,
+        });
+        sendNotificationToCoachAboutPlayerCancelCoachBooking({
+          coachId: coach_id,
+          message: `Player ${player_name} has canceled the booking with you in ${zone_name} on ${booking_date} at ${booking_time} .`,
+        });
+        sendNotificationToArcadeAboutPlayerCancelCoachBooking({
+          arcadeId: arcade_id,
+          message: `Player ${player_name} has canceled the booking with coach ${coach_name} in ${zone_name} on ${booking_date} at ${booking_time}.`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
@@ -238,6 +278,18 @@ const updateCoachBooking = async (req, res) => {
           arcade_name,
           reason
         );
+        sendNotificationToPlayerAboutCoachCancelCoachBooking({
+          playerId: player_id,
+          message: `Coach ${coach_name} has canceled the booking in ${zone_name} on ${booking_date} at ${booking_time}.`,
+        });
+        sendNotificationToCoachAboutCoachCancelCoachBooking({
+          coachId: coach_id,
+          message: `You have successfully canceled the booking in ${zone_name} on ${booking_date} at ${booking_time} by ${player_name}.`,
+        });
+        sendNotificationToArcadeAboutCoachCancelCoachBooking({
+          arcadeId: arcade_id,
+          message: `Coach ${coach_name} has canceled the booking in ${zone_name} on ${booking_date} at ${booking_time} by ${player_name}.`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
@@ -254,6 +306,18 @@ const updateCoachBooking = async (req, res) => {
           email,
           reason
         );
+        sendNotificationToArcadeAboutArcadeCancelCoachBooking({
+          arcadeId: arcade_id,
+          message: `You have successfully canceled the booking with coach ${coach_name} in ${zone_name} on ${booking_date} at ${booking_time} by ${player_name}.`,
+        });
+        sendNotificationToPlayerAboutArcadeCancelCoachBooking({
+          playerId: player_id,
+          message: `Arcade ${arcade_name} has canceled the booking with coach ${coach_name} in ${zone_name} on ${booking_date} at ${booking_time} by ${player_name}.`,
+        });
+        sendNotificationToCoachAboutArcadeCancelCoachBooking({
+          coachId: coach_id,
+          message: `Arcade ${arcade_name} has canceled the booking with you in ${zone_name} on ${booking_date} at ${booking_time} by ${player_name}.`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
