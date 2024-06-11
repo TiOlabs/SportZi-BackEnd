@@ -42,6 +42,7 @@ model User {
   reportsMade                               ReportUser[]      @relation("reporter")
   reportsReceived                           ReportUser[]      @relation("victim")
   reportsMadeArcade                         ReportArcade[]    @relation("reporterArcade")
+  notificationsForUser                      NotificationForUser[]
 
 }
 
@@ -141,6 +142,7 @@ model Arcade {
   arcadePhone                              ArcadePhone[] 
   reportsReceived                          ReportArcade[] @relation("victim")
   arcadephoto                              Arcadephoto[]
+  notificationsForArcade                   NotificationForArcade[]
   @@unique([arcade_email])
 }
 
@@ -405,6 +407,24 @@ model PackageCancelEnrollments{
   package_id                               String
   packageEnrollment                        PackageEnrollDetailsForPlayer @relation(fields: [player_id, package_id], references: [player_id, package_id])
   @@unique([player_id, package_id])
+}
+
+model NotificationForUser{
+  notification_id                          String @id @unique @default(uuid())
+  user_id                                  String
+  message                                  String
+  is_read                                  Boolean @default(false)
+  created_at                               DateTime @default(now())
+  user                                     User @relation(fields: [user_id], references: [user_id])
+}
+
+model NotificationForArcade{
+  notification_id                          String @id @unique @default(uuid())
+  arcade_id                                String
+  message                                  String
+  is_read                                  Boolean @default(false)
+  created_at                               DateTime @default(now())
+  arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id])
 }
 enum Role {
   PLAYER

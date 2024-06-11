@@ -3,6 +3,10 @@ const coachCardService = require("../services/coachAssignArcade.service");
 const { CoachAcceptEmail } = require("../sentMail/coachAcception");
 const { CoachUnassigned } = require("../sentMail/coachUnassigned");
 const { CoachRequestEmail } = require("../sentMail/coachRequest");
+const {
+  sendNotificationToArcadeAboutCoachRequest,
+  sendNotificationToCoachAboutAcceptCoachRequest,
+} = require("../services/notification.service");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,9 +58,13 @@ const getZoneForCoachBooking = async (req, res) => {
 
 const addCoachCard = async (req, res) => {
   try {
-    const { coach_name, arcade_name, email, ...coach } = req.body;
+    const { coach_name, arcade_name, email, arcadeId, ...coach } = req.body;
     try {
       CoachRequestEmail(email, coach_name, arcade_name);
+      sendNotificationToArcadeAboutCoachRequest({
+        arcadeId,
+        message: `Coach ${coach_name} has requested assignment.`,
+      });
     } catch (error) {
       console.log("Error in sending email", error);
     }
@@ -84,7 +92,8 @@ const updateCoachCard = async (req, res) => {
 
 const updateCoachAssignDetailsForArcade = async (req, res) => {
   try {
-    const { email, coach_name, arcade_name, arcade_email, role } = req.body;
+    const { email, coach_name, arcade_name, arcade_email, role, coach_id } =
+      req.body;
     // Send email
     if (role === "COACH") {
       try {
@@ -95,13 +104,17 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
     } else {
       try {
         CoachAcceptEmail(email, coach_name, arcade_name);
+        sendNotificationToCoachAboutAcceptCoachRequest({
+          coachId: coach_id,
+          message: `Your request to join ${arcade_name} is successfull.`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
     }
 
     // Extract only the fields needed for updating the coach assignment details
-    const { coach_id, arcade_id, status } = req.body;
+    const { arcade_id, status } = req.body;
 
     const coachAssignDetails = { coach_id, arcade_id, status };
 
