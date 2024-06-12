@@ -15,6 +15,7 @@ const getCoachAssignDetailsById = async (id) => {
         coach: {
           include: {
             sport: true,
+            coachApplyDetailsForPackage:true,
           },
         },
       },
