@@ -37,6 +37,11 @@ const getArcadeByArcadeId = async (id) => {
         arcade_id: id,
       },
       include: {
+        manager: {
+          include: {
+            user: true,
+          },
+        },
         zone: {
           include: {
             sport: true,
