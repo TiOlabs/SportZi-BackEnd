@@ -9,7 +9,11 @@ const getCoachDetails = async (userId) => {
       },
       include: {
         phone: true,
-        achivement: true,
+        Coach: {
+          include: {
+            availability: true,
+          },
+        },
       },
     });
   } catch (error) {
@@ -24,7 +28,6 @@ const getCoachDetailsToUsers = async (coachId) => {
     }
 
     return await prisma.coach.findUnique({
-
       where: {
         coach_id: coachId,
       },
