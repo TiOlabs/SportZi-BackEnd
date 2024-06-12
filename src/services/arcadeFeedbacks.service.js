@@ -85,6 +85,23 @@ const addArcadeFeedbacks = async (req,res,feedback,arcadeId,userId) => {
       },
     });
 
+    const feedbacks = await prisma.arcadeFeedbacks.findMany({
+      where: { arcade_id: arcadeId }, // change coach id according actual coacg ID
+      select: { rate: true },
+    });
+
+    const totalFeedbacks = feedbacks.length;
+    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+
+    const avgRate = await prisma.arcade.update({
+      where: {
+        arcade_id: arcadeId,
+      },
+      data: {
+        averageRate:averageRating,
+      },
+    })
+
     return res.status(201).json(arcadeFeedback);
   }
    catch (e) {
@@ -114,8 +131,15 @@ const getArcadeAvgRating = async (req, res,arcadeId) => {
     });
 
     const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
-
+    // const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    const averageRating = await prisma.arcade.findUnique({
+      where:{
+        arcade_id:arcadeId,
+      },
+      select:{
+        averageRate:true,
+      }
+    })
     return res.json({ averageRating, totalFeedbacks });
   } catch (error) {
     return res.json(error.message);
