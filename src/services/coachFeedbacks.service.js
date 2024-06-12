@@ -78,6 +78,23 @@ const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
       },
     });
 
+    const feedbacks = await prisma.coachFeedbacks.findMany({
+      where: { coach_id: coachId }, // change coach id according actual coacg ID
+      select: { rate: true },
+    });
+
+    const totalFeedbacks = feedbacks.length;
+    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+
+    const avgRate = await prisma.coach.update({
+      where: {
+        coach_id: coachId,
+      },
+      data: {
+        averageRate:averageRating,
+      },
+    })
+
     return res.status(201).json(coachFeedback);
   }
    catch (e) {

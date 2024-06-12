@@ -57,7 +57,7 @@ model Coach {
   coach_id                                  String @unique
   status                                    String @default("pending")
   sport_id                                  String 
-  rate                                      Int?
+  averageRate                               Float @default(0.0)
   short_desctiption                         String @default("i am a Coach")
   coach_booking_details                     CoachBookingDetails[]
   coachFeedbacks                            CoachFeedbacks[]
@@ -133,6 +133,7 @@ model Arcade {
   close_time                               String
   arcade_image                             String @default("Your image")
   distription                              String@default("Add your Discription")
+  averageRate                              Float @default(0.0)
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
   coachBookingDetails                      CoachBookingDetails[]
