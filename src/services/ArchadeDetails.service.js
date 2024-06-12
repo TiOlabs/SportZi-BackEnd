@@ -25,7 +25,8 @@ const updateArcadeDetails = async (
   arcade_name,
   distription,
   open_time,
-  close_time
+  close_time,
+  location
   //  user_image
 ) => {
   try {
@@ -41,6 +42,7 @@ const updateArcadeDetails = async (
         open_time: open_time,
         close_time: close_time,
         distription: distription,
+        location: location,
         // achivement: {
         //   create: achivements.map((achivement_details) => {
         //     return {

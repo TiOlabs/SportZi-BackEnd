@@ -5,7 +5,7 @@ const arcadeFeedbacksController = require("../controllers/arcadeFeedbacks.contro
 
 const authenticateToken = require("../middlewares/authenticateToken");
 
-
+router.get("/")
 router.get("/api/getarcadefeedbacks/:arcadeId", arcadeFeedbacksController.getArcadeFeedbacks);
 router.post("/api/addarcadefeedbacks/:arcadeId",authenticateToken,arcadeFeedbacksController.addArcadeFeedbacks);
 // router.put("/api/updatearcadefeedbacks/:id", arcadeFeedbacksController.updateArcadeFeedbacks);

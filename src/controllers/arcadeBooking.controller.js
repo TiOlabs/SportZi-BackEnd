@@ -21,6 +21,7 @@ const {
   sendNotificationToArcadeAboutPlayerCancelZoneBooking,
   sendNotificationToArcadeAboutArcadeCancelZoneBooking,
   sendNotificationToPlayerAboutArcadeCancelZoneBooking,
+  sendNotificationToPlayerAboutZoneBooking,
 } = require("../services/notification.service");
 
 const getArcadeBooking = async (req, res) => {
@@ -158,6 +159,10 @@ const addArcadeBooking = async (req, res) => {
         sendNotificationToArcadeAboutZoneBooking({
           arcadeId: arcadeId,
           message: `Zone ${zone_name} has been booked on ${date} at ${time} by ${user_name}`,
+        });
+        sendNotificationToPlayerAboutZoneBooking({
+          playerId: user_id,
+          message:`zone ${zone_name} has booked successfully.`
         });
       } catch (error) {
         console.log("Error in sending email", error);

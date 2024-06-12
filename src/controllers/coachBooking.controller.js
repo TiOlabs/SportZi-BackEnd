@@ -20,6 +20,7 @@ const {
   sendNotificationToArcadeAboutArcadeCancelCoachBooking,
   sendNotificationToPlayerAboutArcadeCancelCoachBooking,
   sendNotificationToCoachAboutArcadeCancelCoachBooking,
+  sendNotificationToPlayerAboutCoachBooking,
 } = require("../services/notification.service");
 
 const getCoachBooking = async (req, res) => {
@@ -191,6 +192,10 @@ const addCoachBooking = async (req, res) => {
       sendNotificationToArcadeAboutCoachBooking({
         arcadeId: arcade_id,
         message: `Coach ${coach_name} has received a new booking request from ${user_name} in ${zone_name} on ${date} at ${time}.`,
+      });
+      sendNotificationToPlayerAboutCoachBooking({
+        playerId: player_id,
+        message: `You have successfully booked a coach ${coach_name} in ${zone_name} on ${date} at ${time}.`,
       });
     } catch (error) {
       console.log("Error in sending email", error);

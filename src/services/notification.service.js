@@ -212,6 +212,43 @@ const sendNotificationToArcadeAboutCoachBooking = async ({
   }
 };
 
+const sendNotificationToPlayerAboutZoneBooking = async ({ playerId, message }) => {
+  try {
+    const notification = await prisma.notificationForUser.create({
+      data: {
+        user_id: playerId,
+        message: message,
+        is_read: false,
+      },
+    });
+    const io = getIO();
+    io.to(`player_${playerId}`).emit("notification", notification);
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+    throw error;
+  }
+};
+
+const sendNotificationToPlayerAboutCoachBooking = async ({ playerId, message }) => {
+  try {
+    const notification = await prisma.notificationForUser.create({
+      data: {
+        user_id: playerId,
+        message: message,
+        is_read: false,
+      },
+    });
+    const io = getIO();
+    io.to(`player_${playerId}`).emit("notification", notification);
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+    throw error;
+  }
+};
+
+
 const sendNotificationToPlayerAboutCoachCancelCoachBooking = async ({
   playerId,
   message,
@@ -497,6 +534,8 @@ module.exports = {
   sendNotificationToArcadeAboutZoneBooking,
   sendNotidicationToCoachAboutCoachBooking,
   sendNotificationToArcadeAboutCoachBooking,
+  sendNotificationToPlayerAboutZoneBooking,
+  sendNotificationToPlayerAboutCoachBooking,
   sendNotificationToPlayerAboutCoachCancelCoachBooking,
   sendNotificationToCoachAboutCoachCancelCoachBooking,
   sendNotificationToArcadeAboutCoachCancelCoachBooking,

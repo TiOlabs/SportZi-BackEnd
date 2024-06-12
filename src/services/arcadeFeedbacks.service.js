@@ -9,38 +9,34 @@ const prisma = new PrismaClient();
 //   });
 // };
 
-
-const getArcadeFeedbacks = async (req,res,arcadeId) => {
-  try{
+const getArcadeFeedbacks = async (req, res, arcadeId) => {
+  try {
     const arcadeFeedbacks = await prisma.arcadeFeedbacks.findMany({
-      where :{
-        arcade_id:arcadeId,
+      where: {
+        arcade_id: arcadeId,
       },
       include: {
-        feedback:{
-          include:{
-            user:true,
-            feedbackComments:true,
-          }
-        }
+        feedback: {
+          include: {
+            user: true,
+            feedbackComments: true,
+          },
+        },
       },
       orderBy: {
         feedback: {
-          created_at: 'desc',
+          created_at: "desc",
         },
       },
     });
 
     return arcadeFeedbacks;
-  }catch(e){
+  } catch (e) {
     return res.status(400).json(e.message);
   }
-
-  
 };
 
-
-const addArcadeFeedbacks = async (req,res,feedback,arcadeId,userId) => {
+const addArcadeFeedbacks = async (req, res, feedback, arcadeId, userId) => {
   try {
     // console.log("Incoming feedback:", feedback);
 
@@ -86,10 +82,9 @@ const addArcadeFeedbacks = async (req,res,feedback,arcadeId,userId) => {
     });
 
     return res.status(201).json(arcadeFeedback);
-  }
-   catch (e) {
+  } catch (e) {
     return res.status(400).json(e.message);
-  } 
+  }
 };
 // const updateArcadeFeedbacks = async (id, arcadeFeedbacks) => {
 //   return await prisma.arcadeFeedbackss.update({
@@ -105,8 +100,7 @@ const addArcadeFeedbacks = async (req,res,feedback,arcadeId,userId) => {
 //   });
 // };
 
-
-const getArcadeAvgRating = async (req, res,arcadeId) => {
+const getArcadeAvgRating = async (req, res, arcadeId) => {
   try {
     const feedbacks = await prisma.arcadeFeedbacks.findMany({
       where: { arcade_id: arcadeId }, // change coach id according actual coacg ID
@@ -114,15 +108,15 @@ const getArcadeAvgRating = async (req, res,arcadeId) => {
     });
 
     const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    const averageRating =
+      feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) /
+      totalFeedbacks;
 
     return res.json({ averageRating, totalFeedbacks });
   } catch (error) {
     return res.json(error.message);
   }
-}
-
-
+};
 
 module.exports = {
   getArcadeFeedbacks,
