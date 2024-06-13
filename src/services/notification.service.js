@@ -32,8 +32,6 @@ const getcoachNotification = async (coachId) => {
     throw error;
   }
 };
-;
-
 const getplayerNotification = async (playerId) => {
   console.log("playerId", playerId);
   try {
@@ -212,7 +210,10 @@ const sendNotificationToArcadeAboutCoachBooking = async ({
   }
 };
 
-const sendNotificationToPlayerAboutZoneBooking = async ({ playerId, message }) => {
+const sendNotificationToPlayerAboutZoneBooking = async ({
+  playerId,
+  message,
+}) => {
   try {
     const notification = await prisma.notificationForUser.create({
       data: {
@@ -230,7 +231,10 @@ const sendNotificationToPlayerAboutZoneBooking = async ({ playerId, message }) =
   }
 };
 
-const sendNotificationToPlayerAboutCoachBooking = async ({ playerId, message }) => {
+const sendNotificationToPlayerAboutCoachBooking = async ({
+  playerId,
+  message,
+}) => {
   try {
     const notification = await prisma.notificationForUser.create({
       data: {
@@ -247,7 +251,6 @@ const sendNotificationToPlayerAboutCoachBooking = async ({ playerId, message }) 
     throw error;
   }
 };
-
 
 const sendNotificationToPlayerAboutCoachCancelCoachBooking = async ({
   playerId,

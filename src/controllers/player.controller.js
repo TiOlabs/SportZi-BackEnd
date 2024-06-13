@@ -13,6 +13,18 @@ const getPlayer = async (req, res) => {
   }
 };
 
+const getPlayerById = async (req, res) => {
+  console.log("getPlayerById");
+  console.log(req.params);
+  try {
+    const { id } = req.params;
+    const player = await playerService.getPlayerById(id);
+    res.status(200).json(player);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // const addPlayer = async (req, res) => {
 //   try {
 //     const player = req.body;
@@ -75,6 +87,7 @@ const addPlayer = async (req, res) => {
 
 module.exports = {
   getPlayer,
+  getPlayerById,
   addPlayer,
   updatePlayer, 
   deletePlayer,
