@@ -73,6 +73,7 @@ const deleteArcadePhoto = async (req, res) => {
 const addArcade = async (req, res) => {
   try {
     const arcade = req.body;
+    console.log("arcade", arcade);  
     const newArcade = await arcadeService.addArcade(arcade);
     res.status(201).json(newArcade);
   } catch (error) {

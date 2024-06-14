@@ -14,7 +14,7 @@ const getArchadeDetails = async (req, res) => {
 const updateArcadeDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    let { arcade_name, discription, open_time, close_time,location } = req.body;
+    let { arcade_name, discription, open_time, close_time,location ,arcade_image } = req.body;
 
     // try {
     //   if (paymentTypes) {
@@ -34,7 +34,8 @@ const updateArcadeDetails = async (req, res) => {
       discription,
       open_time,
       close_time,
-      location
+      location,
+      arcade_image
       //user_image
     );
     res.status(200).json(ArchadeDetails);
