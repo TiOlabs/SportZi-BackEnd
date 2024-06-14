@@ -9,9 +9,11 @@ const getCoachDetails = async (userId) => {
       },
       include: {
         phone: true,
+        achivement: true,
         Coach: {
           include: {
             availability: true,
+            sport: true,
           },
         },
       },
