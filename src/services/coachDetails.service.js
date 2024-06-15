@@ -86,14 +86,14 @@ const updateCoachDetails = async (
     for (const slot of combinedTimeslot) {
       await prisma.availiability.create({
         data: {
-          coach_id: newCoachID,
+          coach_id: id,
           day: slot.day,
           time: slot.timeslot,
         },
       });
     }
   } catch (error) {
-    console.log("service error", error);
+    console.log("service error cokm", error);
   }
 };
 const deleteQulifications = async (user_id) => {

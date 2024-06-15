@@ -34,7 +34,7 @@ const updateCoachDetailsController = async (req, res) => {
     combinedTimeslot,
     qulifications,
   } = req.body;
-  console.log(qulifications);
+  console.log(combinedTimeslot);
   try {
     if (qulifications) {
       try {
@@ -47,19 +47,19 @@ const updateCoachDetailsController = async (req, res) => {
   } catch (error) {
     throw new error("error");
   }
-  // try {
-  //   if (combinedTimeslot) {
-  //     try {
-  //       const deleteTimeSlots = await coachDetailsServices.deleteAvailability(
-  //         id
-  //       );
-  //     } catch (error) {
-  //       res.status(500).json({ massege: error.massege });
-  //     }
-  //   }
-  // } catch (error) {
-  //   throw new error("error");
-  // }
+  try {
+    if (combinedTimeslot) {
+      try {
+        const deleteTimeSlots = await coachDetailsServices.deleteAvailability(
+          id
+        );
+      } catch (error) {
+        res.status(500).json({ massege: error.massege });
+      }
+    }
+  } catch (error) {
+    throw new error("error");
+  }
   try {
     await coachDetailsServices.updateCoachDetails(
       id,
