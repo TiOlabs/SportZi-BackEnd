@@ -51,6 +51,8 @@ const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
       },
     });
 
+    console.log(newFeedback.feedbacks_id);
+
     const coachFeedback = await prisma.coachFeedbacks.create({
       data: {
         rate: feedback.rating,
@@ -126,8 +128,16 @@ const getCoachAvgRating = async (req, res,coachId) => {
     });
 
     const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    // const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
 
+    const averageRating = await prisma.coach.findUnique({
+      where:{
+        coach_id:coachId,
+      },
+      select:{
+        averageRate:true,
+      }
+    })
     return res.json({ averageRating, totalFeedbacks });
   } catch (error) {
     return res.json(error.message);
