@@ -13,7 +13,7 @@ const getCoachDetails = async (userId) => {
         Coach: {
           include: {
             availability: true,
-            sport: true,
+            // sport: true,
           },
         },
       },
