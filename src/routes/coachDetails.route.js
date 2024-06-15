@@ -14,4 +14,10 @@ regCoachDetails.get(
   "/api/auth/getcoachDetailsForUsers",
   coachDetailsController.getCoachDetailsToUsers
 );
+regCoachDetails.put(
+  "/api/auth/updatecoachDetails/:id",
+  authenticateToken,
+  authorizeCoach,
+  coachDetailsController.updateCoachDetailsController
+);
 module.exports = regCoachDetails;
