@@ -15,7 +15,7 @@ const getCoachAssignDetailsById = async (id) => {
         coach: {
           include: {
             sport: true,
-            coachApplyDetailsForPackage:true,
+            coachApplyDetailsForPackage: true,
           },
         },
       },
@@ -103,14 +103,56 @@ const updateCoachAssignDetailsForArcade = async (coachAssignDetails) => {
     });
 
     // Update coach table
-    await prisma.coach.update({
-      where: {
-        coach_id: coachAssignDetails.coach_id,
-      },
-      data: {
-        status: "active",
-      },
-    });
+    if (coachAssignDetails.status === "success") {
+      await prisma.coach.update({
+        where: {
+          coach_id: coachAssignDetails.coach_id,
+        },
+        data: {
+          status: "active",
+        },
+      });
+    } else if (coachAssignDetails.status === "canceled_By_Coach") {
+      await prisma.coachAssignDetailsForArcade
+        .findMany({
+          where: {
+            coach_id: coachAssignDetails.coach_id,
+            status: "success",
+          },
+        })
+        .then((res) => {
+          if (res.length === 0) {
+            prisma.coach.update({
+              where: {
+                coach_id: coachAssignDetails.coach_id,
+              },
+              data: {
+                status: "pending",
+              },
+            });
+          }
+        });
+    } else if (coachAssignDetails.status === "canceled_By_Arcade") {
+      await prisma.coachAssignDetailsForArcade
+        .findMany({
+          where: {
+            coach_id: coachAssignDetails.coach_id,
+            status: "success",
+          },
+        })
+        .then((res) => {
+          if (res.length === 0) {
+            prisma.coach.update({
+              where: {
+                coach_id: coachAssignDetails.coach_id,
+              },
+              data: {
+                status: "pending",
+              },
+            });
+          }
+        });
+    }
 
     // Return whatever you need to return
   } catch (error) {

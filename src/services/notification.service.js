@@ -147,6 +147,27 @@ const sendNotificationToCoachAboutAcceptCoachRequest = async ({
   }
 };
 
+const sendNotificationToCoachAboutDeniedCoachRequest = async ({
+  coachId,
+  message,
+}) => {
+  try {
+    const notification = await prisma.notificationForUser.create({
+      data: {
+        user_id: coachId,
+        message: message,
+        is_read: false,
+      },
+    });
+    const io = getIO();
+    io.to(`coach_${coachId}`).emit("notification", notification);
+  } catch (error) {
+    console.log("error");
+    console.log(error);
+    throw error;
+  }
+};
+
 const sendNotificationToArcadeAboutZoneBooking = async ({
   arcadeId,
   message,
@@ -534,6 +555,7 @@ module.exports = {
   playerNotification,
   sendNotificationToArcadeAboutCoachRequest,
   sendNotificationToCoachAboutAcceptCoachRequest,
+  sendNotificationToCoachAboutDeniedCoachRequest,
   sendNotificationToArcadeAboutZoneBooking,
   sendNotidicationToCoachAboutCoachBooking,
   sendNotificationToArcadeAboutCoachBooking,

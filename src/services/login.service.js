@@ -14,9 +14,11 @@ module.exports = {
       },
     });
     if (!user) {
+      console.log("Invalid username or password")
       throw new Error('Invalid username or password');
     }
     if (!await bcrypt.compare(password, user.password)) {
+      console.log("Invalid username or password pp")
       throw new Error('Invalid username or password');
     }
     const token = jwt.sign({ userId: user.user_id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
