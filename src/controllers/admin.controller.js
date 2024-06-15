@@ -1,5 +1,5 @@
+const { adminEmail } = require("../sentMail/adminEmail");
 const adminService = require("../services/admin.service");
-
 
 const getAdmin = async (req, res) => {
   try {
@@ -10,37 +10,60 @@ const getAdmin = async (req, res) => {
   }
 };
 
-
-
-
 const addAdmin = async (req, res) => {
+  console.log("addAdmin");
+  console.log(req.body);
+  try {
+    const { firstname, lastname, email, password, phone_number } = req.body;
     try {
-      const admin = req.body;
-  
-      const newAdmin = await adminService.addAdmin(req,res,admin);
-      
-    }
-     catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
-
-
-
-
-  const deleteAdmin = async (req, res) => {
-    try {
-      const {id}  = req.params;
-      const deletedAdmin = await adminService.deleteAdmin(id);
-      res.status(200).json({ message:"Admin Deleted" , DeletedAdmin:deletedAdmin  });
+      adminEmail(email, firstname, lastname, password);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };
-  
-  module.exports = {
-    getAdmin,
-    addAdmin,
-    deleteAdmin,
-  };
-  
+    console.log(firstname, lastname, email, password, phone_number);
+    const admin = (firstname, lastname, email, password, phone_number);
+    const newAdmin = await adminService.addAdmin(firstname, lastname, email, password, phone_number);
+    res.status(201).json(newAdmin);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const updateAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(req.body);
+    const { firstname, lastname, email,phone,password,currentPassword } = req.body;
+    const updatedAdmin = await adminService.updateAdmin(
+      id,
+      firstname,
+      lastname,
+      email,
+      phone,
+      password,
+      currentPassword
+    );
+    res.status(200).json(updatedAdmin);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedAdmin = await adminService.deleteAdmin(id);
+    res
+      .status(200)
+      .json({ message: "Admin Deleted", DeletedAdmin: deletedAdmin });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getAdmin,
+  addAdmin,
+  updateAdmin,
+  deleteAdmin,
+};
