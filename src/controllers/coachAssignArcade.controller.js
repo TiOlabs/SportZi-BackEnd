@@ -6,7 +6,9 @@ const { CoachRequestEmail } = require("../sentMail/coachRequest");
 const {
   sendNotificationToArcadeAboutCoachRequest,
   sendNotificationToCoachAboutAcceptCoachRequest,
+  sendNotificationToCoachAboutDeniedCoachRequest,
 } = require("../services/notification.service");
+const { CoachRejectionEmail } = require("../sentMail/coachRejectionEmail");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,7 +103,18 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    } else {
+    }else if (role ==="ARCADE"){
+      try {
+        CoachRejectionEmail(email, coach_name, arcade_name);
+        sendNotificationToCoachAboutDeniedCoachRequest({
+          coachId: coach_id,
+          message: `Your request to join ${arcade_name} is denied.`,
+        });
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+     else {
       try {
         CoachAcceptEmail(email, coach_name, arcade_name);
         sendNotificationToCoachAboutAcceptCoachRequest({
