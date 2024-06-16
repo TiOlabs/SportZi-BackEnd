@@ -36,7 +36,6 @@ const reportArcadeRoutes = require("./src/routes/reportArcade.route");
 const arcadeCancelBookings = require("./src/routes/bookingCancelArcade.route");
 const coachCancelBookings = require("./src/routes/bookingCancelCoach.route");
 
-
 const app = express();
 const PORT = 8000;
 
