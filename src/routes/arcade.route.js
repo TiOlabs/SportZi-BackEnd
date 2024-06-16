@@ -9,7 +9,7 @@ router.get(
   "/api/getarcadeDetailsByArcadeId/:id",
   arcadeController.getArcadeByArcadeIdForCoachBooking
 );
-//router.post("/api/addArcadePhoto", arcadeController.addArcadePhoto);
+router.post("/api/addArcadePhoto", arcadeController.addArcadePhoto);
 router.delete("/api/deleteArcadePhoto", arcadeController.deleteArcadePhoto);
 router.post("/api/addarcadeDetails", arcadeController.addArcade);
 router.put("/api/updatearcadeDetails/:id", arcadeController.updateArcade);
