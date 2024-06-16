@@ -5,7 +5,7 @@ const packageEnrollmentCoachController = require("../controllers/packageEnrollme
 // const router = require("./arcadeBooking.route");
 
 router.get("/api/getPackageEnrollmentCoachDetails", packageEnrollmentCoachController.getPackageEnrollmentCoach);
-router.get("/api/getPackageEnrollmentCoachDetails/:id", packageEnrollmentCoachController.getPackageEnrollmentCoachById);
+router.get("/api/getPackageEnrollmentCoachDetailsById/:id", packageEnrollmentCoachController.getPackageEnrollmentCoachById);
 router.post("/api/addPackageEnrollmentCoachDetails",  packageEnrollmentCoachController.addPackageEnrollmentCoach);
 router.put("/api/updatePackageEnrollmentCoachDetails/:coach_id/:package_id", packageEnrollmentCoachController.updatePackageEnrollmentCoach);
 router.delete("/api/deletePackageEnrollmentCoachDetails/:id", packageEnrollmentCoachController.deletePackageEnrollmentCoach);

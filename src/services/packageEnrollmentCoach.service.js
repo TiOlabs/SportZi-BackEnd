@@ -19,9 +19,12 @@ const getPackageEnrollmentCoach = async () => {
   });
 };
 const getPackageEnrollmentCoachById = async (id) => {
-  return await prisma.coachAEnrollDetailsForPackage.findUnique({
+  return await prisma.coachAEnrollDetailsForPackage.findMany({
     where: {
-      coachAEnrollDetailsForPackage_id: id,
+      coach_id: id,
+    },
+    include: {
+      package: true,
     },
   });
 };
