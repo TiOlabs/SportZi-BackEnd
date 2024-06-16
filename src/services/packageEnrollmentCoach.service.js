@@ -29,6 +29,7 @@ const getPackageEnrollmentCoachById = async (id) => {
   });
 };
 const addPackageEnrollmentCoach = async (coachAEnrollDetailsForPackage) => {
+  console.log("ssss",coachAEnrollDetailsForPackage);
   return await prisma.coachAEnrollDetailsForPackage.create({
     data: {
       ...coachAEnrollDetailsForPackage,
