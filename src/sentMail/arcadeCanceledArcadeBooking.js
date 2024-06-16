@@ -25,15 +25,6 @@ const ArcadeCanceledArcadeBooking = (
   arcade_name,
   reason
 ) => {
-  console.log("email");
-  console.log(
-    email,
-    zone_name,
-    player_name,
-    booking_date,
-    booking_time,
-    arcade_name
-  );
 
   const mailoptions = {
     from: SENDERSMAIL,

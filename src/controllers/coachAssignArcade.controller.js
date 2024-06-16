@@ -3,6 +3,12 @@ const coachCardService = require("../services/coachAssignArcade.service");
 const { CoachAcceptEmail } = require("../sentMail/coachAcception");
 const { CoachUnassigned } = require("../sentMail/coachUnassigned");
 const { CoachRequestEmail } = require("../sentMail/coachRequest");
+const {
+  sendNotificationToArcadeAboutCoachRequest,
+  sendNotificationToCoachAboutAcceptCoachRequest,
+  sendNotificationToCoachAboutDeniedCoachRequest,
+} = require("../services/notification.service");
+const { CoachRejectionEmail } = require("../sentMail/coachRejectionEmail");
 const getCoachAssignDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,17 +60,16 @@ const getZoneForCoachBooking = async (req, res) => {
 
 const addCoachCard = async (req, res) => {
   try {
-    const { coach_name, arcade_name, email, ...coach } = req.body;
-    console.log("coach_name", coach_name);
-    console.log("arcade_name", arcade_name);
-    console.log("email", email);
-    console.log("coach", coach);
+    const { coach_name, arcade_name, email, arcadeId, ...coach } = req.body;
     try {
       CoachRequestEmail(email, coach_name, arcade_name);
+      sendNotificationToArcadeAboutCoachRequest({
+        arcadeId,
+        message: `Coach ${coach_name} has requested assignment.`,
+      });
     } catch (error) {
       console.log("Error in sending email", error);
     }
-    console.log("coach", coach);
     const newCoach = await coachCardService.addCoachCard(coach);
     res.status(201).json(newCoach);
   } catch (error) {
@@ -88,11 +93,9 @@ const updateCoachCard = async (req, res) => {
 };
 
 const updateCoachAssignDetailsForArcade = async (req, res) => {
-  console.log("req.body", req.body);
-  console.log("req.body.email", req.body.email);
-  console.log("req.body.coach_name", req.body.coach_name);
   try {
-    const { email, coach_name, arcade_name, arcade_email, role } = req.body;
+    const { email, coach_name, arcade_name, arcade_email, role, coach_id } =
+      req.body;
     // Send email
     if (role === "COACH") {
       try {
@@ -100,19 +103,31 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    } else {
+    }else if (role ==="ARCADE"){
+      try {
+        CoachRejectionEmail(email, coach_name, arcade_name);
+        sendNotificationToCoachAboutDeniedCoachRequest({
+          coachId: coach_id,
+          message: `Your request to join ${arcade_name} is denied.`,
+        });
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    }
+     else {
       try {
         CoachAcceptEmail(email, coach_name, arcade_name);
+        sendNotificationToCoachAboutAcceptCoachRequest({
+          coachId: coach_id,
+          message: `Your request to join ${arcade_name} is successfull.`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
     }
 
     // Extract only the fields needed for updating the coach assignment details
-    const { coach_id, arcade_id, status } = req.body;
-    console.log("coach_id", coach_id);
-    console.log("arcade_id", arcade_id);
-    console.log("status", status);
+    const { arcade_id, status } = req.body;
 
     const coachAssignDetails = { coach_id, arcade_id, status };
 

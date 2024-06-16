@@ -7,7 +7,6 @@ const getPackageEnrollmentPlayer = async (req, res) => {
   try {
     const packageEnrollmentPlayer =
       await packageEnrollmentPlayerService.getPackageEnrollmentPlayer();
-    console.log("packageEnrollmentPlayer", packageEnrollmentPlayer);
     res.status(200).json(packageEnrollmentPlayer);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,8 +27,6 @@ const getPackageEnrollmentPlayerById = async (req, res) => {
   }
 };
 const addPackageEnrollmentPlayer = async (req, res) => {
-  console.log("req.body");
-  console.log("req.body", req.body);
   try {
     const packageEnrollmentPlayer = req.body;
     const newPackageEnrollmentPlayer =
@@ -69,7 +66,6 @@ const updatePackageEnrollmentPlayer = async (req, res) => {
 const deletePackageEnrollmentPlayer = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("mtyugy7g67", id);
     // const number = parseInt(id);
     await packageEnrollmentPlayerService.deletePackageEnrollmentPlayer(id);
     res

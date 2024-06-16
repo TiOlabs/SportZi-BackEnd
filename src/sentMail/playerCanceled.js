@@ -25,9 +25,6 @@ const PlayerCanceled = (
   booking_time,
   reason
 ) => {
-  console.log("email");
-  console.log(email, coach_name, player_name, booking_date, booking_time);
-  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",

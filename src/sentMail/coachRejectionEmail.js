@@ -16,16 +16,16 @@ transporter.verify((error, success) => {
   }
 });
 
-const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
+const CoachRejectionEmail = (email, coach_name, arcade_name) => {
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
-    subject: "Request Accepted",
+    subject: "Coach Rejection Notice",
     html: ` <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Accepted</title>
-    
+    <title>Coach Rejection Notice</title>
+
     <style>
         /* Add your custom styling here */
         body {
@@ -59,13 +59,13 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Logo" border="0">
-        <h1>Your Request Has Been Accepted!</h1>
-        <p>Dear ${Coach_name},</p>
-        <p>We are delighted to inform you that your request to join our arcade has been accepted. Welcome aboard!</p>
-        <p>Thank you for choosing us, and we look forward to having you as part of our community.</p>
-        <p>Best regards,</p>
-        <p>The ${arcade_name} Team</p>
+        <img src="https://i.ibb.co/3B1J1jP/logo.png" alt="logo" />
+        <h1>Coach Rejection Notice</h1>
+        <p>Dear ${coach_name},</p>
+        <p>We regret to inform you that your application to coach at ${arcade_name} has been rejected.</p>
+        <p>Thank you for your interest in coaching at ${arcade_name}. We wish you the best in your future endeavors.</p>
+        <p>Best Regards,</p>
+        <p>The SportZi Team</p>
     </div>
 </body>`,
   };
@@ -78,4 +78,4 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
   });
 };
 
-module.exports = { CoachAcceptEmail };
+module.exports = { CoachRejectionEmail };

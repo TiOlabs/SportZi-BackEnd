@@ -14,6 +14,15 @@ const {
 const {
   ArcadeBookingEmailForUser,
 } = require("../sentMail/arcadeBookingEmailForUser");
+const { ArcadeCloseArcade } = require("../sentMail/arcadeCloseArcade");
+const {
+  sendNotificationToArcadeAboutZoneBooking,
+  sendNotificationToPlayerAboutPlayerCancelZoneBooking,
+  sendNotificationToArcadeAboutPlayerCancelZoneBooking,
+  sendNotificationToArcadeAboutArcadeCancelZoneBooking,
+  sendNotificationToPlayerAboutArcadeCancelZoneBooking,
+  sendNotificationToPlayerAboutZoneBooking,
+} = require("../services/notification.service");
 
 const getArcadeBooking = async (req, res) => {
   try {
@@ -79,17 +88,13 @@ const getArcadeBookingByDate = async (req, res) => {
 
 const getArcadeBookingByCretedTime = async (req, res) => {
   try {
-    console.log("gggggg");
     const { created_at, userId } = req.params;
-    console.log("ccccccccc", created_at);
-    console.log("dddddddddddd", userId);
 
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingByCretedTime(
         created_at,
         userId
       );
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
     } else {
@@ -101,18 +106,13 @@ const getArcadeBookingByCretedTime = async (req, res) => {
 };
 
 const getArcadeBookingByBookingId = async (req, res) => {
-  console.log("getArcadeBookingByBookingId-------------");
   try {
     const { bookingId } = req.params;
-    console.log("bookingId", bookingId);
     const arcadeBooking =
       await arcadeBookingService.getArcadeBookingsByBookingId(bookingId);
-    console.log("arcadeBooking", arcadeBooking);
     if (arcadeBooking) {
       res.status(200).json(arcadeBooking);
-      console.log("arcadeBooking------", arcadeBooking);
     } else {
-      console.log("----Arcade Booking not found-----");
       res.status(404).json({ message: "----Arcade Booking not found-----" });
     }
   } catch (error) {
@@ -140,8 +140,8 @@ const addArcadeBooking = async (req, res) => {
       zone_name,
       user_name,
       email,
+      arcadeId,
     } = req.body;
-    console.log("user_name", user_name);
     if (booking_type === "zone") {
       try {
         ArcadeBookingEmailForArcade(
@@ -156,6 +156,14 @@ const addArcadeBooking = async (req, res) => {
           participant_count,
           user_name
         );
+        sendNotificationToArcadeAboutZoneBooking({
+          arcadeId: arcadeId,
+          message: `Zone ${zone_name} has been booked on ${date} at ${time} by ${user_name}`,
+        });
+        sendNotificationToPlayerAboutZoneBooking({
+          playerId: user_id,
+          message:`zone ${zone_name} has booked successfully.`
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
@@ -230,8 +238,16 @@ const updateArcadeBooking = async (req, res) => {
       coach_email,
       coach_name,
       reason,
+      timeForDay,
+      timeForDate,
+      user_names,
+      emails,
+      user_ids,
+      user_id,
+      arcade_id,
     } = req.body;
     console.log("reason", reason);
+
     if (role === "PLAYER") {
       try {
         console.log(reason);
@@ -245,6 +261,14 @@ const updateArcadeBooking = async (req, res) => {
           arcade_email,
           reason
         );
+        sendNotificationToPlayerAboutPlayerCancelZoneBooking({
+          playerId: user_id,
+          message: `successfully canceled booking for ${zone_name} on ${booking_date} at ${booking_time}`,
+        });
+        sendNotificationToArcadeAboutPlayerCancelZoneBooking({
+          arcadeId: arcade_id,
+          message: `${player_name} has canceled booking for ${zone_name} on ${booking_date} at ${booking_time}`,
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }
@@ -259,6 +283,37 @@ const updateArcadeBooking = async (req, res) => {
           arcade_name,
           reason
         );
+        sendNotificationToArcadeAboutArcadeCancelZoneBooking({
+          arcadeId: arcade_id,
+          message: `successfully canceled booking for ${zone_name} on ${booking_date} at ${booking_time}`,
+        });
+        sendNotificationToPlayerAboutArcadeCancelZoneBooking({
+          playerId: user_id,
+          message: `${arcade_name} has canceled booking for ${zone_name} on ${booking_date} at ${booking_time}`,
+        });
+      } catch (error) {
+        console.log("Error in sending email", error);
+      }
+    } else if (role === "ForceDeleteZoneBookings") {
+      try {
+        emails.forEach((email) => {
+          user_names.forEach((user_name) => {
+            ArcadeCloseArcade(
+              email,
+              zone_name,
+              arcade_name,
+              reason,
+              user_name,
+              timeForDay
+            );
+          });
+        });
+        user_ids.forEach((user_id) => {
+          sendNotificationToPlayerAboutArcadeCancelZoneBooking({
+            playerId: user_id,
+            message: `${arcade_name} has canceled booking for ${zone_name} on ${timeForDate} at ${timeForDay}`,
+          });
+        });
       } catch (error) {
         console.log("Error in sending email", error);
       }

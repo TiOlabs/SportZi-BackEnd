@@ -17,7 +17,6 @@ transporter.verify((error, success) => {
 });
 
 const CoachRequestEmail = (email, coach_name, arcade_name) => {
-  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",

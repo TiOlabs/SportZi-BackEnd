@@ -91,7 +91,8 @@ const updateZone = async (
   id,
   zone,
   combinedTimeslot,
-  combinedTimeslotForDate
+  combinedTimeslotForDate,
+  reason
 ) => {
   const updateZone = await prisma.zone.update({
     where: { zone_id: id },
@@ -99,25 +100,81 @@ const updateZone = async (
       ...zone,
     },
   });
-  console.log("combinedTimeslot", combinedTimeslot);
-  console.log("combinedTimeslotForDate", combinedTimeslotForDate);
-  for (const slot of combinedTimeslot) {
-    await prisma.zoneRejectDayAndTime.create({
-      data: {
+  try {
+    // Delete all existing entries in zoneRejectDayAndTime for the given zone_id
+    await prisma.zoneRejectDayAndTime.deleteMany({
+      where: {
         zone_id: id,
-        day: slot.day,
-        time: slot.timeslot,
       },
     });
+
+    // Insert new entries into zoneRejectDayAndTime
+    for (const slot of combinedTimeslot) {
+      await prisma.zoneRejectDayAndTime.create({
+        data: {
+          zone_id: id,
+          day: slot.day,
+          time: slot.timeslot,
+          reason: reason,
+        },
+      });
+    }
+
+    // Delete all existing entries in zoneRejectDateAndTime for the given zone_id
+    await prisma.zoneRejectDateAndTime.deleteMany({
+      where: {
+        zone_id: id,
+      },
+    });
+
+    // Insert new entries into zoneRejectDateAndTime
+    for (const slot of combinedTimeslotForDate) {
+      await prisma.zoneRejectDateAndTime.create({
+        data: {
+          zone_id: id,
+          date: slot.date,
+          time: slot.timeslot,
+          reason: reason,
+        },
+      });
+    }
+  } catch (err) {
+    console.log("Error processing slots:", err);
   }
-  for (const slot of combinedTimeslotForDate) {
-    await prisma.zoneRejectDateAndTime.create({
-      data: {
-        zone_id: id,
-        date: slot.date,
-        time: slot.timeslot,
-      },
-    });
+
+  try {
+    for (const slot of combinedTimeslotForDate) {
+      const existingEntry = await prisma.zoneRejectDateAndTime.findUnique({
+        where: {
+          zone_id_date_time: {
+            zone_id: id,
+            date: slot.date,
+            time: slot.timeslot,
+          },
+        },
+      });
+      if (existingEntry) {
+        await prisma.zoneRejectDateAndTime.delete({
+          where: {
+            zone_id_date_time: {
+              zone_id: id,
+              date: slot.date,
+              time: slot.timeslot,
+            },
+          },
+        });
+      }
+      await prisma.zoneRejectDateAndTime.create({
+        data: {
+          zone_id: id,
+          date: slot.date,
+          time: slot.timeslot,
+          reason: reason,
+        },
+      });
+    }
+  } catch (err) {
+    console.log("Error processing combinedTimeslotForDate:", err);
   }
 };
 

@@ -42,6 +42,7 @@ model User {
   reportsMade                               ReportUser[]      @relation("reporter")
   reportsReceived                           ReportUser[]      @relation("victim")
   reportsMadeArcade                         ReportArcade[]    @relation("reporterArcade")
+  notificationsForUser                      NotificationForUser[]
 
 }
 
@@ -55,8 +56,9 @@ model Player {
 model Coach {
   coach_id                                  String @unique
   status                                    String @default("pending")
-  sport_id                                  String
+  sport_id                                  String 
   rate                                      Int?
+  averageRate                               Float @default(0.0)
   short_desctiption                         String @default("i am a Coach")
   coach_booking_details                     CoachBookingDetails[]
   coachFeedbacks                            CoachFeedbacks[]
@@ -97,6 +99,7 @@ model PackageDiscount {
 
 model Feedbacks{
 feedbacks_id                                String @id @unique @default(uuid()) 
+created_at                                  DateTime @default(now())
 coach_feedbacks                             CoachFeedbacks?
 arcade_feedbacks                            ArcadeFeedbacks?
 user_id                                     String
@@ -131,6 +134,7 @@ model Arcade {
   close_time                               String
   arcade_image                             String @default("Your image")
   distription                              String@default("Add your Discription")
+  averageRate                              Float @default(0.0)
   manager                                  ArcadeManager @relation(fields: [manager_id], references: [manager_id])
   coachAssignDetailsForArcade              CoachAssignDetailsForArcade[]
   coachBookingDetails                      CoachBookingDetails[]
@@ -140,6 +144,7 @@ model Arcade {
   arcadePhone                              ArcadePhone[] 
   reportsReceived                          ReportArcade[] @relation("victim")
   arcadephoto                              Arcadephoto[]
+  notificationsForArcade                   NotificationForArcade[]
   @@unique([arcade_email])
 }
 
@@ -305,7 +310,7 @@ model Achivement{
  
 model FeedbackComments{
   feedback_id                              String @unique
-  comment                                  String 
+  comment                                  String @db.VarChar(500) 
   feedback                                 Feedbacks @relation(fields: [feedback_id],references: [feedbacks_id])
   @@unique([feedback_id,comment])
 }
@@ -338,6 +343,7 @@ model ZoneRejectDayAndTime{
   zone_id                                  String
   day                                      Day
   time                                     String 
+  reason                                   String
   zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
   @@unique([zone_id,day,time])
 }
@@ -346,8 +352,9 @@ model ZoneRejectDateAndTime{
   zone_id                                  String
   date                                     String 
   time                                     String
+  reason                                   String
   zone                                     Zone @relation(fields: [zone_id],references: [zone_id])
-  @@unique([zone_id,date])
+  @@unique([zone_id,date,time])
 }
 model userphoto{
   user_id                                  String 
@@ -402,6 +409,24 @@ model PackageCancelEnrollments{
   package_id                               String
   packageEnrollment                        PackageEnrollDetailsForPlayer @relation(fields: [player_id, package_id], references: [player_id, package_id])
   @@unique([player_id, package_id])
+}
+
+model NotificationForUser{
+  notification_id                          String @id @unique @default(uuid())
+  user_id                                  String
+  message                                  String
+  is_read                                  Boolean @default(false)
+  created_at                               DateTime @default(now())
+  user                                     User @relation(fields: [user_id], references: [user_id])
+}
+
+model NotificationForArcade{
+  notification_id                          String @id @unique @default(uuid())
+  arcade_id                                String
+  message                                  String
+  is_read                                  Boolean @default(false)
+  created_at                               DateTime @default(now())
+  arcade                                   Arcade @relation(fields: [arcade_id], references: [arcade_id])
 }
 enum Role {
   PLAYER

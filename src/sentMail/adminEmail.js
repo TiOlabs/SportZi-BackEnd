@@ -16,15 +16,15 @@ transporter.verify((error, success) => {
   }
 });
 
-const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
+const adminEmail = (email,firstname,lastname,password) => {
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
-    subject: "Request Accepted",
+    subject: "Your Admin Panel Access",
     html: ` <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Accepted</title>
+    <title>Admin Panel Access</title>
     
     <style>
         /* Add your custom styling here */
@@ -60,12 +60,14 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
 <body>
     <div class="container">
         <img src="logo.png" alt="Logo" border="0">
-        <h1>Your Request Has Been Accepted!</h1>
-        <p>Dear ${Coach_name},</p>
-        <p>We are delighted to inform you that your request to join our arcade has been accepted. Welcome aboard!</p>
-        <p>Thank you for choosing us, and we look forward to having you as part of our community.</p>
+        <h1>Welcome to the Admin Panel!</h1>
+        <p>Dear ${firstname} ${lastname},</p>
+        <p>We are pleased to inform you that you have been granted access to the admin panel of our system. Please find your login details below:</p>
+        <p class="password">Password: <span>${password}</span></p>
+        <p>For security purposes, we recommend changing your password after your first login.</p>
+        <p>If you have any questions or need assistance, feel free to contact our support team.</p>
         <p>Best regards,</p>
-        <p>The ${arcade_name} Team</p>
+        <p>The SportZi Team</p>
     </div>
 </body>`,
   };
@@ -78,4 +80,4 @@ const CoachAcceptEmail = (email, Coach_name, arcade_name) => {
   });
 };
 
-module.exports = { CoachAcceptEmail };
+module.exports = { adminEmail };

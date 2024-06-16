@@ -27,16 +27,6 @@ const ArcadeCanceledCoachBooking = (
   arcade_name,
   reason
 ) => {
-  console.log("email");
-  console.log(
-    email,
-    zone_name,
-    player_name,
-    booking_date,
-    booking_time,
-    arcade_name
-  );
-
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
@@ -101,4 +91,4 @@ const ArcadeCanceledCoachBooking = (
   });
 };
 
-module.exports = {ArcadeCanceledCoachBooking };
+module.exports = { ArcadeCanceledCoachBooking };

@@ -51,12 +51,14 @@ const updateZone = async (req, res) => {
   try {
     const { id } = req.params;
     const number = id;
-    const { combinedTimeslot, combinedTimeslotForDate, ...zone } = req.body;
+    const { combinedTimeslot, combinedTimeslotForDate, reason, ...zone } =
+      req.body;
     const updatedZone = await zoneService.updateZone(
       number,
       zone,
       combinedTimeslot,
-      combinedTimeslotForDate
+      combinedTimeslotForDate,
+      reason
     );
     res.status(200).json(updatedZone);
   } catch (error) {

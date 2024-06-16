@@ -5,5 +5,8 @@ regArchade.get(
   "/api/auth/getarchadedetails",
   archadeDetailsController.getArchadeDetails
 );
-
+regArchade.put(
+  "/api/auth/updatearchadedetails/:id",
+  archadeDetailsController.updateArcadeDetails
+);
 module.exports = regArchade;

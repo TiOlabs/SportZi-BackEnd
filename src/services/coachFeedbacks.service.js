@@ -2,14 +2,37 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// const getCoachFeedbacks = async () => {
-//   return await prisma.coachFeedbacks.findMany({
-//     include: {
-//       arcade: true,
-//     },
-//   });
-// };
-const addCoachFeedbacks = async (req, res, feedback,userId) => {
+const getCoachFeedbacks = async (req,res,coachId) => {
+  try{
+    const coachFeedbacks = await prisma.coachFeedbacks.findMany({
+      where :{
+        coach_id:coachId,
+      },
+      include: {
+        feedback:{
+          include:{
+            user:true,
+            feedbackComments:true,
+          }
+        }
+      },
+      orderBy: {
+        feedback: {
+          created_at: 'desc',
+        },
+      },
+    });
+
+    return coachFeedbacks;
+  }catch(e){
+    return res.status(400).json(e.message);
+  }
+
+  
+};
+
+
+const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
   try {
     // console.log("Incoming feedback:", feedback);
 
@@ -28,12 +51,14 @@ const addCoachFeedbacks = async (req, res, feedback,userId) => {
       },
     });
 
+    console.log(newFeedback.feedbacks_id);
+
     const coachFeedback = await prisma.coachFeedbacks.create({
       data: {
         rate: feedback.rating,
         coach: {
           connect: {
-            coach_id: "C00001",
+            coach_id: coachId,
           },
         },
         feedback: {
@@ -54,6 +79,23 @@ const addCoachFeedbacks = async (req, res, feedback,userId) => {
         },
       },
     });
+
+    const feedbacks = await prisma.coachFeedbacks.findMany({
+      where: { coach_id: coachId }, // change coach id according actual coacg ID
+      select: { rate: true },
+    });
+
+    const totalFeedbacks = feedbacks.length;
+    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+
+    const avgRate = await prisma.coach.update({
+      where: {
+        coach_id: coachId,
+      },
+      data: {
+        averageRate:averageRating,
+      },
+    })
 
     return res.status(201).json(coachFeedback);
   }
@@ -86,8 +128,16 @@ const getCoachAvgRating = async (req, res,coachId) => {
     });
 
     const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    // const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
 
+    const averageRating = await prisma.coach.findUnique({
+      where:{
+        coach_id:coachId,
+      },
+      select:{
+        averageRate:true,
+      }
+    })
     return res.json({ averageRating, totalFeedbacks });
   } catch (error) {
     return res.json(error.message);
@@ -97,7 +147,7 @@ const getCoachAvgRating = async (req, res,coachId) => {
 
 
 module.exports = {
-  // getCoachFeedbacks,
+  getCoachFeedbacks,
   addCoachFeedbacks,
   // updateCoachFeedbacks,
   // deleteCoachFeedbacks,

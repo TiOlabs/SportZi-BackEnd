@@ -17,7 +17,6 @@ transporter.verify((error, success) => {
 });
 
 const CoachUnassigned = (arcade_email, coach_name, arcade_name) => {
-  console.log("email",email);
   const mailoptions = {
     from: SENDERSMAIL,
     to: "spynavindu@gmail.com",
@@ -63,7 +62,7 @@ const CoachUnassigned = (arcade_email, coach_name, arcade_name) => {
         <h1>Coach Resignation Notice</h1>
         <p>Dear ${arcade_name} Team,</p>
         <p>We regret to inform you that Coach ${coach_name} has submitted their resignation.</p>
-        <p>Effective immediately, Coach ${coach_name} will no longer be part of our team.</p>
+        <p>Effective immediately, Coach ${coach_name} will no longer be part of Your team.</p>
         <p>We appreciate their contributions and wish them the best in their future endeavors.</p>
         <p>Thank you for your attention to this matter.</p>
         <p>Best regards,</p>

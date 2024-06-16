@@ -12,7 +12,6 @@ const getSportById = async (id) => {
   });
 };
 const addSport = async (sport) => {
-  console.log(sport);
   try {
     async function generateSportId() {
       const sports = await prisma.sport.count();
@@ -24,13 +23,10 @@ const addSport = async (sport) => {
         sport_name: sport.sport_name,
       },
     });
-    console.log(sport);
     if (existingSport) {
       return res.status(400).json({ message: "Sport is already registered" });
     }
     const newSportID = await generateSportId();
-    console.log(newSportID);
-    console.log(sport.sport_name);
     const newSport = await prisma.sport.create({
       data: {
         sport_id: newSportID,

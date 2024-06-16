@@ -4,7 +4,6 @@ const getPackageEnrollmentCoach = async (req, res) => {
   try {
     const packageEnrollmentCoach =
       await packageEnrollmentCoachService.getPackageEnrollmentCoach();
-    console.log("packageEnrollmentCoach", packageEnrollmentCoach);
     res.status(200).json(packageEnrollmentCoach);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,8 +24,6 @@ const getPackageEnrollmentCoachById = async (req, res) => {
   }
 };
 const addPackageEnrollmentCoach = async (req, res) => {
-  console.log("req.body");
-  console.log("req.body", req.body);
   try {
     const packageEnrollmentCoach = req.body;
     const newPackageEnrollmentCoach =

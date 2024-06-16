@@ -9,6 +9,27 @@ const getPlayers = async () => {
     },
   });
 };
+
+const getPlayerById = async (id) => {
+  try {
+    const player = await prisma.player.findUnique({
+      where: {
+        player_id: id,
+      },
+      include: {
+        user: true,
+      },
+    });
+    if (!player) {
+      throw new Error("Player not found");
+    }
+    return player;
+  }
+  catch (error) {
+    throw new Error(error);
+  }
+};
+
 const updatePlayer = async (req, res, playerId, player) => {
   try {
     const {
@@ -194,6 +215,7 @@ const addPlayer = async (req, res, player) => {
 
 module.exports = {
   getPlayers,
+  getPlayerById,
   addPlayer,
   updatePlayer,
   deletePlayer,

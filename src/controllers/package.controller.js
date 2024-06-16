@@ -3,7 +3,6 @@ const packageService = require("../services/package.service");
 const getPackage = async (req, res) => {
   try {
     const package = await packageService.getPackage();
-    console.log("package", package);
     res.status(200).json(package);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -24,12 +23,8 @@ const getPackageById = async (req, res) => {
   }
 };
 const addPackage = async (req, res) => {
-  console.log("req.body");
-  console.log("req.body", req.body);
   try {
     const { combinedTimeslot, ...packageData } = req.body;
-    console.log("packageData", packageData);
-    console.log("combinedTimeslot", combinedTimeslot);
     const newPackage = await packageService.addPackage(
       packageData,
       combinedTimeslot
@@ -43,7 +38,6 @@ const addPackage = async (req, res) => {
 const updatePackage = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const number = id;
     const { combinedTimeslot, ...package } = req.body;
     const updatedPackage = await packageService.updatePackage(
@@ -60,7 +54,6 @@ const updatePackage = async (req, res) => {
 const deletePackage = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("mtyugy7g67", id);
     // const number = parseInt(id);
     await packageService.deletePackage(id);
     res.status(200).json({ message: "Package Booking deleted" });

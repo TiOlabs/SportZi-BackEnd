@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const http = require("http");
 
 const arcadeBookingRoutes = require("./src/routes/arcadeBooking.route");
 const zoneDiscountRoutes = require("./src/routes/zoneDiscountt.route");
@@ -35,6 +36,8 @@ const reportRoutes = require("./src/routes/report.route");
 const reportArcadeRoutes = require("./src/routes/reportArcade.route");
 const arcadeCancelBookings = require("./src/routes/bookingCancelArcade.route");
 const coachCancelBookings = require("./src/routes/bookingCancelCoach.route");
+const notification = require("./src/routes/notification.route");
+
 
 const app = express();
 const PORT = 8000;
@@ -75,6 +78,7 @@ app.use(packageEnrollmentPlayer);
 app.use(packageEnrollmentCoach);
 app.use(reportRoutes);
 app.use(reportArcadeRoutes);
+app.use(notification);
 
 // Basic route
 app.get("/", (req, res) => {
@@ -92,4 +96,26 @@ const server = app.listen(PORT, () =>
   console.log(`🚀 Server ready at: http://localhost:${PORT}\n⭐️`)
 );
 
-module.exports = server; // Export server for testing purposes
+// Initialize Socket.io
+const { init } = require("./src/socket/socket");
+const io = init(server);
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("joinRoom", ({ userType, userId }) => {
+    if (userType === "arcade") {
+      socket.join(`arcade_${userId}`);
+    } else if (userType === "coach") {
+      socket.join(`coach_${userId}`);
+    } else if (userType === "player") {
+      socket.join(`player_${userId}`);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+module.exports = server;

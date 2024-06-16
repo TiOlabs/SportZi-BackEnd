@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const arcadeRatingsController = require("../controllers/arcadeFeedbacks.controller");
+const arcadeFeedbacksController = require("../controllers/arcadeFeedbacks.controller");
 
-router.get("/api/getarcaderatings", arcadeRatingsController.getArcadeRatings);
-router.post("/api/addarcaderatings", arcadeRatingsController.addArcadeRatings);
-router.put("/api/updatearcaderatings/:id", arcadeRatingsController.updateArcadeRatings);
-router.delete("/api/deletearcaderatings/:id", arcadeRatingsController.deleteArcadeRatings);
 
+const authenticateToken = require("../middlewares/authenticateToken");
+
+router.get("/")
+router.get("/api/getarcadefeedbacks/:arcadeId", arcadeFeedbacksController.getArcadeFeedbacks);
+router.post("/api/addarcadefeedbacks/:arcadeId",authenticateToken,arcadeFeedbacksController.addArcadeFeedbacks);
+// router.put("/api/updatearcadefeedbacks/:id", arcadeFeedbacksController.updateArcadeFeedbacks);
+// router.delete("/api/deletearcadefeedbacks/:id", arcadeFeedbacksController.deleteArcadeFeedbacks);
+
+router.get("/api/getaverageratingbyarcadeId/:arcadeId",arcadeFeedbacksController.getArcadeAvgRating);
 
 module.exports = router;
