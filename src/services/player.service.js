@@ -180,11 +180,11 @@ const addPlayer = async (req, res, player) => {
         firstname: player.firstname,
         lastname: player.lastname,
         email: player.email,
-        DOB: player.DOB,
-        gender: player.gender,
+        // DOB: player.DOB,
+        // gender: player.gender,
         role: player.role,
         password: hashedPassword,
-        accountNumber: player.accountNumber,
+        // accountNumber: player.accountNumber,
       },
     });
 

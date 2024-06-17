@@ -5,21 +5,50 @@ const authorizeAdmin = require("../middlewares/authorizeAdmin");
 const authorizeCoach = require("../middlewares/authorizeCoach");
 const authorizeManager = require("../middlewares/authorizeManager");
 const authorizePlayer = require("../middlewares/authorizePlayer");
+const authorizeSuperAdmin = require("../middlewares/authorizeSuperAdmin");
 
-router.get('/api/auth/check', authenticateToken, (req, res) => {
-    res.status(200).json();
+router.get("/api/auth/check", authenticateToken, (req, res) => {
+  res.status(200).json();
 });
-router.get('/api/auth/check-player',authenticateToken,authorizePlayer,(req,res) => {
+router.get(
+  "/api/auth/check-player",
+  authenticateToken,
+  authorizePlayer,
+  (req, res) => {
     res.status(200).json();
-});
-router.get('/api/auth/check-coach',authenticateToken,authorizeCoach,(req,res) => {
+  }
+);
+router.get(
+  "/api/auth/check-coach",
+  authenticateToken,
+  authorizeCoach,
+  (req, res) => {
     res.status(200).json();
-});
-router.get('/api/auth/check-manager',authenticateToken,authorizeManager,(req,res) => {
+  }
+);
+router.get(
+  "/api/auth/check-manager",
+  authenticateToken,
+  authorizeManager,
+  (req, res) => {
     res.status(200).json();
-})
-router.get('/api/auth/check-admin',authenticateToken,authorizeAdmin,(req,res) => {
+  }
+);
+router.get(
+  "/api/auth/check-admin",
+  authenticateToken,
+  authorizeAdmin,
+  (req, res) => {
     res.status(200).json();
-})
+  }
+);
+router.get(
+  "/api/auth/check-superAdmin",
+  authenticateToken,
+  authorizeSuperAdmin,
+  (req, res) => {
+    res.status(200).json();
+  }
+);
 
 module.exports = router;

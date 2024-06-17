@@ -114,7 +114,12 @@ const deleteCoach = async (coachId) => {
   }
 };
 
-const addCoach = async (req, res, coach, combinedTimeslot) => {
+const addCoach = async (
+  req,
+  res,
+  coach
+  // ,combinedTimeslot
+) => {
   try {
     async function generateUserID() {
       const userCount = await prisma.coach.count(); // Get the count of existing users
@@ -143,15 +148,15 @@ const addCoach = async (req, res, coach, combinedTimeslot) => {
         firstname: coach.firstname,
         lastname: coach.lastname,
         email: coach.email,
-        DOB: coach.DOB,
-        gender: coach.gender,
+        // DOB: coach.DOB,
+        // gender: coach.gender,
         role: Role.COACH,
         password: hashedPassword,
       },
     });
     const newCoach = await prisma.coach.create({
       data: {
-        rate: coach.rate,
+        // rate: coach.rate,
         user: {
           connect: {
             user_id: newCoachID,
@@ -177,15 +182,15 @@ const addCoach = async (req, res, coach, combinedTimeslot) => {
       },
     });
 
-    for (const slot of combinedTimeslot) {
-      await prisma.availiability.create({
-        data: {
-          coach_id: newCoachID,
-          day: slot.day,
-          time: slot.timeslot,
-        },
-      });
-    }
+    // for (const slot of combinedTimeslot) {
+    //   await prisma.availiability.create({
+    //     data: {
+    //       coach_id: newCoachID,
+    //       day: slot.day,
+    //       time: slot.timeslot,
+    //     },
+    //   });
+    // }
 
     res.status(201).json(newUser);
   } catch (e) {

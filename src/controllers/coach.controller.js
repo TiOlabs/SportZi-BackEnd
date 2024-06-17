@@ -82,13 +82,15 @@ const prisma = new PrismaClient();
 
 const addCoach = async (req, res) => {
   try {
-    const { combinedTimeslot, ...coach } = req.body;
+    const { 
+      // combinedTimeslot,
+       ...coach } = req.body;
 
     const newCoach = await coachService.addCoach(
       req,
       res,
       coach,
-      combinedTimeslot
+      // combinedTimeslot
     );
   } catch (error) {
     res.status(500).json({ message: error.message });
