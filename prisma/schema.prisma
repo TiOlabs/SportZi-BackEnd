@@ -22,7 +22,7 @@ model User {
   email                                     String @unique
   password                                  String
   DOB                                       String?
-  gender                                    String
+  gender                                    String?
   accountNumber                             String?
   is_active                                 String @default("active")
   user_image                                String? @default("sportzi/hpcqj2p2rzdnmmwmnriu")
@@ -33,6 +33,7 @@ model User {
   Player                                    Player?
   Coach                                     Coach?
   Admin                                     Admin?
+  SuperAdmin                                SuperAdmin?
   Manager                                   ArcadeManager? 
   feedbacks                                 Feedbacks[] 
   phone                                     UserPhone[] 
@@ -78,6 +79,11 @@ model ArcadeManager {
 model Admin{
   admin_id                                  String @unique
   user                                      User @relation(fields: [admin_id], references: [user_id])
+}
+
+model SuperAdmin{
+  superAdmin_id                             String @unique
+  user                                      User @relation(fields: [superAdmin_id], references: [user_id])
 }
 
 model ZoneDiscount {
@@ -126,12 +132,12 @@ model ArcadeFeedbacks {
 model Arcade {
   arcade_id                                String @id @unique @default(uuid())  
   arcade_name                              String
-  location                                 String
+  location                                 String?
   address                                  String?
   arcade_email                             String 
   manager_id                               String
-  open_time                                String
-  close_time                               String
+  open_time                                String?
+  close_time                               String?
   arcade_image                             String @default("Your image")
   distription                              String@default("Add your Discription")
   averageRate                              Float @default(0.0)
@@ -433,6 +439,7 @@ enum Role {
   COACH
   MANAGER
   ADMIN
+  SUPERADMIN
 }
 enum way_of_booking {
   full

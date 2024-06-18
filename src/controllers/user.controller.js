@@ -66,6 +66,17 @@ const updateUser = async (req, res) => {
   }
 };
 
+const deactivateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.body;
+    const updatedUser = await userServices.deactivateUser(id, user);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};  
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -83,6 +94,7 @@ module.exports = {
   addUser,
   addUserPhoto,
   updateUser,
+  deactivateUser,
   deleteUserPhoto,
   deleteUser,
 };

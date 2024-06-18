@@ -130,7 +130,7 @@ const addArcadeManager = async (req, res, arcadeManager) => {
       firstname: arcadeManager.firstname,
       lastname: arcadeManager.lastname,
       email: arcadeManager.email,
-      gender: arcadeManager.gender,
+      // gender: arcadeManager.gender,
       role: Role.MANAGER,
       password: hashedPassword,
     },
@@ -150,10 +150,10 @@ const addArcadeManager = async (req, res, arcadeManager) => {
     data: {
       arcade_id: newArcadeID,
       arcade_name: arcadeManager.arcade_name,
-      location: arcadeManager.location,
+      // location: arcadeManager.location,
       arcade_email: arcadeManager.arcade_email,
-      open_time: arcadeManager.open_time,
-      close_time: arcadeManager.close_time,
+      // open_time: arcadeManager.open_time,
+      // close_time: arcadeManager.close_time,
 
       manager: {
         connect: {

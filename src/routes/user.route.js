@@ -20,6 +20,7 @@ router.post("/api/adduser", userController.addUser);
 router.post("/api/addUserPhoto", userController.addUserPhoto);
 router.delete("/api/deleteUserPhoto", userController.deleteUserPhoto);
 router.put("/api/updateuser/:id", userController.updateUser);
+router.put("/api/deactivateuser/:id", userController.deactivateUser);
 router.delete("/api/deleteuser/:id", userController.deleteUser);
 
 module.exports = router;

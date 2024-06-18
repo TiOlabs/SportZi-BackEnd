@@ -53,6 +53,15 @@ const updateUser = async (id, user) => {
   });
 };
 
+const deactivateUser = async (id) => {
+  return await prisma.user.update({
+    where: { user_id: id },
+    data: {
+      is_active: "inactive",
+    },
+  });
+}
+
 const deleteUser = async (id) => {
   return await prisma.user.delete({
     where: { id: id },
@@ -66,5 +75,6 @@ module.exports = {
   addUserPhoto,
   deleteUserPhoto,
   updateUser,
+  deactivateUser,
   deleteUser,
 };
