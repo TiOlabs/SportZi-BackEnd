@@ -40,6 +40,8 @@ const getCoachDetailsToUsers = async (coachId) => {
             achivement: true,
           },
         },
+        availability: true,
+        sport: true,
       },
     });
   } catch (error) {

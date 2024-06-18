@@ -17,6 +17,7 @@ const getCoachDetailsToUsers = async (req, res) => {
     const coachDetails = await coachDetailsServices.getCoachDetailsToUsers(
       coachId
     );
+    console.log(coachDetails);
     res.status(200).json(coachDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
