@@ -24,7 +24,6 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npx prisma generate
           npm run build --if-present
 
       - name: Zip artifact for deployment

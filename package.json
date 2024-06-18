@@ -17,7 +17,7 @@
     "socket.io": "^4.7.5"
   },
   "scripts": {
-    "build": "prisma generate && prisma db push",
+    "build": "prisma generate && prisma migrate deploy",
     "prisma:generate": "prisma generate",
     "dev": "nodemon server.js",
     "start": "node server.js"
