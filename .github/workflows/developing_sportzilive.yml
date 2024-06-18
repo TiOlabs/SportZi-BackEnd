@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -26,12 +26,15 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-      
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: .
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,17 +50,20 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
+
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
       
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_35C080EDC4C3484BA042B447A2E1A5D3 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BE07C1B1E4BF41E6935F7CFAAB27AD3A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FDA13F8BE66C44D5BD58307E50B2763D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5D581F5A0ED14788A071FC076B27E75E }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BCB51D2DEEFC4F3EAE14F10657D9AAA5 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CD8B4EF37F9A4866AD2413654F6E68B7 }}
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'SportZilive'
           slot-name: 'Production'
