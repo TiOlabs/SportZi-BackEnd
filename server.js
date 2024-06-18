@@ -40,7 +40,7 @@ const notification = require("./src/routes/notification.route");
 
 
 const app = express();
-const PORT = 8080;
+const PORT = 8000;
 
 // Middleware
 app.use(express.json());

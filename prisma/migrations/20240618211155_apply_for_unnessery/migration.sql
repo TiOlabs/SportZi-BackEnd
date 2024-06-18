@@ -1,13 +1,13 @@
 -- CreateTable
 CREATE TABLE `User` (
     `user_id` VARCHAR(191) NOT NULL,
-    `role` ENUM('PLAYER', 'COACH', 'MANAGER', 'ADMIN') NOT NULL,
+    `role` ENUM('PLAYER', 'COACH', 'MANAGER', 'ADMIN', 'SUPERADMIN') NOT NULL,
     `firstname` VARCHAR(191) NOT NULL,
     `lastname` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
     `DOB` VARCHAR(191) NULL,
-    `gender` VARCHAR(191) NOT NULL,
+    `gender` VARCHAR(191) NULL,
     `accountNumber` VARCHAR(191) NULL,
     `is_active` VARCHAR(191) NOT NULL DEFAULT 'active',
     `user_image` VARCHAR(191) NULL DEFAULT 'sportzi/hpcqj2p2rzdnmmwmnriu',
@@ -52,6 +52,13 @@ CREATE TABLE `Admin` (
     `admin_id` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Admin_admin_id_key`(`admin_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `SuperAdmin` (
+    `superAdmin_id` VARCHAR(191) NOT NULL,
+
+    UNIQUE INDEX `SuperAdmin_superAdmin_id_key`(`superAdmin_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -109,12 +116,12 @@ CREATE TABLE `ArcadeFeedbacks` (
 CREATE TABLE `Arcade` (
     `arcade_id` VARCHAR(191) NOT NULL,
     `arcade_name` VARCHAR(191) NOT NULL,
-    `location` VARCHAR(191) NOT NULL,
+    `location` VARCHAR(191) NULL,
     `address` VARCHAR(191) NULL,
     `arcade_email` VARCHAR(191) NOT NULL,
     `manager_id` VARCHAR(191) NOT NULL,
-    `open_time` VARCHAR(191) NOT NULL,
-    `close_time` VARCHAR(191) NOT NULL,
+    `open_time` VARCHAR(191) NULL,
+    `close_time` VARCHAR(191) NULL,
     `arcade_image` VARCHAR(191) NOT NULL DEFAULT 'Your image',
     `distription` VARCHAR(191) NOT NULL DEFAULT 'Add your Discription',
     `averageRate` DOUBLE NOT NULL DEFAULT 0.0,

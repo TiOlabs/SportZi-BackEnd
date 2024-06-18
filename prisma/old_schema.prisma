@@ -134,7 +134,7 @@ model Arcade {
   arcade_name                              String
   location                                 String?
   address                                  String?
-  arcade_email                             String?
+  arcade_email                             String 
   manager_id                               String
   open_time                                String?
   close_time                               String?
