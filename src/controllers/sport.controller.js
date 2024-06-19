@@ -1,8 +1,10 @@
 const sportService = require("../services/sport.service");
 
 const getSport = async (req, res) => {
+console.log("getSport");
   try {
     const sport = await sportService.getSport();
+    console.log(sport);
     res.status(200).json(sport);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -15,6 +15,15 @@ const getPackage = async () => {
           zone_name: true,
         },
       },
+      coachApplyDetailsForPackage: {
+        include: {
+          coach: {
+            include: {
+              user: true,
+            },
+          },
+        },
+      },
     },
   });
 };

@@ -190,39 +190,33 @@ const updateAdmin = async (
           user: true, // Include the associated user
         },
       });
+      console.log("admin", admin);
 
       if (!admin) {
         throw new Error("SuperAdmin not found");
       }
-
-      if (password !== "") {
-        if (!(await bcrypt.compare(currentPassword, admin.user.password))) {
-          throw new Error("Invalid username or password SuperAdmin");
+      try {
+        if (password !== "") {
+          if (!(await bcrypt.compare(currentPassword, admin.user.password))) {
+            throw new Error("Invalid username or password SuperAdmin");
+          }
+          const hashedPassword = await bcrypt.hash(password, 10);
+          // Update the password
+          await prisma.user.update({
+            where: {
+              user_id: admin.user.user_id,
+            },
+            data: {
+              password: hashedPassword,
+            },
+          });
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        // Update the password
-        await prisma.user.update({
-          where: {
-            user_id: admin.user.user_id,
-          },
-          data: {
-            password: hashedPassword,
-          },
-        });
+      } catch (e) {
+        console.log("error", e);
       }
     }
 
     // Update the user
-    await prisma.user.update({
-      where: {
-        user_id: admin.user.user_id,
-      },
-      data: {
-        email: email,
-        firstname: firstname,
-        lastname: lastname,
-      },
-    });
 
     // Update the phone number
     // await prisma.userPhone.update({
