@@ -37,6 +37,7 @@ const reportArcadeRoutes = require("./src/routes/reportArcade.route");
 const arcadeCancelBookings = require("./src/routes/bookingCancelArcade.route");
 const coachCancelBookings = require("./src/routes/bookingCancelCoach.route");
 const notification = require("./src/routes/notification.route");
+const forgotPasswordRoutes = require("./src/routes/forgotPassword.route");
 
 
 const app = express();
@@ -79,6 +80,7 @@ app.use(packageEnrollmentCoach);
 app.use(reportRoutes);
 app.use(reportArcadeRoutes);
 app.use(notification);
+app.use(forgotPasswordRoutes);
 
 // Basic route
 app.get("/", (req, res) => {
