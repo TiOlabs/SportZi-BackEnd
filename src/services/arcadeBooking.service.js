@@ -132,7 +132,7 @@ const addArcadeBooking = async (zoneBookingDetails) => {
 const updateArcadeBookingByCretedTime = async (
   created_at,
   userId,
-  zoneBookingDetails
+  arcadeBooking
 ) => {
   return await prisma.zoneBookingDetails.update({
     where: {
@@ -142,7 +142,7 @@ const updateArcadeBookingByCretedTime = async (
       },
     },
     data: {
-      ...zoneBookingDetails,
+      ...arcadeBooking,
     },
   });
 };
