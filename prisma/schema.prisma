@@ -287,8 +287,8 @@ model CoachAEnrollDetailsForPackage{
 
 }
 model PackageEnrollDetailsForPlayer {
-  player_id                                String @unique
-  package_id                               String @unique
+  player_id                                String 
+  package_id                               String 
   status                                   String @default("success")
   enrolled_date                            DateTime @default(now())
   canceled_at                              DateTime @updatedAt

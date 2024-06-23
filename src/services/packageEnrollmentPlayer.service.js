@@ -19,9 +19,9 @@ const getPackageEnrollmentPlayer = async () => {
   });
 };
 const getPackageEnrollmentPlayerById = async (id) => {
-  return await prisma.packageEnrollDetailsForPlayer.findUnique({
+  return await prisma.packageEnrollDetailsForPlayer.findMany({
     where: {
-      packageEnrollDetailsForPlayer_id: id,
+      player_id: id,
     },
   });
 };
