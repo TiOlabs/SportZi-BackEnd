@@ -1,0 +1,23 @@
+// LOCAL_DATABASE_URL='mysql://root:1234@localhost:3306/sportzidb'
+// JWT_SECRET="asdfghjkqweertyuioplkjhgl"
+
+// AWS_DB_URL='mysql://Navindu:SportZi123@sportzidb.c5m6coo8orrd.us-east-1.rds.amazonaws.com:3306/sportzidb'
+
+// AZURE_DB_URL='mysql://Navindu:SportZi123@sportzi-server.mysql.database.azure.com:3306/sportzidb'
+
+//  user: "sportzilive@gmail.com",
+// pass: "aaxh mbbt zaev yybp",
+
+
+
+
+////////////////////////////////////////////////////////////////thisara
+
+// pass: "aaxh mbbt zaev yybp",
+
+
+// SMTP_HOST="smtp.gmail.com"
+// SMTP_PORT="587"
+// SMTP_USER="thisaratest01@gmail.com"
+// SMTP_PASS="tkne wffd bjda qhuo"
+// FRONTEND_URL="http://localhost:3000"
