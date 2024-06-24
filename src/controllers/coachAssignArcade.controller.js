@@ -94,10 +94,10 @@ const updateCoachCard = async (req, res) => {
 
 const updateCoachAssignDetailsForArcade = async (req, res) => {
   try {
-    const { email, coach_name, arcade_name, arcade_email, role, coach_id } =
+    const { email, coach_name, arcade_name, arcade_email, role, coach_id , ispendingrequest} =
       req.body;
     // Send email
-    if (role === "COACH") {
+    if (role === "COACH" && ispendingrequest === "notPending") {
       try {
         CoachUnassigned(arcade_email, coach_name, arcade_name);
       } catch (error) {
@@ -114,7 +114,7 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
         console.log("Error in sending email", error);
       }
     }
-     else {
+     else if (status === "success") {
       try {
         CoachAcceptEmail(email, coach_name, arcade_name);
         sendNotificationToCoachAboutAcceptCoachRequest({
