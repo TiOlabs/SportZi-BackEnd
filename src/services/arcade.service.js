@@ -76,15 +76,21 @@ const getArcadeByArcadeIdForCoachBooking = async (id) => {
 };
 
 const addArcadePhoto = async (arcade_id, image) => {
+  if (!arcade_id) {
+    throw new Error("arcade_id is required");
+  }
+  // Optionally, add more validation for arcade_id here (e.g., check format or existence in the database)
+
   try {
     return await prisma.arcadephoto.create({
       data: {
-        arcade_id: arcade_id,
-        image: image,
+        arcade_id,
+        image,
       },
     });
   } catch (error) {
-    console.log("error", error);
+    // Handle or log the error appropriately
+    throw error;
   }
 };
 
