@@ -24,39 +24,52 @@ const updateArcadeDetails = async (
   id,
   arcade_name,
   distription,
+  address,
   open_time,
   close_time,
   location,
-  arcade_image
-  //  user_image
+  arcade_image,
+  accNumber
 ) => {
   try {
+    const arcade = await prisma.arcade.findUnique({
+      where: {
+        arcade_id: id,
+      },
+      select: {
+        manager_id: true,
+      },
+    });
+
+    if (!arcade) {
+      throw new Error("Arcade not found");
+    }
+    await prisma.user.update({
+      where: {
+        user_id: arcade.manager_id,
+      },
+      data: {
+        accountNumber: accNumber,
+      },
+    });
+
+    // Step 3: Update the arcade details as before
     return await prisma.arcade.update({
       where: {
         arcade_id: id,
       },
-      // include: {
-      //   achivement: true,
-      // },
       data: {
-        arcade_name: arcade_name,
-        open_time: open_time,
-        close_time: close_time,
-        distription: distription,
-        location: location,
-        arcade_image:arcade_image
-        // achivement: {
-        //   create: achivements.map((achivement_details) => {
-        //     return {
-        //       achivement_details,
-        //     };
-        //   }),
-        // },
+        arcade_name,
+        address,
+        open_time,
+        close_time,
+        distription,
+        location,
+        arcade_image,
       },
     });
   } catch (error) {
     throw error;
   }
-  // return { ...updatedUser, achivements: createdAchievements };
 };
 module.exports = { getArchadeDetails, updateArcadeDetails };

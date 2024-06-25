@@ -5,6 +5,7 @@ const getArchadeDetails = async (req, res) => {
     const archadeDetails = await archadeDetailsController.getArchadeDetails(
       ArcadeId
     );
+    console.log(ArcadeId);
     res.status(200).json(archadeDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,28 +15,27 @@ const getArchadeDetails = async (req, res) => {
 const updateArcadeDetails = async (req, res) => {
   try {
     const { id } = req.params;
-    let { arcade_name, discription, open_time, close_time,location ,arcade_image } = req.body;
-
-    // try {
-    //   if (paymentTypes) {
-    //     try {
-    //       const deletePaymentType =
-    //         await PlayerDetailsController.deleteAchivments(id);
-    //     } catch (error) {
-    //       res.status(500).json({ massege: error.massege });
-    //     }
-    //   }
-    // } catch (error) {
-    //   throw new error("error");
-    // }
+    let {
+      arcade_name,
+      discription,
+      address,
+      open_time,
+      close_time,
+      location,
+      arcade_image,
+      accNumber,
+    } = req.body;
+    console.log(accNumber);
     const ArchadeDetails = await archadeDetailsController.updateArcadeDetails(
       id,
       arcade_name,
       discription,
+      address,
       open_time,
       close_time,
       location,
-      arcade_image
+      arcade_image,
+      accNumber
       //user_image
     );
     res.status(200).json(ArchadeDetails);
