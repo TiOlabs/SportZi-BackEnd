@@ -13,6 +13,10 @@ regUserRouter.get(
   authorizePlayer,
   PlayerDetailsController.getPlayerdetails
 );
+regUserRouter.get(
+  "/api/auth/getplayerdetailsUser/:id",
+  PlayerDetailsController.getPlayerdetailsUser
+);
 
 regUserRouter.post(
   "/api/auth/addPlayerdetails",
@@ -22,7 +26,7 @@ regUserRouter.post(
 );
 
 regUserRouter.put(
-  "/api/auth/updateArcadedetails/:id",
+  "/api/auth/updatePlayerdetails/:id",
   authenticateToken,
   authorizePlayer,
   PlayerDetailsController.updatePlayerdetails
