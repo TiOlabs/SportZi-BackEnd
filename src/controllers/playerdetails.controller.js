@@ -5,9 +5,8 @@ const getPlayerdetails = async (req, res) => {
   const { userId } = req.user;
   try {
     const { id } = req.params;
-    const playerDetails = await PlayerDetailsController.getPlayerdetails(
-     id  
-    );
+    console.log(id);
+    const playerDetails = await PlayerDetailsController.getPlayerdetails(id);
     res.status(200).json(playerDetails);
   } catch (error) {
     res.status(500).json({ massege: error.massege });
@@ -15,6 +14,17 @@ const getPlayerdetails = async (req, res) => {
   }
 };
 
+const getPlayerdetailsUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const playerDetails = await PlayerDetailsController.getPlayerdetails(id);
+    res.status(200).json(playerDetails);
+  } catch (error) {
+    res.status(500).json({ massege: error.massege });
+    console.log("error", error);
+  }
+};
 const addPlayerdetails = async (req, res) => {
   try {
     const { userId } = req.user;
@@ -55,6 +65,8 @@ const updatePlayerdetails = async (req, res) => {
     const { id } = req.params;
     let { firstname, lastname, discription, achivements, user_image } =
       req.body;
+    console.log("achivements", achivements);
+    console.log(firstname, lastname, discription, achivements);
 
     try {
       if (achivements) {
@@ -74,19 +86,20 @@ const updatePlayerdetails = async (req, res) => {
       lastname,
       discription,
       achivements,
-      user_image,
+      user_image
     );
+    console.log("playerDetails", playerDetails);
     res.status(200).json(playerDetails);
   } catch (error) {
     res.status(500).json({ messageee: error.message });
 
     console.log("eroor", error);
-
   }
 };
 
 module.exports = {
   getPlayerdetails,
+  getPlayerdetailsUser,
   addPlayerdetails,
   updatePlayerdetails,
 };
