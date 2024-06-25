@@ -35,6 +35,7 @@ const getZoneDetailsForArcade = async (id) => {
             arcade: true,
             zoneRejectDateAndTime: true,
             zoneRejectDayAndTime: true,
+            discount: true,
           },
         },
       },
@@ -92,14 +93,52 @@ const updateZone = async (
   zone,
   combinedTimeslot,
   combinedTimeslotForDate,
-  reason
+  reason,
+  discount_percentage,
+  discountDiscription
 ) => {
+  console.log("zonewwwwwwwwwwwwwww", discount_percentage);
   const updateZone = await prisma.zone.update({
     where: { zone_id: id },
     data: {
       ...zone,
     },
   });
+
+  try {
+    await prisma.zoneDiscount.deleteMany({
+      where: {
+        zone_id: id,
+      },
+    });
+  } catch (err) {
+    console.log("Error deleting zoneDiscount:", err);
+  }
+
+  try {
+    console.log("eeeeeeeeeeeeeeeeeeeeeeee",discount_percentage, discountDiscription);
+    if (discount_percentage !== undefined && discountDiscription) {
+      const parsedDiscount = parseInt(discount_percentage);
+
+      if (!isNaN(parsedDiscount)) {
+        await prisma.zoneDiscount.create({
+          data: {
+            discount_percentage: parsedDiscount,
+            description: discountDiscription,
+            zone: {
+              connect: {
+                zone_id: id,
+              },
+            },
+          },
+        });
+      } else {
+        console.log("Invalid discount value:", discount_percentage);
+      }
+    }
+  } catch (error) {
+    console.log("Error:", error);
+  }
   try {
     // Delete all existing entries in zoneRejectDayAndTime for the given zone_id
     await prisma.zoneRejectDayAndTime.deleteMany({

@@ -29,7 +29,7 @@ const updateCoachDetailsController = async (req, res) => {
   const {
     firstname,
     lastName,
-    //   photo,
+    user_image,
     discription,
     sport_id,
     combinedTimeslot,
@@ -67,7 +67,7 @@ const updateCoachDetailsController = async (req, res) => {
       id,
       firstname,
       lastName,
-      // photo,
+      user_image,
       discription,
       sport_id,
       combinedTimeslot,

@@ -52,7 +52,7 @@ const updateCoachDetails = async (
   id,
   firstname,
   lastName,
-  //  photo,
+  user_image,
   distription,
   sport_id,
   combinedTimeslot,
@@ -71,7 +71,7 @@ const updateCoachDetails = async (
         lastname: lastName,
         Discription: distription,
         accountNumber: accnumber,
-        //   user_image: photo,
+        user_image: user_image,
         achivement: {
           create: qulifications.map((achivement_details) => {
             return {
