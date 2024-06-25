@@ -56,7 +56,8 @@ const updateCoachDetails = async (
   distription,
   sport_id,
   combinedTimeslot,
-  qulifications
+  qulifications,
+  accnumber
 ) => {
   try {
     console.log("service", sport_id);
@@ -69,6 +70,7 @@ const updateCoachDetails = async (
         firstname: firstname,
         lastname: lastName,
         Discription: distription,
+        accountNumber: accnumber,
         //   user_image: photo,
         achivement: {
           create: qulifications.map((achivement_details) => {

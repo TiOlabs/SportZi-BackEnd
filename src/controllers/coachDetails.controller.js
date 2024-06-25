@@ -25,7 +25,7 @@ const getCoachDetailsToUsers = async (req, res) => {
 };
 const updateCoachDetailsController = async (req, res) => {
   const { id } = req.params;
-  console.log("kkkkk", id);
+
   const {
     firstname,
     lastName,
@@ -34,8 +34,9 @@ const updateCoachDetailsController = async (req, res) => {
     sport_id,
     combinedTimeslot,
     qulifications,
+    accnumber,
   } = req.body;
-  console.log(combinedTimeslot);
+
   try {
     if (qulifications) {
       try {
@@ -70,8 +71,10 @@ const updateCoachDetailsController = async (req, res) => {
       discription,
       sport_id,
       combinedTimeslot,
-      qulifications
+      qulifications,
+      accnumber,
     );
+
     res.status(200).json({ message: "Coach details updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
