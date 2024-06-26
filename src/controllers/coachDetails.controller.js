@@ -35,6 +35,7 @@ const updateCoachDetailsController = async (req, res) => {
     combinedTimeslot,
     qulifications,
     accnumber,
+    rate,
   } = req.body;
 
   try {
@@ -73,6 +74,7 @@ const updateCoachDetailsController = async (req, res) => {
       combinedTimeslot,
       qulifications,
       accnumber,
+      rate
     );
 
     res.status(200).json({ message: "Coach details updated successfully" });

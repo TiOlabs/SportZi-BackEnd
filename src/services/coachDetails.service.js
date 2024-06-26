@@ -57,10 +57,11 @@ const updateCoachDetails = async (
   sport_id,
   combinedTimeslot,
   qulifications,
-  accnumber
+  accnumber,
+  rate
 ) => {
   try {
-    console.log("service", sport_id);
+    
     await prisma.user.update({
       where: { user_id: id },
       include: {
@@ -85,6 +86,7 @@ const updateCoachDetails = async (
       where: { coach_id: id },
       data: {
         sport_id: sport_id,
+        rate:rate,
       },
     });
     for (const slot of combinedTimeslot) {
