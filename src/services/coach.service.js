@@ -159,7 +159,7 @@ const addCoach = async (
         // rate: coach.rate,
         user: {
           connect: {
-            user_id: newCoachID,
+            user_id: newUser.user_id,
           },
         },
         sport: {
@@ -176,7 +176,7 @@ const addCoach = async (
 
         user: {
           connect: {
-            user_id: newCoachID,
+            user_id: newUser.user_id,
           },
         },
       },
@@ -192,7 +192,7 @@ const addCoach = async (
     //   });
     // }
 
-    res.status(201).json(newUser);
+    return newUser;
   } catch (e) {
     console.log(e);
   }
