@@ -1,4 +1,5 @@
 const coachService = require("../services/coach.service");
+const verifyEmailService = require("../services/verifyEmail.service");
 
 const getCoach = async (req, res) => {
   try {
@@ -86,12 +87,17 @@ const addCoach = async (req, res) => {
       // combinedTimeslot,
        ...coach } = req.body;
 
-    const newCoach = await coachService.addCoach(
+    const user = await coachService.addCoach(
       req,
       res,
       coach,
       // combinedTimeslot
     );
+    const token = verifyEmailService.generateToken(user);
+    // console.log(token);
+    const verifcationEmail = await verifyEmailService.sendVerificationEmail(user, token);
+
+    res.status(200).json({ message: 'Signup successful! Please check your email to verify your account.' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

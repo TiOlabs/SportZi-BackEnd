@@ -1,4 +1,5 @@
 const playerService = require("../services/player.service");
+const verifyEmailService = require("../services/verifyEmail.service");
 
 // const { PrismaClient } = require('@prisma/client');
 // const prisma = new PrismaClient();
@@ -76,9 +77,13 @@ const addPlayer = async (req, res) => {
     // } 
 
   
-    const newPlayer = await playerService.addPlayer(req,res,player);
-    
-   
+    const user = await playerService.addPlayer(req,res,player);
+    // console.log(user);
+    const token = verifyEmailService.generateToken(user);
+    console.log(token);
+    const verifcationEmail = await verifyEmailService.sendVerificationEmail(user, token);
+
+    res.status(200).json({ message: 'Signup successful! Please check your email to verify your account.' });
   }
    catch (error) {
     res.status(500).json({ message: error.message });

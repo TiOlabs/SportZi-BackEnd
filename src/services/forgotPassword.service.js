@@ -39,7 +39,7 @@ const handleForgotPassword = async (email) => {
         to: email,
         subject: 'Password Reset',
         text: `You requested to reset your password. Click the link below to reset it:\n\n${resetLink}\n\nIf you did not request this, please ignore this email.`,
-        html: `<p>You requested to reset your password. Click the link below to reset it:</p><p><a href="${resetLink}">${resetLink}</a></p><p>If you did not request this, please ignore this email.</p>`,
+        html: `<p>You requested to reset your password. Click the link below to reset it:</p><p><a href="${resetLink}">Reset Password</a></p><p>If you did not request this, please ignore this email.</p>`,
     };
 
     // Send email

@@ -14,12 +14,16 @@ module.exports = {
       },
     });
     if (!user) {
-      console.log("Invalid username or password")
+      // console.log("Invalid username or password")
       throw new Error('Invalid username or password');
     }
     if (!await bcrypt.compare(password, user.password)) {
-      console.log("Invalid username or password pp")
+      // console.log("Invalid username or password")
       throw new Error('Invalid username or password');
+    }
+    if(user.is_verified == false){
+      // console.log("email is not verified")
+      return false;    
     }
     const token = jwt.sign({ userId: user.user_id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
     return token;

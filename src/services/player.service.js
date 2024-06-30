@@ -1,6 +1,8 @@
 const { PrismaClient, Role } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
 const getPlayers = async () => {
   return await prisma.player.findMany({
@@ -24,8 +26,7 @@ const getPlayerById = async (id) => {
       throw new Error("Player not found");
     }
     return player;
-  }
-  catch (error) {
+  } catch (error) {
     throw new Error(error);
   }
 };
@@ -90,9 +91,6 @@ const updatePlayer = async (req, res, playerId, player) => {
   }
 };
 
-
-
-
 const deletePlayer = async (playerId) => {
   try {
     //for find rhe player
@@ -102,17 +100,17 @@ const deletePlayer = async (playerId) => {
       },
       include: {
         user: {
-          include:{
-            phone : true,
-          }
+          include: {
+            phone: true,
+          },
         },
       },
     });
     if (!player) {
       throw new Error("Player not found");
     }
-    
-     //For delete phoneNo
+
+    //For delete phoneNo
     const userPhones = await prisma.userPhone.findMany({
       where: {
         user_id: playerId,
@@ -139,7 +137,7 @@ const deletePlayer = async (playerId) => {
     // Delete the associated user
     await prisma.user.delete({
       where: {
-        user_id:playerId,
+        user_id: playerId,
       },
     });
 
@@ -159,14 +157,14 @@ const addPlayer = async (req, res, player) => {
     },
   });
   if (existingUser) {
-    return res.status(400).json({ message: "Email is already registered" });
+    throw new Error("Email is already registered");
   }
 
-  const hashedPassword = await bcrypt.hash(player.password, 10); 
+  const hashedPassword = await bcrypt.hash(player.password, 10);
 
   async function generateUserID() {
-    const userCount = await prisma.player.count(); 
-    const paddedID = String(userCount + 1).padStart(5, "0"); 
+    const userCount = await prisma.player.count();
+    const paddedID = String(userCount + 1).padStart(5, "0");
     return `P${paddedID}`;
   }
 
@@ -176,7 +174,7 @@ const addPlayer = async (req, res, player) => {
     const newUser = await prisma.user.create({
       data: {
         // ...player,
-        user_id: newPlayerID,
+        // user_id: newPlayerID,
         firstname: player.firstname,
         lastname: player.lastname,
         email: player.email,
@@ -192,8 +190,8 @@ const addPlayer = async (req, res, player) => {
       data: {
         user: {
           connect: {
-            user_id: newPlayerID,
-          }, 
+            user_id: newUser.user_id,
+          },
         },
       },
     });
@@ -202,16 +200,18 @@ const addPlayer = async (req, res, player) => {
         phone_number: player.phone_number,
         user: {
           connect: {
-            user_id: newPlayerID,
+            user_id: newUser.user_id,
           },
         },
       },
     });
-    return res.status(201).json(newUser);
+    return newUser;
   } catch (e) {
     console.log(e);
   }
 };
+
+
 
 module.exports = {
   getPlayers,
@@ -219,4 +219,5 @@ module.exports = {
   addPlayer,
   updatePlayer,
   deletePlayer,
+
 };
