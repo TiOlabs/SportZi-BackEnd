@@ -1,510 +1,510 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x"]
-}
+// generator client {
+//   provider      = "prisma-client-js"
+//   binaryTargets = ["native", "rhel-openssl-1.0.x"]
+// }
 
-datasource db {
-  provider     = "mysql"
-  url          = env("AZURE_DB_URL")
-  relationMode = "prisma"
-}
+// datasource db {
+//   provider     = "mysql"
+//   url          = env("AZURE_DB_URL")
+//   relationMode = "prisma"
+// }
 
-//...........................Models..................................................................
+// //...........................Models..................................................................
 
-model User {
-  primaryId            Int                   @id @default(autoincrement())
-  user_id              String                @unique @default(uuid())
-  role                 Role
-  firstname            String
-  lastname             String
-  email                String                @unique
-  password             String
-  DOB                  String?
-  gender               String?
-  accountNumber        String?
-  is_active            String                @default("active")
-  user_image           String?               @default("sportzi/hpcqj2p2rzdnmmwmnriu")
-  address              String?
-  city                 String?
-  contry               String?
-  Discription          String                @default("Add your Discription")
-  Player               Player?
-  Coach                Coach?
-  Admin                Admin?
-  SuperAdmin           SuperAdmin?
-  Manager              ArcadeManager?
-  feedbacks            Feedbacks[]
-  phone                UserPhone[]
-  zoneBookingDetails   ZoneBookingDetails[]
-  achivement           Achivement[]
-  userphoto            userphoto[]
-  reportsMade          ReportUser[]          @relation("reporter")
-  reportsReceived      ReportUser[]          @relation("victim")
-  reportsMadeArcade    ReportArcade[]        @relation("reporterArcade")
-  notificationsForUser NotificationForUser[]
-}
+// model User {
+//   primaryId            Int                   @id @default(autoincrement())
+//   user_id              String                @unique @default(uuid())
+//   role                 Role
+//   firstname            String
+//   lastname             String
+//   email                String                @unique
+//   password             String
+//   DOB                  String?
+//   gender               String?
+//   accountNumber        String?
+//   is_active            String                @default("active")
+//   user_image           String?               @default("sportzi/hpcqj2p2rzdnmmwmnriu")
+//   address              String?
+//   city                 String?
+//   contry               String?
+//   Discription          String                @default("Add your Discription")
+//   Player               Player?
+//   Coach                Coach?
+//   Admin                Admin?
+//   SuperAdmin           SuperAdmin?
+//   Manager              ArcadeManager?
+//   feedbacks            Feedbacks[]
+//   phone                UserPhone[]
+//   zoneBookingDetails   ZoneBookingDetails[]
+//   achivement           Achivement[]
+//   userphoto            userphoto[]
+//   reportsMade          ReportUser[]          @relation("reporter")
+//   reportsReceived      ReportUser[]          @relation("victim")
+//   reportsMadeArcade    ReportArcade[]        @relation("reporterArcade")
+//   notificationsForUser NotificationForUser[]
+// }
 
-model Player {
-  primaryId                  Int                             @id @default(autoincrement())
-  player_id                  String                          @unique
-  coach_booking_details      CoachBookingDetails[]
-  playerPackageEnrollDetails PackageEnrollDetailsForPlayer[]
-  user                       User                            @relation(fields: [player_id], references: [user_id])
-}
+// model Player {
+//   primaryId                  Int                             @id @default(autoincrement())
+//   player_id                  String                          @unique
+//   coach_booking_details      CoachBookingDetails[]
+//   playerPackageEnrollDetails PackageEnrollDetailsForPlayer[]
+//   user                       User                            @relation(fields: [player_id], references: [user_id])
+// }
 
-model Coach {
-  primaryId                   Int                             @id @default(autoincrement())
-  coach_id                    String                          @unique
-  status                      String                          @default("pending")
-  sport_id                    String
-  rate                        Int?
-  averageRate                 Float                           @default(0.0)
-  short_desctiption           String                          @default("i am a Coach")
-  coach_booking_details       CoachBookingDetails[]
-  coachFeedbacks              CoachFeedbacks[]
-  coachAssignDetailsForArcade CoachAssignDetailsForArcade[]
-  coachApplyDetailsForPackage CoachAEnrollDetailsForPackage[]
-  availability                Availiability[]
-  user                        User                            @relation(fields: [coach_id], references: [user_id])
-  sport                       Sport                           @relation(fields: [sport_id], references: [sport_id])
-}
+// model Coach {
+//   primaryId                   Int                             @id @default(autoincrement())
+//   coach_id                    String                          @unique
+//   status                      String                          @default("pending")
+//   sport_id                    String
+//   rate                        Int?
+//   averageRate                 Float                           @default(0.0)
+//   short_desctiption           String                          @default("i am a Coach")
+//   coach_booking_details       CoachBookingDetails[]
+//   coachFeedbacks              CoachFeedbacks[]
+//   coachAssignDetailsForArcade CoachAssignDetailsForArcade[]
+//   coachApplyDetailsForPackage CoachAEnrollDetailsForPackage[]
+//   availability                Availiability[]
+//   user                        User                            @relation(fields: [coach_id], references: [user_id])
+//   sport                       Sport                           @relation(fields: [sport_id], references: [sport_id])
+// }
 
-model ArcadeManager {
-  primaryId  Int      @id @default(autoincrement())
-  manager_id String   @unique
-  arcade     Arcade[]
-  user       User     @relation(fields: [manager_id], references: [user_id])
-}
+// model ArcadeManager {
+//   primaryId  Int      @id @default(autoincrement())
+//   manager_id String   @unique
+//   arcade     Arcade[]
+//   user       User     @relation(fields: [manager_id], references: [user_id])
+// }
 
-model Admin {
-  primaryId Int    @id @default(autoincrement())
-  admin_id  String @unique
-  user      User   @relation(fields: [admin_id], references: [user_id])
-}
+// model Admin {
+//   primaryId Int    @id @default(autoincrement())
+//   admin_id  String @unique
+//   user      User   @relation(fields: [admin_id], references: [user_id])
+// }
 
-model SuperAdmin {
-  primaryId     Int    @id @default(autoincrement())
-  superAdmin_id String @unique
-  user          User   @relation(fields: [superAdmin_id], references: [user_id])
-}
+// model SuperAdmin {
+//   primaryId     Int    @id @default(autoincrement())
+//   superAdmin_id String @unique
+//   user          User   @relation(fields: [superAdmin_id], references: [user_id])
+// }
 
-model ZoneDiscount {
-  primaryId           Int    @id @default(autoincrement())
-  discount_id         String @unique @default(uuid())
-  discount_percentage Int
-  description         String
-  zone_id             String @unique
-  zone                Zone   @relation(fields: [zone_id], references: [zone_id])
-}
+// model ZoneDiscount {
+//   primaryId           Int    @id @default(autoincrement())
+//   discount_id         String @unique @default(uuid())
+//   discount_percentage Int
+//   description         String
+//   zone_id             String @unique
+//   zone                Zone   @relation(fields: [zone_id], references: [zone_id])
+// }
 
-model PackageDiscount {
-  primaryId           Int     @id @default(autoincrement())
-  discount_id         String  @unique
-  discount_percentage Int
-  description         String
-  discount_image      String
-  package_id          String  @unique
-  package             Package @relation(fields: [package_id], references: [package_id])
-}
+// model PackageDiscount {
+//   primaryId           Int     @id @default(autoincrement())
+//   discount_id         String  @unique
+//   discount_percentage Int
+//   description         String
+//   discount_image      String
+//   package_id          String  @unique
+//   package             Package @relation(fields: [package_id], references: [package_id])
+// }
 
-model Feedbacks {
-  primaryId        Int                @id @default(autoincrement())
-  feedbacks_id     String             @unique @default(uuid())
-  created_at       DateTime           @default(now())
-  coach_feedbacks  CoachFeedbacks?
-  arcade_feedbacks ArcadeFeedbacks?
-  user_id          String
-  feedbackComments FeedbackComments[]
-  user             User               @relation(fields: [user_id], references: [user_id])
-}
+// model Feedbacks {
+//   primaryId        Int                @id @default(autoincrement())
+//   feedbacks_id     String             @unique @default(uuid())
+//   created_at       DateTime           @default(now())
+//   coach_feedbacks  CoachFeedbacks?
+//   arcade_feedbacks ArcadeFeedbacks?
+//   user_id          String
+//   feedbackComments FeedbackComments[]
+//   user             User               @relation(fields: [user_id], references: [user_id])
+// }
 
-model FeedbackComments {
-  primaryId   Int       @id @default(autoincrement())
-  feedback_id String    @unique
-  comment     String    @db.VarChar(500)
-  feedback    Feedbacks @relation(fields: [feedback_id], references: [feedbacks_id])
+// model FeedbackComments {
+//   primaryId   Int       @id @default(autoincrement())
+//   feedback_id String    @unique
+//   comment     String    @db.VarChar(500)
+//   feedback    Feedbacks @relation(fields: [feedback_id], references: [feedbacks_id])
 
-  @@unique([feedback_id, comment])
-}
+//   @@unique([feedback_id, comment])
+// }
 
-model CoachFeedbacks {
-  primaryId         Int       @id @default(autoincrement())
-  coach_feedback_id String    @unique
-  rate              Float
-  coach_id          String
-  feedback          Feedbacks @relation(fields: [coach_feedback_id], references: [feedbacks_id])
-  coach             Coach     @relation(fields: [coach_id], references: [coach_id])
-}
+// model CoachFeedbacks {
+//   primaryId         Int       @id @default(autoincrement())
+//   coach_feedback_id String    @unique
+//   rate              Float
+//   coach_id          String
+//   feedback          Feedbacks @relation(fields: [coach_feedback_id], references: [feedbacks_id])
+//   coach             Coach     @relation(fields: [coach_id], references: [coach_id])
+// }
 
-model ArcadeFeedbacks {
-  primaryId          Int       @id @default(autoincrement())
-  arcade_feedback_id String    @unique
-  rate               Float
-  arcade_id          String
-  feedback           Feedbacks @relation(fields: [arcade_feedback_id], references: [feedbacks_id])
-  arcade             Arcade    @relation(fields: [arcade_id], references: [arcade_id])
-}
+// model ArcadeFeedbacks {
+//   primaryId          Int       @id @default(autoincrement())
+//   arcade_feedback_id String    @unique
+//   rate               Float
+//   arcade_id          String
+//   feedback           Feedbacks @relation(fields: [arcade_feedback_id], references: [feedbacks_id])
+//   arcade             Arcade    @relation(fields: [arcade_id], references: [arcade_id])
+// }
 
-model Arcade {
-  primaryId                     Int                             @id @default(autoincrement())
-  arcade_id                     String                          @unique @default(uuid())
-  arcade_name                   String
-  location                      String?
-  address                       String?
-  arcade_email                  String
-  manager_id                    String
-  open_time                     String?
-  close_time                    String?
-  arcade_image                  String                          @default("Your image")
-  distription                   String                          @default("Add your Discription")
-  averageRate                   Float                           @default(0.0)
-  manager                       ArcadeManager                   @relation(fields: [manager_id], references: [manager_id])
-  coachAssignDetailsForArcade   CoachAssignDetailsForArcade[]
-  coachBookingDetails           CoachBookingDetails[]
-  arcadefeedbacks               ArcadeFeedbacks[]
-  package                       Package[]
-  zone                          Zone[]
-  arcadePhone                   ArcadePhone[]
-  reportsReceived               ReportArcade[]                  @relation("victim")
-  arcadephoto                   Arcadephoto[]
-  notificationsForArcade        NotificationForArcade[]
-  ZoneBookingDetails            ZoneBookingDetails[]
-  PackageEnrollDetailsForPlayer PackageEnrollDetailsForPlayer[]
-  CoachAEnrollDetailsForPackage CoachAEnrollDetailsForPackage[]
-  Sport                         Sport?                          @relation(fields: [sportPrimaryId], references: [primaryId])
-  sportPrimaryId                Int?
+// model Arcade {
+//   primaryId                     Int                             @id @default(autoincrement())
+//   arcade_id                     String                          @unique @default(uuid())
+//   arcade_name                   String
+//   location                      String?
+//   address                       String?
+//   arcade_email                  String
+//   manager_id                    String
+//   open_time                     String?
+//   close_time                    String?
+//   arcade_image                  String                          @default("Your image")
+//   distription                   String                          @default("Add your Discription")
+//   averageRate                   Float                           @default(0.0)
+//   manager                       ArcadeManager                   @relation(fields: [manager_id], references: [manager_id])
+//   coachAssignDetailsForArcade   CoachAssignDetailsForArcade[]
+//   coachBookingDetails           CoachBookingDetails[]
+//   arcadefeedbacks               ArcadeFeedbacks[]
+//   package                       Package[]
+//   zone                          Zone[]
+//   arcadePhone                   ArcadePhone[]
+//   reportsReceived               ReportArcade[]                  @relation("victim")
+//   arcadephoto                   Arcadephoto[]
+//   notificationsForArcade        NotificationForArcade[]
+//   ZoneBookingDetails            ZoneBookingDetails[]
+//   PackageEnrollDetailsForPlayer PackageEnrollDetailsForPlayer[]
+//   CoachAEnrollDetailsForPackage CoachAEnrollDetailsForPackage[]
+//   Sport                         Sport?                          @relation(fields: [sportPrimaryId], references: [primaryId])
+//   sportPrimaryId                Int?
 
-  @@unique([arcade_email])
-}
+//   @@unique([arcade_email])
+// }
 
-model CoachBookingDetails {
-  primaryId              Int                      @id @default(autoincrement())
-  booking_id             String                   @unique @default(uuid())
-  status                 String                   @default("pending")
-  created_at             String
-  canceled_at            DateTime                 @updatedAt
-  participant_count      Int
-  date                   String
-  time                   String
-  full_amount            Float
-  coach_id               String
-  player_id              String
-  zone_id                String
-  arcade_id              String
-  coach                  Coach                    @relation(fields: [coach_id], references: [coach_id])
-  player                 Player                   @relation(fields: [player_id], references: [player_id])
-  zone                   Zone                     @relation(fields: [zone_id], references: [zone_id])
-  arcade                 Arcade                   @relation(fields: [arcade_id], references: [arcade_id])
-  coachBookingDayAndTime CoachBookingDayAndTime[]
-  coachCancelBookings    CoachCancelBookings?
+// model CoachBookingDetails {
+//   primaryId              Int                      @id @default(autoincrement())
+//   booking_id             String                   @unique @default(uuid())
+//   status                 String                   @default("pending")
+//   created_at             String
+//   canceled_at            DateTime                 @updatedAt
+//   participant_count      Int
+//   date                   String
+//   time                   String
+//   full_amount            Float
+//   coach_id               String
+//   player_id              String
+//   zone_id                String
+//   arcade_id              String
+//   coach                  Coach                    @relation(fields: [coach_id], references: [coach_id])
+//   player                 Player                   @relation(fields: [player_id], references: [player_id])
+//   zone                   Zone                     @relation(fields: [zone_id], references: [zone_id])
+//   arcade                 Arcade                   @relation(fields: [arcade_id], references: [arcade_id])
+//   coachBookingDayAndTime CoachBookingDayAndTime[]
+//   coachCancelBookings    CoachCancelBookings?
 
-  @@unique([player_id, created_at])
-}
+//   @@unique([player_id, created_at])
+// }
 
-model CoachCancelBookings {
-  primaryId    Int                 @id @default(autoincrement())
-  booking_id   String              @unique
-  reason       String
-  coachBooking CoachBookingDetails @relation(fields: [booking_id], references: [booking_id])
-}
+// model CoachCancelBookings {
+//   primaryId    Int                 @id @default(autoincrement())
+//   booking_id   String              @unique
+//   reason       String
+//   coachBooking CoachBookingDetails @relation(fields: [booking_id], references: [booking_id])
+// }
 
-model Package {
-  primaryId                   Int                             @id @default(autoincrement())
-  package_id                  String                          @unique @default(uuid())
-  package_name                String
-  description                 String
-  package_image               String
-  rate_per_person             Int
-  created_at                  DateTime                        @default(now())
-  canceled_at                 DateTime                        @updatedAt
-  status                      String                          @default("open")
-  arcade_id                   String
-  zone_id                     String
-  percentageForCoach          Int
-  discount                    PackageDiscount?
-  arcade                      Arcade                          @relation(fields: [arcade_id], references: [arcade_id])
-  zone                        Zone                            @relation(fields: [zone_id], references: [zone_id])
-  coachApplyDetailsForPackage CoachAEnrollDetailsForPackage[]
-  playerPackageEnrollDetails  PackageEnrollDetailsForPlayer[]
-  packageDayAndTime           PackageDayAndTime[]
-}
+// model Package {
+//   primaryId                   Int                             @id @default(autoincrement())
+//   package_id                  String                          @unique @default(uuid())
+//   package_name                String
+//   description                 String
+//   package_image               String
+//   rate_per_person             Int
+//   created_at                  DateTime                        @default(now())
+//   canceled_at                 DateTime                        @updatedAt
+//   status                      String                          @default("open")
+//   arcade_id                   String
+//   zone_id                     String
+//   percentageForCoach          Int
+//   discount                    PackageDiscount?
+//   arcade                      Arcade                          @relation(fields: [arcade_id], references: [arcade_id])
+//   zone                        Zone                            @relation(fields: [zone_id], references: [zone_id])
+//   coachApplyDetailsForPackage CoachAEnrollDetailsForPackage[]
+//   playerPackageEnrollDetails  PackageEnrollDetailsForPlayer[]
+//   packageDayAndTime           PackageDayAndTime[]
+// }
 
-model Zone {
-  primaryId                     Int                             @id @default(autoincrement())
-  zone_id                       String                          @unique @default(uuid())
-  zone_name                     String
-  status                        String                          @default("open")
-  capacity                      Int
-  rate                          Int
-  full_zone_rate                Int
-  description                   String                          @default("Add your Discription")
-  way_of_booking                way_of_booking
-  zone_image                    String
-  open_time                     String
-  close_time                    String
-  arcade_id                     String
-  sport_id                      String
-  time_Step                     Float
-  discount                      ZoneDiscount?
-  coach_booking_details         CoachBookingDetails[]
-  zoneBookingDetails            ZoneBookingDetails[]
-  package                       Package[]
-  arcade                        Arcade                          @relation(fields: [arcade_id], references: [arcade_id])
-  sport                         Sport                           @relation(fields: [sport_id], references: [sport_id])
-  zoneRejectDayAndTime          ZoneRejectDayAndTime[]
-  zoneRejectDateAndTime         ZoneRejectDateAndTime[]
-  PackageEnrollDetailsForPlayer PackageEnrollDetailsForPlayer[]
-  CoachAEnrollDetailsForPackage CoachAEnrollDetailsForPackage[]
-}
+// model Zone {
+//   primaryId                     Int                             @id @default(autoincrement())
+//   zone_id                       String                          @unique @default(uuid())
+//   zone_name                     String
+//   status                        String                          @default("open")
+//   capacity                      Int
+//   rate                          Int
+//   full_zone_rate                Int
+//   description                   String                          @default("Add your Discription")
+//   way_of_booking                way_of_booking
+//   zone_image                    String
+//   open_time                     String
+//   close_time                    String
+//   arcade_id                     String
+//   sport_id                      String
+//   time_Step                     Float
+//   discount                      ZoneDiscount?
+//   coach_booking_details         CoachBookingDetails[]
+//   zoneBookingDetails            ZoneBookingDetails[]
+//   package                       Package[]
+//   arcade                        Arcade                          @relation(fields: [arcade_id], references: [arcade_id])
+//   sport                         Sport                           @relation(fields: [sport_id], references: [sport_id])
+//   zoneRejectDayAndTime          ZoneRejectDayAndTime[]
+//   zoneRejectDateAndTime         ZoneRejectDateAndTime[]
+//   PackageEnrollDetailsForPlayer PackageEnrollDetailsForPlayer[]
+//   CoachAEnrollDetailsForPackage CoachAEnrollDetailsForPackage[]
+// }
 
-model ZoneBookingDetails {
-  primaryId             Int                     @id @default(autoincrement())
-  booking_id            String                  @unique @default(uuid())
-  created_at            DateTime                @default(now())
-  canceled_at           DateTime                @updatedAt
-  status                String                  @default("pending")
-  full_amount           Float
-  date                  String
-  time                  String
-  participant_count     Int
-  arcade_id             String
-  zone_id               String
-  user_id               String
-  arcade                Arcade                  @relation(fields: [arcade_id], references: [arcade_id])
-  zone                  Zone                    @relation(fields: [zone_id], references: [zone_id])
-  user                  User                    @relation(fields: [user_id], references: [user_id])
-  zoneBookingDayAndTime ZoneBookingDayAndTime[]
-}
+// model ZoneBookingDetails {
+//   primaryId             Int                     @id @default(autoincrement())
+//   booking_id            String                  @unique @default(uuid())
+//   created_at            DateTime                @default(now())
+//   canceled_at           DateTime                @updatedAt
+//   status                String                  @default("pending")
+//   full_amount           Float
+//   date                  String
+//   time                  String
+//   participant_count     Int
+//   arcade_id             String
+//   zone_id               String
+//   user_id               String
+//   arcade                Arcade                  @relation(fields: [arcade_id], references: [arcade_id])
+//   zone                  Zone                    @relation(fields: [zone_id], references: [zone_id])
+//   user                  User                    @relation(fields: [user_id], references: [user_id])
+//   zoneBookingDayAndTime ZoneBookingDayAndTime[]
+// }
 
-model PackageEnrollDetailsForPlayer {
-  primaryId         Int                 @id @default(autoincrement())
-  booking_id        String              @unique @default(uuid())
-  created_at        DateTime            @default(now())
-  canceled_at       DateTime            @updatedAt
-  status            String              @default("pending")
-  full_amount       Float
-  date              String
-  time              String
-  player_id         String
-  package_id        String
-  arcade_id         String
-  zone_id           String
-  packageDayAndTime PackageDayAndTime[]
-  player            Player              @relation(fields: [player_id], references: [player_id])
-  package           Package             @relation(fields: [package_id], references: [package_id])
-  arcade            Arcade              @relation(fields: [arcade_id], references: [arcade_id])
-  zone              Zone                @relation(fields: [zone_id], references: [zone_id])
-}
+// model PackageEnrollDetailsForPlayer {
+//   primaryId         Int                 @id @default(autoincrement())
+//   booking_id        String              @unique @default(uuid())
+//   created_at        DateTime            @default(now())
+//   canceled_at       DateTime            @updatedAt
+//   status            String              @default("pending")
+//   full_amount       Float
+//   date              String
+//   time              String
+//   player_id         String
+//   package_id        String
+//   arcade_id         String
+//   zone_id           String
+//   packageDayAndTime PackageDayAndTime[]
+//   player            Player              @relation(fields: [player_id], references: [player_id])
+//   package           Package             @relation(fields: [package_id], references: [package_id])
+//   arcade            Arcade              @relation(fields: [arcade_id], references: [arcade_id])
+//   zone              Zone                @relation(fields: [zone_id], references: [zone_id])
+// }
 
-model CoachAEnrollDetailsForPackage {
-  primaryId   Int      @id @default(autoincrement())
-  booking_id  String   @unique @default(uuid())
-  created_at  DateTime @default(now())
-  canceled_at DateTime @updatedAt
-  status      String   @default("pending")
-  full_amount Float
-  date        String
-  time        String
-  package_id  String
-  coach_id    String
-  arcade_id   String
-  zone_id     String
-  coach       Coach    @relation(fields: [coach_id], references: [coach_id])
-  package     Package  @relation(fields: [package_id], references: [package_id])
-  arcade      Arcade   @relation(fields: [arcade_id], references: [arcade_id])
-  zone        Zone     @relation(fields: [zone_id], references: [zone_id])
-}
+// model CoachAEnrollDetailsForPackage {
+//   primaryId   Int      @id @default(autoincrement())
+//   booking_id  String   @unique @default(uuid())
+//   created_at  DateTime @default(now())
+//   canceled_at DateTime @updatedAt
+//   status      String   @default("pending")
+//   full_amount Float
+//   date        String
+//   time        String
+//   package_id  String
+//   coach_id    String
+//   arcade_id   String
+//   zone_id     String
+//   coach       Coach    @relation(fields: [coach_id], references: [coach_id])
+//   package     Package  @relation(fields: [package_id], references: [package_id])
+//   arcade      Arcade   @relation(fields: [arcade_id], references: [arcade_id])
+//   zone        Zone     @relation(fields: [zone_id], references: [zone_id])
+// }
 
-model NotificationForArcade {
-  primaryId        Int      @id @default(autoincrement())
-  notification_id  String   @unique @default(uuid())
-  created_at       DateTime @default(now())
-  notificationType String
-  title            String
-  subtitle         String?
-  message          String
-  isRead           Boolean  @default(false)
-  image            String
-  arcade_id        String
-  arcade           Arcade   @relation(fields: [arcade_id], references: [arcade_id])
-}
+// model NotificationForArcade {
+//   primaryId        Int      @id @default(autoincrement())
+//   notification_id  String   @unique @default(uuid())
+//   created_at       DateTime @default(now())
+//   notificationType String
+//   title            String
+//   subtitle         String?
+//   message          String
+//   isRead           Boolean  @default(false)
+//   image            String
+//   arcade_id        String
+//   arcade           Arcade   @relation(fields: [arcade_id], references: [arcade_id])
+// }
 
-model NotificationForUser {
-  primaryId        Int      @id @default(autoincrement())
-  notification_id  String   @unique @default(uuid())
-  created_at       DateTime @default(now())
-  notificationType String
-  title            String
-  subtitle         String
-  message          String
-  isRead           Boolean  @default(false)
-  image            String
-  user_id          String
-  user             User     @relation(fields: [user_id], references: [user_id])
-}
+// model NotificationForUser {
+//   primaryId        Int      @id @default(autoincrement())
+//   notification_id  String   @unique @default(uuid())
+//   created_at       DateTime @default(now())
+//   notificationType String
+//   title            String
+//   subtitle         String
+//   message          String
+//   isRead           Boolean  @default(false)
+//   image            String
+//   user_id          String
+//   user             User     @relation(fields: [user_id], references: [user_id])
+// }
 
-model Sport {
-  primaryId  Int      @id @default(autoincrement())
-  sport_id   String   @unique @default(uuid())
-  sport_name String
-  arcade     Arcade[]
-  coach      Coach[]
-  zone       Zone[]
-}
+// model Sport {
+//   primaryId  Int      @id @default(autoincrement())
+//   sport_id   String   @unique @default(uuid())
+//   sport_name String
+//   arcade     Arcade[]
+//   coach      Coach[]
+//   zone       Zone[]
+// }
 
-model Achivement {
-  primaryId          Int    @id @default(autoincrement())
-  user_id            String
-  achivement_details String
-  user               User   @relation(fields: [user_id], references: [user_id])
+// model Achivement {
+//   primaryId          Int    @id @default(autoincrement())
+//   user_id            String
+//   achivement_details String
+//   user               User   @relation(fields: [user_id], references: [user_id])
 
-  @@unique([user_id, achivement_details])
-}
+//   @@unique([user_id, achivement_details])
+// }
 
-model Availiability {
-  primaryId        Int    @id @default(autoincrement())
-  availiability_id String @unique @default(uuid())
-  date             String
-  time             String
-  coach_id         String
-  coach            Coach  @relation(fields: [coach_id], references: [coach_id])
-}
+// model Availiability {
+//   primaryId        Int    @id @default(autoincrement())
+//   availiability_id String @unique @default(uuid())
+//   date             String
+//   time             String
+//   coach_id         String
+//   coach            Coach  @relation(fields: [coach_id], references: [coach_id])
+// }
 
-model ZoneRejectDayAndTime {
-  primaryId            Int    @id @default(autoincrement())
-  reject_dayAndTime_id String @unique @default(uuid())
-  day                  String
-  open_time            String
-  close_time           String
-  zone_id              String
-  zone                 Zone   @relation(fields: [zone_id], references: [zone_id])
-}
+// model ZoneRejectDayAndTime {
+//   primaryId            Int    @id @default(autoincrement())
+//   reject_dayAndTime_id String @unique @default(uuid())
+//   day                  String
+//   open_time            String
+//   close_time           String
+//   zone_id              String
+//   zone                 Zone   @relation(fields: [zone_id], references: [zone_id])
+// }
 
-model ZoneRejectDateAndTime {
-  primaryId             Int    @id @default(autoincrement())
-  reject_dateAndTime_id String @unique @default(uuid())
-  date                  String
-  open_time             String
-  close_time            String
-  zone_id               String
-  zone                  Zone   @relation(fields: [zone_id], references: [zone_id])
-}
+// model ZoneRejectDateAndTime {
+//   primaryId             Int    @id @default(autoincrement())
+//   reject_dateAndTime_id String @unique @default(uuid())
+//   date                  String
+//   open_time             String
+//   close_time            String
+//   zone_id               String
+//   zone                  Zone   @relation(fields: [zone_id], references: [zone_id])
+// }
 
-model CoachBookingDayAndTime {
-  primaryId       Int                 @id @default(autoincrement())
-  dayAndTime_id   String              @unique @default(uuid())
-  day             String
-  time            String
-  coachBooking_id String
-  coachBooking    CoachBookingDetails @relation(fields: [coachBooking_id], references: [booking_id])
-}
+// model CoachBookingDayAndTime {
+//   primaryId       Int                 @id @default(autoincrement())
+//   dayAndTime_id   String              @unique @default(uuid())
+//   day             String
+//   time            String
+//   coachBooking_id String
+//   coachBooking    CoachBookingDetails @relation(fields: [coachBooking_id], references: [booking_id])
+// }
 
-model ZoneBookingDayAndTime {
-  primaryId      Int                @id @default(autoincrement())
-  dayAndTime_id  String             @unique @default(uuid())
-  day            String
-  time           String
-  zoneBooking_id String
-  zoneBooking    ZoneBookingDetails @relation(fields: [zoneBooking_id], references: [booking_id])
-}
+// model ZoneBookingDayAndTime {
+//   primaryId      Int                @id @default(autoincrement())
+//   dayAndTime_id  String             @unique @default(uuid())
+//   day            String
+//   time           String
+//   zoneBooking_id String
+//   zoneBooking    ZoneBookingDetails @relation(fields: [zoneBooking_id], references: [booking_id])
+// }
 
-model PackageDayAndTime {
-  primaryId                              Int                            @id @default(autoincrement())
-  dayAndTime_id                          String                         @unique @default(uuid())
-  day                                    String
-  time                                   String
-  Package_id                             String
-  package                                Package                        @relation(fields: [Package_id], references: [package_id])
-  PackageEnrollDetailsForPlayer          PackageEnrollDetailsForPlayer? @relation(fields: [packageEnrollDetailsForPlayerPrimaryId], references: [primaryId])
-  packageEnrollDetailsForPlayerPrimaryId Int?
-}
+// model PackageDayAndTime {
+//   primaryId                              Int                            @id @default(autoincrement())
+//   dayAndTime_id                          String                         @unique @default(uuid())
+//   day                                    String
+//   time                                   String
+//   Package_id                             String
+//   package                                Package                        @relation(fields: [Package_id], references: [package_id])
+//   PackageEnrollDetailsForPlayer          PackageEnrollDetailsForPlayer? @relation(fields: [packageEnrollDetailsForPlayerPrimaryId], references: [primaryId])
+//   packageEnrollDetailsForPlayerPrimaryId Int?
+// }
 
-model CoachAssignDetailsForArcade {
-  primaryId  Int    @id @default(autoincrement())
-  booking_id String @unique @default(uuid())
-  coach_id   String
-  arcade_id  String
-  coach      Coach  @relation(fields: [coach_id], references: [coach_id])
-  arcade     Arcade @relation(fields: [arcade_id], references: [arcade_id])
-}
+// model CoachAssignDetailsForArcade {
+//   primaryId  Int    @id @default(autoincrement())
+//   booking_id String @unique @default(uuid())
+//   coach_id   String
+//   arcade_id  String
+//   coach      Coach  @relation(fields: [coach_id], references: [coach_id])
+//   arcade     Arcade @relation(fields: [arcade_id], references: [arcade_id])
+// }
 
-model ReportArcade {
-  primaryId    Int      @id @default(autoincrement())
-  report_id    String   @unique @default(uuid())
-  reportReason String
-  reportTitle  String
-  reporter_id  String
-  arcade_id    String
-  created_at   DateTime @default(now())
-  reporter     User     @relation("reporterArcade", fields: [reporter_id], references: [user_id])
-  arcade       Arcade   @relation("victim", fields: [arcade_id], references: [arcade_id])
-}
+// model ReportArcade {
+//   primaryId    Int      @id @default(autoincrement())
+//   report_id    String   @unique @default(uuid())
+//   reportReason String
+//   reportTitle  String
+//   reporter_id  String
+//   arcade_id    String
+//   created_at   DateTime @default(now())
+//   reporter     User     @relation("reporterArcade", fields: [reporter_id], references: [user_id])
+//   arcade       Arcade   @relation("victim", fields: [arcade_id], references: [arcade_id])
+// }
 
-model ReportUser {
-  primaryId    Int      @id @default(autoincrement())
-  report_id    String   @unique @default(uuid())
-  reportReason String
-  reportTitle  String
-  reporter_id  String
-  victim_id    String
-  created_at   DateTime @default(now())
-  reporter     User     @relation("reporter", fields: [reporter_id], references: [user_id])
-  victim       User     @relation("victim", fields: [victim_id], references: [user_id])
-}
+// model ReportUser {
+//   primaryId    Int      @id @default(autoincrement())
+//   report_id    String   @unique @default(uuid())
+//   reportReason String
+//   reportTitle  String
+//   reporter_id  String
+//   victim_id    String
+//   created_at   DateTime @default(now())
+//   reporter     User     @relation("reporter", fields: [reporter_id], references: [user_id])
+//   victim       User     @relation("victim", fields: [victim_id], references: [user_id])
+// }
 
-model UserPhone {
-  primaryId     Int       @id @default(autoincrement())
-  user_phone_id String    @unique @default(uuid())
-  phoneNumber   String
-  phoneType     phoneType
-  user_id       String
-  user          User      @relation(fields: [user_id], references: [user_id])
-}
+// model UserPhone {
+//   primaryId     Int       @id @default(autoincrement())
+//   user_phone_id String    @unique @default(uuid())
+//   phoneNumber   String
+//   phoneType     phoneType
+//   user_id       String
+//   user          User      @relation(fields: [user_id], references: [user_id])
+// }
 
-model ArcadePhone {
-  primaryId       Int       @id @default(autoincrement())
-  arcade_phone_id String    @unique @default(uuid())
-  phoneNumber     String
-  phoneType       phoneType
-  arcade_id       String
-  arcade          Arcade    @relation(fields: [arcade_id], references: [arcade_id])
-}
+// model ArcadePhone {
+//   primaryId       Int       @id @default(autoincrement())
+//   arcade_phone_id String    @unique @default(uuid())
+//   phoneNumber     String
+//   phoneType       phoneType
+//   arcade_id       String
+//   arcade          Arcade    @relation(fields: [arcade_id], references: [arcade_id])
+// }
 
-model userphoto {
-  primaryId Int    @id @default(autoincrement())
-  photo_id  String @unique @default(uuid())
-  photo     String
-  user_id   String
-  user      User   @relation(fields: [user_id], references: [user_id])
-}
+// model userphoto {
+//   primaryId Int    @id @default(autoincrement())
+//   photo_id  String @unique @default(uuid())
+//   photo     String
+//   user_id   String
+//   user      User   @relation(fields: [user_id], references: [user_id])
+// }
 
-model Arcadephoto {
-  primaryId Int    @id @default(autoincrement())
-  photo_id  String @unique @default(uuid())
-  photo     String
-  arcade_id String
-  arcade    Arcade @relation(fields: [arcade_id], references: [arcade_id])
-}
+// model Arcadephoto {
+//   primaryId Int    @id @default(autoincrement())
+//   photo_id  String @unique @default(uuid())
+//   photo     String
+//   arcade_id String
+//   arcade    Arcade @relation(fields: [arcade_id], references: [arcade_id])
+// }
 
-//..................Enums.................................................
-enum Role {
-  PLAYER
-  COACH
-  MANAGER
-  ADMIN
-  SUPERADMIN
-}
+// //..................Enums.................................................
+// enum Role {
+//   PLAYER
+//   COACH
+//   MANAGER
+//   ADMIN
+//   SUPERADMIN
+// }
 
-enum phoneType {
-  OFFICE
-  HOME
-  OTHERS
-}
+// enum phoneType {
+//   OFFICE
+//   HOME
+//   OTHERS
+// }
 
-enum way_of_booking {
-  PER_PERSON
-  FULL_ZONE
-}
+// enum way_of_booking {
+//   PER_PERSON
+//   FULL_ZONE
+// }

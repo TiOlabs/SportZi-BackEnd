@@ -11,10 +11,12 @@ CREATE TABLE `User` (
     `accountNumber` VARCHAR(191) NULL,
     `is_active` VARCHAR(191) NOT NULL DEFAULT 'active',
     `user_image` VARCHAR(191) NULL DEFAULT 'sportzi/hpcqj2p2rzdnmmwmnriu',
+    `is_verified` BOOLEAN NULL DEFAULT false,
     `address` VARCHAR(191) NULL,
     `city` VARCHAR(191) NULL,
     `contry` VARCHAR(191) NULL,
     `Discription` VARCHAR(191) NOT NULL DEFAULT 'Add your Discription',
+    `resetPasswordToken` VARCHAR(191) NULL,
 
     UNIQUE INDEX `User_user_id_key`(`user_id`),
     UNIQUE INDEX `User_email_key`(`email`),
@@ -118,7 +120,7 @@ CREATE TABLE `Arcade` (
     `arcade_name` VARCHAR(191) NOT NULL,
     `location` VARCHAR(191) NULL,
     `address` VARCHAR(191) NULL,
-    `arcade_email` VARCHAR(191) NOT NULL,
+    `arcade_email` VARCHAR(191) NULL,
     `manager_id` VARCHAR(191) NOT NULL,
     `open_time` VARCHAR(191) NULL,
     `close_time` VARCHAR(191) NULL,
@@ -267,8 +269,6 @@ CREATE TABLE `PackageEnrollDetailsForPlayer` (
     `rate` INTEGER NOT NULL,
     `duration` INTEGER NOT NULL,
 
-    UNIQUE INDEX `PackageEnrollDetailsForPlayer_player_id_key`(`player_id`),
-    UNIQUE INDEX `PackageEnrollDetailsForPlayer_package_id_key`(`package_id`),
     UNIQUE INDEX `PackageEnrollDetailsForPlayer_player_id_package_id_key`(`player_id`, `package_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

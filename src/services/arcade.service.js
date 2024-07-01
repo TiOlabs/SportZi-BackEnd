@@ -134,9 +134,9 @@ const addArcade = async (arcade) => {
         manager_id: arcade.manager_id,
         open_time: arcade.open_time,
         close_time: arcade.close_time,
-        distription: arcade.distription,
-        arcade_image: arcade.arcade_image,
-        location: arcade.location,
+        // distription: arcade.distription,
+        // arcade_image: arcade.arcade_image,
+        // location: arcade.location,
       },
     });
   } catch (error) {
