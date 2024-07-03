@@ -94,8 +94,16 @@ const updateCoachCard = async (req, res) => {
 
 const updateCoachAssignDetailsForArcade = async (req, res) => {
   try {
-    const { email, coach_name, arcade_name, arcade_email, role, coach_id , ispendingrequest} =
-      req.body;
+    const {
+      email,
+      coach_name,
+      arcade_name,
+      arcade_email,
+      role,
+      coach_id,
+      ispendingrequest,
+      status,
+    } = req.body;
     // Send email
     if (role === "COACH" && ispendingrequest === "notPending") {
       try {
@@ -103,7 +111,7 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    }else if (role ==="ARCADE"){
+    } else if (role === "ARCADE" && status !== "success") {
       try {
         CoachRejectionEmail(email, coach_name, arcade_name);
         sendNotificationToCoachAboutDeniedCoachRequest({
@@ -113,8 +121,7 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
       } catch (error) {
         console.log("Error in sending email", error);
       }
-    }
-     else if (status === "success") {
+    } else if (status === "success") {
       try {
         CoachAcceptEmail(email, coach_name, arcade_name);
         sendNotificationToCoachAboutAcceptCoachRequest({
@@ -127,7 +134,7 @@ const updateCoachAssignDetailsForArcade = async (req, res) => {
     }
 
     // Extract only the fields needed for updating the coach assignment details
-    const { arcade_id, status } = req.body;
+    const { arcade_id } = req.body;
 
     const coachAssignDetails = { coach_id, arcade_id, status };
 

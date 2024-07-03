@@ -169,6 +169,7 @@ model CoachBookingDetails {
   player_id              String
   zone_id                String
   arcade_id              String
+  is_marked              Boolean                  @default(false)
   coach                  Coach                    @relation(fields: [coach_id], references: [coach_id])
   player                 Player                   @relation(fields: [player_id], references: [player_id])
   zone                   Zone                     @relation(fields: [zone_id], references: [zone_id])
@@ -236,6 +237,7 @@ model ZoneBookingDetails {
   booking_type         String
   user_id              String
   zone_id              String
+  is_marked            Boolean               @default(false)
   way_of_booking       way_of_booking
   zone                 Zone                  @relation(fields: [zone_id], references: [zone_id])
   user                 User                  @relation(fields: [user_id], references: [user_id])
