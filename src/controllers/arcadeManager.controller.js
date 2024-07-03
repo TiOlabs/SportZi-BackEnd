@@ -1,4 +1,5 @@
 const arcadeManagerService = require("../services/arcadeManager.service");
+const verifyEmailService = require("../services/verifyEmail.service");
 
 const getArcadeManager = async (req, res) => {
     try {
@@ -62,8 +63,13 @@ const addArcadeManager = async (req, res) => {
 
    
 
-    const newArcadeManager = await arcadeManagerService.addArcadeManager(req,res,arcadeManager);
-  
+    const user = await arcadeManagerService.addArcadeManager(req,res,arcadeManager);
+    const token = verifyEmailService.generateToken(user);
+    // console.log(token);
+    const verifcationEmail = await verifyEmailService.sendVerificationEmail(user, token);
+
+
+    res.status(200).json({ message: 'Signup successful! Please check your email to verify your account.' });
   }
   catch (error) {
     res.status(500).json({ message: error.message });
