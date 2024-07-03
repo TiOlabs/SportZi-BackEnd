@@ -9,6 +9,7 @@ generator client {
 datasource db {
   provider     = "mysql"
   url          = "mysql://Navindu:SportZi123@sportzi-server.mysql.database.azure.com:3306/sportzidb"
+
   relationMode = "prisma"
 }
 
