@@ -40,7 +40,7 @@ const addArcadeFeedbacks = async (req, res, feedback, arcadeId, userId) => {
   try {
     // console.log("Incoming feedback:", feedback);
 
-    if (!feedback.comment || !feedback.rating) {
+    if (!feedback.comment) {
       throw new Error("Invalid feedback data");
     }
 
@@ -82,14 +82,18 @@ const addArcadeFeedbacks = async (req, res, feedback, arcadeId, userId) => {
     });
 
     const feedbacks = await prisma.arcadeFeedbacks.findMany({
-      where: { arcade_id: arcadeId }, // change coach id according actual coacg ID
+      where: {
+         arcade_id: arcadeId,
+          rate:{not:0}
+        }, // change coach id according actual coacg ID
       select: { rate: true },
     });
 
-    const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    if(feedbacks.length>0){
+      const totalFeedbacks = feedbacks.length;
+      const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
 
-    const avgRate = await prisma.arcade.update({
+      const avgRate = await prisma.arcade.update({
       where: {
         arcade_id: arcadeId,
       },
@@ -97,6 +101,7 @@ const addArcadeFeedbacks = async (req, res, feedback, arcadeId, userId) => {
         averageRate:averageRating,
       },
     })
+    }
 
     return res.status(201).json(arcadeFeedback);
   } catch (e) {

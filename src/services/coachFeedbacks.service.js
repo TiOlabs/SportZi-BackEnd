@@ -37,7 +37,7 @@ const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
     // console.log("Incoming feedback:", feedback);
 
     // Check if feedback and necessary properties are defined
-    if (!feedback.comment || !feedback.rating) {
+    if (!feedback.comment) {
       throw new Error("Invalid feedback data");
     }
 
@@ -79,23 +79,32 @@ const addCoachFeedbacks = async (req, res, feedback,coachId,userId) => {
         },
       },
     });
-
+    
     const feedbacks = await prisma.coachFeedbacks.findMany({
-      where: { coach_id: coachId }, // change coach id according actual coacg ID
+      where: { 
+        coach_id: coachId,
+        rate:{not:0}
+      }, // change coach id according actual coacg ID
       select: { rate: true },
     });
+    console.log(feedbacks.length)
 
-    const totalFeedbacks = feedbacks.length;
-    const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / totalFeedbacks;
+    if(feedbacks.length>0){
+      const numberOfRatings = feedbacks.length;
+      const averageRating = feedbacks.reduce((sum, feedback) => sum + feedback.rate, 0) / numberOfRatings;
 
-    const avgRate = await prisma.coach.update({
-      where: {
-        coach_id: coachId,
-      },
-      data: {
-        averageRate:averageRating,
-      },
-    })
+      const avgRate = await prisma.coach.update({
+        where: {
+          coach_id: coachId,
+        },
+        data: {
+          averageRate:averageRating,
+        },
+      })
+    }
+    
+
+    
 
     return res.status(201).json(coachFeedback);
   }
