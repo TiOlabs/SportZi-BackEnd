@@ -57,7 +57,7 @@ const generateToken = (user) => {
       // console.log(user.email);
       const mailOptions = {
         from: process.env.SMTP_USER,
-        to: user.email,
+        to: "thisarasenarathna0824@gmail.com",  // set as user.email
         subject: 'Email Verification',
         html: `<p>Please verify your email by clicking the following link: <a href="http://localhost:3000/verify-email?token=${token}">Verify Email</a></p>`,
       };
